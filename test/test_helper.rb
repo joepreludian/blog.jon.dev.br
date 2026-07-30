@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
-require 'tmpdir'
-require 'jekyll'
+require "minitest/autorun"
+require "tmpdir"
+require "jekyll"
 
 # Shared helpers for building the fixture site and rendering Liquid in
 # isolation. Every plugin test goes through here.
 module TestHelper
-  ROOT = File.expand_path('..', __dir__)
-  FIXTURE_SOURCE = File.join(__dir__, 'fixtures', 'site')
+  ROOT = File.expand_path("..", __dir__)
+  FIXTURE_SOURCE = File.join(__dir__, "fixtures", "site")
 
   # Builds the fixture site into a fresh temp directory and returns the
   # built Jekyll::Site. Pass `overrides` to change config per test.
   def self.build_fixture_site(overrides = {})
-    destination = Dir.mktmpdir('jon-dev-br-test')
+    destination = Dir.mktmpdir("jon-dev-br-test")
     config = Jekyll.configuration(
       {
-        'source' => FIXTURE_SOURCE,
-        'destination' => destination,
-        'plugins_dir' => File.join(ROOT, '_plugins'),
-        'quiet' => true
+        "source" => FIXTURE_SOURCE,
+        "destination" => destination,
+        "plugins_dir" => File.join(ROOT, "_plugins"),
+        "quiet" => true
       }.merge(overrides)
     )
 
@@ -34,6 +34,6 @@ module TestHelper
     info = { registers: { site: site, page: page } }
     Liquid::Template
       .parse(template)
-      .render!({ 'page' => page, 'site' => site.site_payload['site'] }, info)
+      .render!({ "page" => page, "site" => site.site_payload["site"] }, info)
   end
 end

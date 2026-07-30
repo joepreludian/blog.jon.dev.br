@@ -13,6 +13,19 @@ AllCops:
     - "vendor/**/*"
     - "_site/**/*"
 
+# Double quotes are the prevailing convention in the Jekyll ecosystem this
+# project lives in, and every plan brief from here on (Tasks 8-13: filter,
+# generator, hook, five Liquid tags) writes double-quoted code verbatim.
+# RuboCop's own defaults are single_quotes for both cops, which would force
+# every implementer to rewrite the brief's code for a cosmetic rule and
+# every reviewer to diff against text that no longer matches the brief.
+# This is a deliberate project choice, not a workaround.
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
 # Liquid tag render methods build markup with heredocs; the resulting
 # methods are cohesive but longer than the default allowance.
 Metrics/MethodLength:
