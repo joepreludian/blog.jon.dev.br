@@ -5,6 +5,15 @@ cd "$(dirname "$0")/.."
 
 rm -rf _site
 mkdir -p _site
+
+# Build the task image up front, with its build log sent to stderr. On a
+# cold image cache, `docker compose run` would build the image itself and
+# BuildKit's progress output lands on stdout right along with the tar
+# stream below, corrupting it even with -T (which only disables the TTY,
+# not this). Building explicitly first means compose run has nothing left
+# to build, so its stdout carries nothing but the tar stream.
+docker compose build task 1>&2
+
 docker compose run --rm -T --entrypoint sh task \
   -c 'cd /site/_site && tar cf - .' | tar xf - -C _site
 echo "exported to ./_site"
