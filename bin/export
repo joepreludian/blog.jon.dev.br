@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Copies the built site out of the jekyll_site named volume.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+rm -rf _site
+mkdir -p _site
+docker compose run --rm -T --entrypoint sh task \
+  -c 'cd /site/_site && tar cf - .' | tar xf - -C _site
+echo "exported to ./_site"

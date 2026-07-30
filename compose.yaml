@@ -1,0 +1,56 @@
+name: blog-jon-dev-br
+
+x-site: &site
+  build:
+    context: .
+    target: dev
+  environment:
+    JEKYLL_ENV: development
+  volumes:
+    - jekyll_cache:/site/.jekyll-cache
+    - jekyll_site:/site/_site
+
+services:
+  serve:
+    <<: *site
+    ports:
+      - "4000:4000"
+      - "35729:35729"
+    develop:
+      watch:
+        # prose, layouts, includes, sass, plugins — Jekyll's own watcher
+        # picks these up from real inotify events inside the container
+        - action: sync
+          path: .
+          target: /site
+          ignore:
+            - _site/
+            - .jekyll-cache/
+            - .jekyll-metadata
+            - .sass-cache/
+            - .git/
+            - .superpowers/
+            - vendor/
+            - .bundle/
+            - docs/
+            - .DS_Store
+            - "**/.DS_Store"
+
+        # Jekyll never reloads _config.yml in-process
+        - action: sync+restart
+          path: ./_config.yml
+          target: /site/_config.yml
+
+        # toolchain changes need a new image
+        - action: rebuild
+          path: ./Gemfile.lock
+        - action: rebuild
+          path: ./Dockerfile
+
+  task:
+    <<: *site
+    command: ["bundle", "exec", "rake", "--tasks"]
+
+volumes:
+  jekyll_cache:
+  jekyll_site:

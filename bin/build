@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Builds via the export stage, which descends from ci — so this runs the
+# full lint/test/build/proof chain. Use bin/serve for the fast path.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+rm -rf _site
+exec docker buildx build --target export --output "type=local,dest=./_site" .

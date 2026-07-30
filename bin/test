@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+proof_external=0
+if [[ "${1:-}" == "--external" ]]; then
+  proof_external=1
+  shift
+fi
+
+exec docker compose run --rm \
+  -e "PROOF_EXTERNAL=${proof_external}" \
+  task bundle exec rake test proof
