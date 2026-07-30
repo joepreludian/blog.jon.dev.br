@@ -1,0 +1,47 @@
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: 600 var(--fs-2xs) / 1 var(--font-mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+  padding: 5px 9px 4px;
+  white-space: nowrap;
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentcolor;
+  }
+
+  &--ok {
+    color: var(--ok-ink);
+    background: var(--ok-bg);
+    border-color: var(--ok-line);
+
+    .ds-badge__dot {
+      background: var(--accent-bright);
+    }
+  }
+
+  &--caution {
+    color: var(--caution-ink);
+    background: var(--caution-bg);
+    border-color: var(--caution-line);
+  }
+
+  &--warning {
+    color: var(--warning-ink);
+    background: var(--warning-bg);
+    border-color: var(--warning-line);
+  }
+
+  &--neutral {
+    color: var(--ink-2);
+    background: var(--surface-inset);
+    border-color: var(--line-1);
+  }
+}

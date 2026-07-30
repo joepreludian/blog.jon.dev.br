@@ -1,0 +1,28 @@
+.ds-rule {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  border: 0;
+  margin: 0;
+  font: 600 var(--fs-2xs) / 1 var(--font-mono);
+  letter-spacing: var(--track-wide);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+
+  &__num {
+    color: var(--accent-600);
+  }
+
+  // The hairline that closes the rule.
+  &::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--line-1);
+  }
+
+  // 3px double rule closes a page — retro technical document.
+  &--double::after {
+    border-top: 3px double var(--line-2);
+  }
+}

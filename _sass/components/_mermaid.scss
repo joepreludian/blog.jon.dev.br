@@ -1,0 +1,45 @@
+.ds-mermaid {
+  margin: 34px 0;
+  background: var(--surface-card);
+  border: 1px solid var(--line-1);
+  padding: var(--sp-2);
+
+  &__frame {
+    background: var(--surface-inset);
+    border: 1px solid var(--line-1);
+    padding: var(--sp-5);
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    min-height: 120px;
+
+    // Mermaid replaces the <pre> with an <svg> once it runs. Before that the
+    // graph source stays readable rather than collapsing into one line.
+    pre.mermaid {
+      margin: 0;
+      font: 400 var(--fs-2xs) / 1.6 var(--font-mono);
+      color: var(--ink-4);
+      background: none;
+      border: 0;
+    }
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__cap {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding: 10px var(--sp-1) 2px;
+    font: 400 var(--fs-2xs) / 1.5 var(--font-mono);
+    color: var(--ink-3);
+  }
+
+  &__meta {
+    color: var(--ink-4);
+    white-space: nowrap;
+  }
+}

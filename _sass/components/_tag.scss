@@ -1,0 +1,13 @@
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  white-space: nowrap;
+  font: 400 var(--fs-xs) / 1 var(--font-mono);
+  color: var(--ink-2);
+  background: var(--surface-inset);
+  border: 1px solid var(--line-1);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px 4px;
+  text-decoration: none;
+}

@@ -1,0 +1,75 @@
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+
+  &--md {
+    font-size: var(--fs-xs);
+    padding: 11px 18px 10px;
+  }
+
+  &--sm {
+    font-size: var(--fs-2xs);
+    padding: 8px 12px 7px;
+  }
+
+  &--primary {
+    background: var(--accent-700);
+    border-color: var(--accent-800);
+    color: var(--paper-0);
+
+    &:hover {
+      background: var(--accent-800);
+      color: var(--paper-0);
+    }
+  }
+
+  &--secondary {
+    background: var(--surface-card);
+    border-color: var(--border-strong);
+    color: var(--ink-1);
+
+    &:hover {
+      border-color: var(--accent-700);
+      color: var(--accent-800);
+      background: var(--accent-050);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--accent-800);
+
+    &:hover {
+      background: var(--accent-050);
+      color: var(--accent-900);
+    }
+  }
+
+  // Press nudges down 1px. Cards flatten; buttons sink.
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &[disabled] {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}

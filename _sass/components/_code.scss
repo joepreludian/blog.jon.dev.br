@@ -1,0 +1,114 @@
+.ds-code {
+  margin: 0;
+  background: var(--terminal-bg);
+  border: 1px solid var(--accent-900);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  &__bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: 9px 14px;
+    border-bottom: 1px solid rgb(243 220 192 / 14%);
+  }
+
+  &__title {
+    font: 500 var(--fs-2xs) / 1 var(--font-mono);
+    letter-spacing: var(--track-label);
+    color: var(--terminal-dim);
+  }
+
+  &__lang {
+    font: 500 var(--fs-2xs) / 1 var(--font-mono);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--terminal-green);
+  }
+
+  pre {
+    margin: 0;
+    padding: 14px 16px;
+    font: 400 var(--fs-sm) / 1.7 var(--font-mono);
+    color: var(--terminal-fg);
+    overflow-x: auto;
+  }
+}
+
+// Plain Markdown fences get the same terminal surface without a title bar,
+// so authors are not forced to use the tag for ordinary snippets.
+.highlighter-rouge {
+  background: var(--terminal-bg);
+  border: 1px solid var(--accent-900);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  pre.highlight,
+  .highlight pre {
+    margin: 0;
+    padding: 14px 16px;
+    font: 400 var(--fs-sm) / 1.7 var(--font-mono);
+    color: var(--terminal-fg);
+    overflow-x: auto;
+  }
+}
+
+// Rouge token classes, mapped onto the terminal palette.
+.ds-code,
+.highlighter-rouge {
+  .k,
+  .kc,
+  .kd,
+  .kn,
+  .kp,
+  .kr,
+  .kt {
+    color: var(--terminal-green);
+  }
+
+  .s,
+  .s1,
+  .s2,
+  .sb,
+  .sc,
+  .sd,
+  .se,
+  .sh,
+  .si,
+  .sr,
+  .ss,
+  .sx,
+  .m,
+  .mb,
+  .mf,
+  .mh,
+  .mi,
+  .mo {
+    color: var(--terminal-amber);
+  }
+
+  .c,
+  .c1,
+  .cd,
+  .cm,
+  .cp,
+  .cs {
+    color: var(--terminal-comment);
+    font-style: italic;
+  }
+
+  .o,
+  .ow,
+  .p,
+  .nb,
+  .bp {
+    color: var(--terminal-dim);
+  }
+
+  .nf,
+  .nc,
+  .nn {
+    color: var(--terminal-fg);
+  }
+}

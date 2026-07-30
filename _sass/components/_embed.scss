@@ -1,0 +1,33 @@
+.ds-embed {
+  margin: 34px 0;
+  background: var(--surface-card);
+  border: 1px solid var(--line-1);
+  padding: var(--sp-2);
+
+  &__frame {
+    background: var(--surface-inset);
+    border: 1px solid var(--line-1);
+
+    iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+  }
+
+  &__cap {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding: 10px var(--sp-1) 2px;
+    font: 400 var(--fs-2xs) / 1.5 var(--font-mono);
+    color: var(--ink-3);
+  }
+
+  &__meta {
+    color: var(--ink-4);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+}

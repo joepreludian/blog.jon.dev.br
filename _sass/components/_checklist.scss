@@ -1,0 +1,56 @@
+.ds-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+
+  &__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+    padding: 9px 0;
+    font-size: var(--fs-sm);
+  }
+
+  &__num {
+    color: var(--ink-4);
+    font-size: var(--fs-2xs);
+  }
+
+  &__label {
+    color: var(--ink-1);
+  }
+
+  // Dotted leader — the preflight-checklist device.
+  &__leader {
+    flex: 1;
+    min-width: 24px;
+    border-bottom: 1px dotted var(--line-2);
+    transform: translateY(-4px);
+  }
+
+  &__value {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    &--ok {
+      color: var(--ok-ink);
+    }
+
+    &--caution {
+      color: var(--caution-ink);
+    }
+
+    &--warning {
+      color: var(--warning-ink);
+    }
+
+    &--pending {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+  }
+}
