@@ -12,5 +12,12 @@
     {{- "/" | relative_url -}}
   {%- endif -%}
 {%- else -%}
-  {{- page.alt_url | default: "/" | relative_url -}}
+  {%- assign this_lang = page.lang -%}
+  {%- if page.alt_url -%}
+    {{- page.alt_url | relative_url -}}
+  {%- elsif this_lang == "en" -%}
+    {{- "/pt/" | relative_url -}}
+  {%- else -%}
+    {{- "/" | relative_url -}}
+  {%- endif -%}
 {%- endif -%}
