@@ -21,6 +21,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     BUNDLE_RETRY=3 \
     JEKYLL_ENV=development
 
+# With BUNDLE_PATH set, Bundler nests its downloaded .gem cache one level
+# deeper, under a Ruby-ABI-scoped subdirectory (e.g. $BUNDLE_PATH/ruby/4.0.0/cache).
+# That path would silently break on every Ruby version bump, so BUNDLE_CACHE_PATH
+# pins the cache to a fixed location outside the ABI-scoped tree — this is the
+# exact path the "gems" stage below mounts as a BuildKit cache.
+ENV BUNDLE_CACHE_PATH=/usr/local/bundle/cache
+
 # Let the apt cache mount actually retain packages.
 RUN rm -f /etc/apt/apt.conf.d/docker-clean \
  && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' \
@@ -51,6 +58,8 @@ WORKDIR /site
 FROM base AS gems
 
 COPY Gemfile Gemfile.lock ./
+# Mount target matches BUNDLE_CACHE_PATH above, not the ABI-scoped default —
+# this is what lets the download cache survive a Ruby version bump.
 RUN --mount=type=cache,target=/usr/local/bundle/cache,sharing=locked \
     bundle install && bundle clean --force
 
