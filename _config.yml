@@ -1,5 +1,43 @@
 title: "jon.dev.br"
+description: "boring, reliable backends. aviation, film and sequencers."
 url: "https://blog.jon.dev.br"
+author: "jon"
+email: "hi@jon.dev.br"
+github: "https://github.com/jondevbr"
+
+# Default language for anything not covered by `defaults` below.
+lang: en
+languages: [en, pt]
+
+home_entries: 5        # §02 flight log cap on the home page
+words_per_minute: 200  # reading_time filter
+
+collections:
+  projects:
+    output: false      # the registry renders as a list; no per-project pages
+
+defaults:
+  - scope: { path: "_posts/en", type: posts }
+    values: { lang: en, layout: post, permalink: /writing/:title/ }
+  - scope: { path: "_posts/pt", type: posts }
+    values: { lang: pt, layout: post, permalink: /pt/writing/:title/ }
+  - scope: { path: "_projects/en", type: projects }
+    values: { lang: en }
+  - scope: { path: "_projects/pt", type: projects }
+    values: { lang: pt }
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+
+sass:
+  style: compressed
+
+plugins:
+  - jekyll-sitemap
 
 exclude:
   - docs/

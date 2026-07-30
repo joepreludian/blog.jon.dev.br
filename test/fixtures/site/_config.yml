@@ -1,3 +1,26 @@
 title: "fixture"
 url: "https://example.test"
+
+lang: en
+languages: [en, pt]
+
+home_entries: 5
 words_per_minute: 200
+
+collections:
+  projects:
+    output: false
+
+defaults:
+  - scope: { path: "_posts/en", type: posts }
+    values: { lang: en, layout: null, permalink: /writing/:title/ }
+  - scope: { path: "_posts/pt", type: posts }
+    values: { lang: pt, layout: null, permalink: /pt/writing/:title/ }
+  - scope: { path: "_projects/en", type: projects }
+    values: { lang: en }
+  - scope: { path: "_projects/pt", type: projects }
+    values: { lang: pt }
+
+markdown: kramdown
+kramdown:
+  input: GFM

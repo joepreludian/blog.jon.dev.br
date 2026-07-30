@@ -1,0 +1,65 @@
+nav:
+  home: "~/home"
+  writing: "/writing"
+  projects: "/projects"
+  resume: "/resume"
+
+status: "all systems normal"
+
+hero:
+  kicker: "blog · backend · brazil"
+  title: "hi, i'm jon."
+  dek: >-
+    I build boring, reliable backends in Python, and write about what
+    aviation, film photography and step sequencers teach me about systems.
+  last_deploy: "last deploy"
+  lang_note: "articles in EN · PT"
+
+cta:
+  read_latest: "read latest"
+  writing: "~/writing"
+
+home:
+  latest: "latest entries"
+  entries: "entries"
+  featured: "latest entry"
+  log: "flight log"
+
+post:
+  other_lang: "ler em português"
+  end_of_entry: "end of entry"
+  back: "back to the log"
+  minutes: "min"
+
+writing:
+  title: "~/writing"
+  intro: "every entry, newest first."
+  archive: "archive"
+
+projects:
+  title: "~/projects"
+  intro: "a registry of things I build and keep flying."
+  registry: "registry"
+  status:
+    flying: "flying"
+    hangared: "hangared"
+    grounded: "grounded"
+
+resume:
+  title: "~/resume"
+  intro: "what I have flown, and for how long."
+  summary: "summary"
+  experience: "experience"
+  skills: "skills"
+  education: "education"
+  contact: "contact"
+  present: "present"
+
+footer:
+  built: "built with the basic that works."
+  rss: "rss"
+  github: "github"
+
+not_found:
+  title: "404 — this route was decommissioned."
+  body: "The entry you asked for is not in the log."

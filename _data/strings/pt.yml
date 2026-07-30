@@ -1,0 +1,66 @@
+nav:
+  home: "~/home"
+  writing: "/writing"
+  projects: "/projects"
+  resume: "/resume"
+
+status: "todos os sistemas normais"
+
+hero:
+  kicker: "blog · backend · brasil"
+  title: "oi, eu sou o jon."
+  dek: >-
+    Eu construo backends entediantes e confiáveis em Python, e escrevo sobre
+    o que a aviação, o filme fotográfico e os sequenciadores me ensinam sobre
+    sistemas.
+  last_deploy: "último deploy"
+  lang_note: "artigos em EN · PT"
+
+cta:
+  read_latest: "ler o mais recente"
+  writing: "~/writing"
+
+home:
+  latest: "mais recentes"
+  entries: "registros"
+  featured: "última entrada"
+  log: "diário de bordo"
+
+post:
+  other_lang: "read this in english"
+  end_of_entry: "fim do registro"
+  back: "voltar ao diário"
+  minutes: "min"
+
+writing:
+  title: "~/writing"
+  intro: "todos os registros, do mais recente ao mais antigo."
+  archive: "arquivo"
+
+projects:
+  title: "~/projects"
+  intro: "um registro de coisas que eu construo e mantenho voando."
+  registry: "registro"
+  status:
+    flying: "voando"
+    hangared: "no hangar"
+    grounded: "em solo"
+
+resume:
+  title: "~/resume"
+  intro: "o que eu já voei, e por quanto tempo."
+  summary: "resumo"
+  experience: "experiência"
+  skills: "habilidades"
+  education: "formação"
+  contact: "contato"
+  present: "presente"
+
+footer:
+  built: "construído com o básico que funciona."
+  rss: "rss"
+  github: "github"
+
+not_found:
+  title: "404 — esta rota foi descomissionada."
+  body: "O registro que você pediu não está no diário."
