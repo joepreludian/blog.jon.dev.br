@@ -1,0 +1,27 @@
+// jon.dev.br — typography tokens
+// Two faces only: Mono carries structure (headings, labels, nav, UI, code),
+// Serif carries prose (long-form reading).
+:root {
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+
+  // scale
+  --fs-2xs: 11px;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 17px; // prose default
+  --fs-lg: 21px;
+  --fs-xl: 26px;
+  --fs-2xl: 33px;
+  --fs-3xl: 42px;
+
+  // line heights
+  --lh-tight: 1.2;
+  --lh-snug: 1.5;
+  --lh-prose: 1.75;
+
+  // tracking — uppercase mono labels
+  --track-label: 0.08em;
+  --track-wide: 0.16em;
+}

@@ -1,0 +1,17 @@
+// jon.dev.br — radii, borders, elevation, motion
+:root {
+  // radii — squared off in the orange edition
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+
+  // elevation — flat by default; hard offset for lifted interactive cards.
+  // No soft shadows on cards, ever.
+  --shadow-hard: 4px 4px 0 0 var(--line-1);
+  --shadow-hard-strong: 5px 5px 0 0 var(--line-2);
+
+  // motion — fast, functional, no bounces
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+}

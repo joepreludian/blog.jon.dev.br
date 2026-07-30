@@ -1,0 +1,71 @@
+// jon.dev.br — colour tokens (orange edition)
+// White paper, burnt-orange ink. Retro terminal / aviation-manual palette.
+// Source: docs/_reference_design/jon.dev.br Blog.dc.html (token overrides)
+:root {
+  // paper — warm, print-like whites
+  --paper-0: #fdfcf9;
+  --paper-1: #f7f4ee;
+  --paper-2: #efeae0;
+  --white: #ffffff;
+
+  // ink — warm greys
+  --ink-1: #211d18;
+  --ink-2: #554f47;
+  --ink-3: #7c766c;
+  --ink-4: #a8a196;
+
+  // hairlines
+  --line-1: #e5dfd4;
+  --line-2: #cbc2b2;
+
+  // accent — burnt-orange ink ramp
+  --accent-050: #fff4ec;
+  --accent-100: #ffe8d8;
+  --accent-200: #ffd3b3;
+  --accent-300: #f5ad78;
+  --accent-400: #e88544;
+  --accent-500: #d96a1f;
+  --accent-600: #c05609;
+  --accent-700: #a84a05;
+  --accent-800: #7e3804;
+  --accent-900: #572603;
+
+  // phosphor accent — cursors, live dots, small marks. Small doses only.
+  --accent-bright: #ff6a00;
+
+  // terminal — the one dark surface in the system
+  --terminal-bg: #1a1108;
+  --terminal-fg: #f3dcc0;
+  --terminal-dim: #a98a68;
+  --terminal-green: #ffa033;
+  --terminal-amber: #ffd23f;
+  --terminal-comment: #8a6f55;
+
+  // status — aviation placard levels.
+  // Caution and warning keep the design system's amber and red: they are
+  // safety signals and must not collapse into the accent ramp.
+  --ok-ink: #8a3d00;
+  --ok-bg: #fff1e3;
+  --ok-line: #f3cfa5;
+  --caution-ink: #7a5200;
+  --caution-bg: #faf3d7;
+  --caution-line: #e6d391;
+  --warning-ink: #9c3025;
+  --warning-bg: #f9ede9;
+  --warning-line: #eac3ba;
+
+  // semantic aliases
+  --surface-page: var(--paper-0);
+  --surface-card: var(--white);
+  --surface-inset: var(--paper-1);
+  --text-body: var(--ink-1);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --text-faint: var(--ink-4);
+  --link: var(--accent-700);
+  --link-hover: var(--accent-900);
+  --border-default: var(--line-1);
+  --border-strong: var(--line-2);
+  --focus-ring: var(--accent-500);
+  --selection-bg: var(--accent-100);
+}
