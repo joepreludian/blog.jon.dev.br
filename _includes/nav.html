@@ -1,0 +1,21 @@
+{%- comment -%}
+  Liquid's bracket lookup does not evaluate a filter chain inside the
+  brackets — `strings[page.lang | default: site.lang]` silently resolves to
+  nil. Assign the resolved language to a local first, then index with the
+  bare variable.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign prefix = "" -%}
+{%- if page.lang == "pt" -%}{%- assign prefix = "/pt" -%}{%- endif -%}
+
+<nav class="nav" aria-label="{{ strings.nav.writing }}">
+  <a class="nav__item {% if page.section == 'home' %}nav__item--current{% endif %}"
+     href="{{ prefix | append: '/' | relative_url }}">{{ strings.nav.home }}</a>
+  <a class="nav__item {% if page.section == 'writing' %}nav__item--current{% endif %}"
+     href="{{ prefix | append: '/writing/' | relative_url }}">{{ strings.nav.writing }}</a>
+  <a class="nav__item {% if page.section == 'projects' %}nav__item--current{% endif %}"
+     href="{{ prefix | append: '/projects/' | relative_url }}">{{ strings.nav.projects }}</a>
+  <a class="nav__item {% if page.section == 'resume' %}nav__item--current{% endif %}"
+     href="{{ prefix | append: '/resume/' | relative_url }}">{{ strings.nav.resume }}</a>
+</nav>

@@ -1,0 +1,20 @@
+{%- comment -%}
+  Liquid's bracket lookup does not evaluate a filter chain inside the
+  brackets — `strings[page.lang | default: site.lang]` silently resolves to
+  nil. Assign the resolved language to a local first, then index with the
+  bare variable.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign feed = "/feed.xml" -%}
+{%- if page.lang == "pt" -%}{%- assign feed = "/pt/feed.xml" -%}{%- endif -%}
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>{{ strings.footer.built }} © {{ site.time | date: "%Y" }}</span>
+    <span class="site-footer__links">
+      <a href="mailto:{{ site.email }}">@ {{ site.email }}</a>
+      <a href="{{ feed | relative_url }}">{{ strings.footer.rss }} ↗</a>
+      <a href="{{ site.github }}" rel="me noopener">{{ strings.footer.github }} ↗</a>
+    </span>
+  </div>
+</footer>

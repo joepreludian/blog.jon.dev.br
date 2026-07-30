@@ -1,0 +1,20 @@
+{%- comment -%}
+  Liquid's bracket lookup does not evaluate a filter chain inside the
+  brackets — `strings[page.lang | default: site.lang]` silently resolves to
+  nil. Assign the resolved language to a local first, then index with the
+  bare variable.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+<header class="site-header">
+  <div class="site-header__inner">
+    {% include wordmark.html %}
+    {% include nav.html %}
+    <div class="site-header__aside">
+      <span class="ds-badge ds-badge--ok">
+        <span class="ds-badge__dot"></span>{{ strings.status }}
+      </span>
+      {% include lang-toggle.html %}
+    </div>
+  </div>
+</header>

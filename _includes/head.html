@@ -1,0 +1,47 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{%- assign lang = page.lang | default: site.lang -%}
+{%- if page.title -%}
+  <title>{{ page.title | strip_html }} · {{ site.title }}</title>
+{%- else -%}
+  <title>{{ site.title }}</title>
+{%- endif -%}
+<meta name="description" content="{{ page.dek | default: site.description | strip_html | truncate: 160 }}">
+
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+{%- comment -%}
+  Discovery, not redirection. No navigator.language auto-redirect: on a static
+  site it breaks crawlers, the back button, and shared links.
+{%- endcomment -%}
+{%- if lang == "en" -%}
+  <link rel="alternate" hreflang="en" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="pt-BR" href="{{ alt_url | absolute_url }}">
+{%- else -%}
+  <link rel="alternate" hreflang="pt-BR" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="en" href="{{ alt_url | absolute_url }}">
+{%- endif -%}
+<link rel="alternate" hreflang="x-default"
+      href="{% if lang == 'en' %}{{ page.url | absolute_url }}{% else %}{{ alt_url | absolute_url }}{% endif %}">
+
+{%- if lang == "en" -%}
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}"
+        href="{{ '/feed.xml' | absolute_url }}">
+{%- else -%}
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }} · PT"
+        href="{{ '/pt/feed.xml' | absolute_url }}">
+{%- endif -%}
+
+{%- comment -%}
+  SUBSTITUTION: no font binaries were provided, so the two IBM Plex faces come
+  from Google Fonts. preconnect + link rather than an @import inside the
+  stylesheet, which would serialise the round trip behind the CSS.
+  Self-hosting woff2 subsets is a recorded follow-up.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">

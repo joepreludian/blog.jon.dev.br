@@ -1,0 +1,32 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+}
+
+// The 1080px shell. Every full-width region uses this.
+.shell {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--sp-6);
+  width: 100%;
+}
+
+// The 680px reading column.
+.measure {
+  max-width: var(--measure-prose);
+  margin: 0 auto;
+  padding-inline: var(--sp-6);
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .shell,
+  .measure {
+    padding-inline: var(--sp-4);
+  }
+}

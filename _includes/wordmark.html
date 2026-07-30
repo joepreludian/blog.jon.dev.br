@@ -1,0 +1,7 @@
+{%- assign home = "/" -%}
+{%- if page.lang == "pt" -%}{%- assign home = "/pt/" -%}{%- endif -%}
+<a class="wordmark" href="{{ home | relative_url }}">
+  <span class="wordmark__prompt">&gt;&gt;&gt;</span>
+  <span class="wordmark__name">jon.dev.br</span>
+  <span class="wordmark__cursor" aria-hidden="true">▮</span>
+</a>

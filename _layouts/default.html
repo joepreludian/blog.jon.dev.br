@@ -1,11 +1,15 @@
+{%- capture alt_url_raw -%}{% include alt-url.html %}{%- endcapture -%}
+{%- assign alt_url = alt_url_raw | strip -%}
 <!doctype html>
-<html lang="{{ page.lang | default: site.lang }}">
+<html lang="{% if page.lang == 'pt' %}pt-BR{% else %}en{% endif %}">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page.title | default: site.title }}</title>
+    {% include head.html %}
   </head>
   <body>
-    {{ content }}
+    {% include header.html %}
+    <main class="site-main">
+      {{ content }}
+    </main>
+    {% include footer.html %}
   </body>
 </html>

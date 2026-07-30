@@ -1,0 +1,38 @@
+.site-footer {
+  border-top: 3px double var(--line-2);
+  background: var(--paper-0);
+
+  &__inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 22px var(--sp-6);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-5);
+    font: 400 var(--fs-xs) / 1.6 var(--font-mono);
+    color: var(--ink-3);
+  }
+
+  &__links {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  a {
+    color: var(--ink-3);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--accent-800);
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer__inner {
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+}
