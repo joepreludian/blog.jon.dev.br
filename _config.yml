@@ -1,0 +1,14 @@
+title: "jon.dev.br"
+url: "https://blog.jon.dev.br"
+
+exclude:
+  - docs/
+  - Dockerfile
+  - compose.yaml
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - bin/
+  - test/
+  - CLAUDE.md
+  - README.md
