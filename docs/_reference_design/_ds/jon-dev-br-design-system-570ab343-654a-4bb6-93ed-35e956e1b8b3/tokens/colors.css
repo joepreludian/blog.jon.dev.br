@@ -1,0 +1,66 @@
+/* jon.dev.br — color tokens
+   White paper, green ink. Retro terminal / aviation-manual palette. */
+:root {
+  /* paper — warm, print-like whites */
+  --paper-0: #FCFCF8;
+  --paper-1: #F4F5EC;
+  --paper-2: #E9EBDE;
+  --white: #FFFFFF;
+
+  /* ink — green-tinted greys */
+  --ink-1: #1A231C;
+  --ink-2: #48544A;
+  --ink-3: #6E7A6E;
+  --ink-4: #9CA79A;
+
+  /* hairlines */
+  --line-1: #DDE1D3;
+  --line-2: #B9C2AE;
+
+  /* greens — sea-green ink ramp */
+  --green-050: #F0F5EA;
+  --green-100: #E2EDDA;
+  --green-200: #C5DEBB;
+  --green-300: #9CC69A;
+  --green-400: #63A96F;
+  --green-500: #35854D;
+  --green-600: #1F6E42;
+  --green-700: #175937;
+  --green-800: #123F29;
+  --green-900: #0C2B1D;
+  --green-bright: #22A45D; /* phosphor accent — cursors, live dots, small marks */
+
+  /* terminal — the one dark surface in the system */
+  --terminal-bg: #0D1F16;
+  --terminal-fg: #C9E4CF;
+  --terminal-dim: #7C9B86;
+  --terminal-green: #5BD98E;
+  --terminal-amber: #D9C069;
+  --terminal-comment: #66856F;
+
+  /* status — aviation placard levels */
+  --ok-ink: var(--green-800);
+  --ok-bg: var(--green-050);
+  --ok-line: var(--green-200);
+  --caution-ink: #7A5200;
+  --caution-bg: #FAF3D7;
+  --caution-line: #E6D391;
+  --warning-ink: #9C3025;
+  --warning-bg: #F9EDE9;
+  --warning-line: #EAC3BA;
+
+  /* semantic aliases */
+  --surface-page: var(--paper-0);
+  --surface-card: var(--white);
+  --surface-inset: var(--paper-1);
+  --text-body: var(--ink-1);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --text-faint: var(--ink-4);
+  --link: var(--green-700);
+  --link-hover: var(--green-900);
+  --border-default: var(--line-1);
+  --border-strong: var(--line-2);
+  --focus-ring: var(--green-500);
+  --selection-bg: var(--green-100);
+}

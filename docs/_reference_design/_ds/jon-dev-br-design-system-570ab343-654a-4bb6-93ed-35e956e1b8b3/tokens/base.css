@@ -1,0 +1,38 @@
+/* jon.dev.br — base element defaults */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  line-height: var(--lh-prose);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--selection-bg); color: var(--ink-1); }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.5em;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--green-300);
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--link-hover); text-decoration-color: var(--green-700); }
+
+code, kbd, pre, samp { font-family: var(--font-mono); }
+
+hr { border: 0; border-top: 1px solid var(--line-1); margin: var(--sp-6) 0; }
+
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }

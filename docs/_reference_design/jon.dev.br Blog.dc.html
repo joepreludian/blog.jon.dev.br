@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/tokens/base.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/components/components.css">
+  <link rel="stylesheet" href="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/styles.css">
+  <script src="_ds/jon-dev-br-design-system-570ab343-654a-4bb6-93ed-35e956e1b8b3/_ds_bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <style>
+    /* orange edition — token overrides (white paper, burnt-orange ink) */
+    :root {
+      --paper-0: #FDFCF9; --paper-1: #F7F4EE; --paper-2: #EFEAE0;
+      --ink-1: #211D18; --ink-2: #554F47; --ink-3: #7C766C; --ink-4: #A8A196;
+      --line-1: #E5DFD4; --line-2: #CBC2B2;
+      --green-050: #FFF4EC; --green-100: #FFE8D8; --green-200: #FFD3B3;
+      --green-300: #F5AD78; --green-400: #E88544; --green-500: #D96A1F;
+      --green-600: #C05609; --green-700: #A84A05; --green-800: #7E3804; --green-900: #572603;
+      --green-bright: #FF6A00;
+      --terminal-bg: #1A1108; --terminal-fg: #F3DCC0; --terminal-dim: #A98A68;
+      --terminal-green: #FFA033; --terminal-amber: #FFD23F; --terminal-comment: #8A6F55;
+      --ok-ink: #8A3D00; --ok-bg: #FFF1E3; --ok-line: #F3CFA5;
+      --radius-sm: 0px; --radius-md: 0px; --radius-lg: 0px;
+      --shadow-hard: 4px 4px 0 0 var(--line-1); --shadow-hard-strong: 5px 5px 0 0 var(--line-2);
+    }
+    html, body { margin: 0; padding: 0; background: var(--paper-0); }
+    body { font-family: var(--font-mono); color: var(--ink-1); }
+    ::selection { background: var(--green-100); }
+    a { color: var(--green-700); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--green-900); }
+    @keyframes cursor-blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</helmet>
+<div style="min-height: 100vh; background: var(--paper-0); display: flex; flex-direction: column;">
+  <sc-if value="{{ showBar }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; top: 0; left: 0; height: 3px; background: var(--green-bright); z-index: 90; width: {{ progressW }}; transition: width 80ms linear;"></div>
+  </sc-if>
+  <header style="position: sticky; top: 0; z-index: 50; background: var(--paper-0); border-bottom: 1px solid var(--line-1);">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 28px;">
+      <button onClick="{{ goHome }}" style="display: inline-flex; align-items: baseline; gap: 8px; background: none; border: none; padding: 0; cursor: pointer; font: 600 15px/1 var(--font-mono); color: var(--ink-1);">
+        <span style="color: var(--green-bright);">&gt;&gt;&gt;</span>
+        <span>jon.dev.br</span>
+        <span style="color: var(--green-bright); animation: cursor-blink 1.1s steps(1) infinite;">▮</span>
+      </button>
+      <nav style="display: flex; gap: 18px; font: 400 12px/1 var(--font-mono); color: var(--ink-3);">
+        <button onClick="{{ goHome }}" style="background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: var(--green-800);">~/home</button>
+        <span style="cursor: default;">/writing</span>
+        <span style="cursor: default;">/projects</span>
+        <span style="cursor: default;">/resume</span>
+      </nav>
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 16px;">
+        <span class="ds-badge ds-badge--ok" style="gap: 6px;"><span class="ds-badge__dot"></span>all systems normal</span>
+        <div style="display: flex; border: 1px solid var(--line-2);">
+          <button onClick="{{ setEn }}" style="border: none; cursor: pointer; padding: 7px 11px 6px; font: 600 11px/1 var(--font-mono); letter-spacing: 0.08em; background: {{ enBg }}; color: {{ enFg }};">EN</button>
+          <button onClick="{{ setPt }}" style="border: none; border-left: 1px solid var(--line-2); cursor: pointer; padding: 7px 11px 6px; font: 600 11px/1 var(--font-mono); letter-spacing: 0.08em; background: {{ ptBg }}; color: {{ ptFg }};">PT</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main data-screen-label="home" style="flex: 1;">
+      <section style="border-bottom: 1px solid var(--line-1); background: var(--paper-0);">
+        <div style="max-width: 1080px; margin: 0 auto; padding: 72px 32px 64px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: start;">
+          <div style="display: flex; flex-direction: column; gap: 24px; min-width: 0;">
+            <div style="font: 500 11px/1 var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3);">{{ heroKicker }}</div>
+            <h1 style="margin: 0; font: 600 42px/1.2 var(--font-mono); letter-spacing: -0.01em; color: var(--ink-1);"><span style="color: var(--green-bright);">&gt;&gt;&gt;</span> {{ heroTitle }}<span style="color: var(--green-bright); animation: cursor-blink 1.1s steps(1) infinite;">▮</span></h1>
+            <p style="margin: 0; max-width: 520px; font: 400 17px/1.75 var(--font-serif); color: var(--ink-2); text-wrap: pretty;">{{ heroDek }}</p>
+            <div style="display: flex; gap: 12px; margin-top: 8px;">
+              <button class="ds-btn ds-btn--md ds-btn--primary" onClick="{{ openFeatured }}">{{ ctaRead }} →</button>
+              <button class="ds-btn ds-btn--md ds-btn--secondary" onClick="{{ scrollToLog }}">~/writing</button>
+            </div>
+            <div style="font: 400 12px/1.6 var(--font-mono); color: var(--ink-4); margin-top: 8px;">last deploy 2026-07-27 · uptime 99.98% · {{ heroLangNote }}</div>
+          </div>
+          <aside class="ds-card" style="border-radius: 0; box-shadow: 6px 6px 0 0 var(--line-1); min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line-1);">
+              <span style="font: 600 11px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2);">~/writing · {{ latestLabel }}</span>
+              <span style="font: 400 11px/1 var(--font-mono); color: var(--ink-4);">{{ postCountLabel }}</span>
+            </div>
+            <div style="padding: 8px 6px;">
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="5">
+                <button onClick="{{ r.open }}" style="display: flex; align-items: baseline; gap: 12px; width: 100%; text-align: left; background: none; border: none; cursor: pointer; padding: 11px 12px; font-family: var(--font-mono);" style-hover="background: var(--green-050);">
+                  <span style="font-size: 11px; color: var(--ink-4);">{{ r.num }}</span>
+                  <span style="font-size: 13px; color: var(--ink-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</span>
+                  <span style="flex: 1; min-width: 24px; border-bottom: 1px dotted var(--line-2); transform: translateY(-4px);"></span>
+                  <span style="font-size: 11px; color: var(--ink-3); white-space: nowrap;">{{ r.date }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 24px; width: 100%; box-sizing: border-box;">
+        <div class="ds-rule" style="margin-bottom: 24px;"><span class="ds-rule__num">§ 01</span><span>{{ featuredLabel }}</span></div>
+        <div class="ds-card ds-card--interactive" onClick="{{ openFeatured }}" style="padding: 28px 28px 26px; display: grid; grid-template-columns: 1fr auto; gap: 8px 48px;">
+          <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+            <div style="display: flex; gap: 14px; align-items: center; font: 400 12px/1 var(--font-mono); color: var(--ink-3);">
+              <span>{{ featured.date }}</span><span>·</span><span>{{ featured.mins }}</span><span>·</span><span style="color: var(--green-700);">{{ featured.tags }}</span>
+            </div>
+            <h2 style="margin: 0; font: 600 26px/1.35 var(--font-mono); color: var(--ink-1); text-wrap: pretty;">{{ featured.title }}</h2>
+            <p style="margin: 0; max-width: 640px; font: 400 15px/1.7 var(--font-serif); color: var(--ink-2); text-wrap: pretty;">{{ featured.dek }}</p>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 16px;">
+            <span class="ds-badge ds-badge--neutral">EN · PT</span>
+            <span style="font: 500 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-700);">{{ ctaRead }} →</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="log" style="max-width: 1080px; margin: 0 auto; padding: 40px 32px 72px; width: 100%; box-sizing: border-box;">
+        <div class="ds-rule" style="margin-bottom: 8px;"><span class="ds-rule__num">§ 02</span><span>{{ logLabel }}</span></div>
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="5">
+          <button onClick="{{ r.open }}" style="display: grid; grid-template-columns: 56px 1fr auto 110px 70px 24px; gap: 20px; align-items: baseline; width: 100%; text-align: left; background: none; border: none; border-bottom: 1px solid var(--line-1); cursor: pointer; padding: 18px 8px; font-family: var(--font-mono);" style-hover="background: var(--green-050);">
+            <span style="font-size: 11px; color: var(--ink-4);">{{ r.num }}</span>
+            <span style="font-size: 15px; color: var(--ink-1); min-width: 0;">{{ r.title }}</span>
+            <span style="font-size: 12px; color: var(--green-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">{{ r.tags }}</span>
+            <span style="font-size: 12px; color: var(--ink-3);">{{ r.date }}</span>
+            <span style="font-size: 12px; color: var(--ink-4);">{{ r.mins }}</span>
+            <span style="font-size: 14px; color: var(--green-600);">→</span>
+          </button>
+        </sc-for>
+      </section>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+    <main data-screen-label="post" style="flex: 1;">
+      <div style="max-width: 1080px; margin: 0 auto; padding: 28px 32px 0; display: flex; align-items: center; justify-content: space-between;">
+        <button class="ds-btn ds-btn--sm ds-btn--ghost" onClick="{{ goHome }}">← ~/writing</button>
+        <span style="font: 400 12px/1 var(--font-mono); color: var(--ink-4);">~/writing/{{ post.slug }}</span>
+      </div>
+      <article style="max-width: 680px; margin: 0 auto; padding: 48px 32px 0; box-sizing: content-box;">
+        <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font: 400 12px/1 var(--font-mono); color: var(--ink-3); margin-bottom: 20px;">
+          <span style="color: var(--ink-4);">{{ post.num }}</span><span>·</span>
+          <span>{{ post.date }}</span><span>·</span>
+          <span>{{ post.mins }}</span><span>·</span>
+          <span style="color: var(--green-700);">{{ post.tags }}</span>
+        </div>
+        <h1 style="margin: 0 0 18px; font: 600 33px/1.3 var(--font-mono); letter-spacing: -0.01em; color: var(--ink-1); text-wrap: pretty;">{{ post.title }}</h1>
+        <p style="margin: 0 0 22px; font: 400 19px/1.65 var(--font-serif); color: var(--ink-2); text-wrap: pretty;">{{ post.dek }}</p>
+        <button onClick="{{ toggleLang }}" style="background: none; border: none; padding: 0; cursor: pointer; font: 500 12px/1 var(--font-mono); color: var(--green-700); text-decoration: underline; text-underline-offset: 3px;" style-hover="color: var(--green-900);">{{ otherLangCta }} →</button>
+        <div style="border-top: 1px solid var(--line-1); margin: 28px 0 36px;"></div>
+
+        <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="6">
+          <div>
+            <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+              <p style="margin: 0 0 26px; font: 400 17px/1.75 var(--font-serif); color: var(--ink-1); text-wrap: pretty;">{{ b.text }}</p>
+            </sc-if>
+            <sc-if value="{{ b.isH }}" hint-placeholder-val="{{ false }}">
+              <div class="ds-rule" style="margin: 44px 0 24px;"><span class="ds-rule__num">§ {{ b.num }}</span><span>{{ b.text }}</span></div>
+            </sc-if>
+            <sc-if value="{{ b.isCode }}" hint-placeholder-val="{{ false }}">
+              <figure class="ds-code" style="margin: 34px 0;">
+                <div class="ds-code__bar">
+                  <span class="ds-code__title">{{ b.title }}</span>
+                  <span class="ds-code__lang">{{ b.lang }}</span>
+                </div>
+                <pre>{{ b.code }}</pre>
+              </figure>
+            </sc-if>
+            <sc-if value="{{ b.isMermaid }}" hint-placeholder-val="{{ false }}">
+              <figure style="margin: 34px 0; background: var(--white); border: 1px solid var(--line-1); padding: 8px;">
+                <div data-mermaid-id="{{ b.mid }}" style="background: var(--paper-1); border: 1px solid var(--line-1); padding: 20px; display: flex; justify-content: center; overflow-x: auto; min-height: 120px;"></div>
+                <figcaption style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 4px 2px; font: 400 11px/1.5 var(--font-mono); color: var(--ink-3);">
+                  <span>{{ b.cap }}</span>
+                  <span style="color: var(--ink-4); white-space: nowrap;">fig · mermaid</span>
+                </figcaption>
+              </figure>
+            </sc-if>
+            <sc-if value="{{ b.isYt }}" hint-placeholder-val="{{ false }}">
+              <figure style="margin: 34px 0; background: var(--white); border: 1px solid var(--line-1); padding: 8px;">
+                <div style="background: var(--paper-1); border: 1px solid var(--line-1);">
+                  <iframe src="{{ b.src }}" title="{{ b.cap }}" style="display: block; width: 100%; aspect-ratio: 16 / 9; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen="{{ true }}"></iframe>
+                </div>
+                <figcaption style="display: flex; justify-content: space-between; gap: 16px; padding: 10px 4px 2px; font: 400 11px/1.5 var(--font-mono); color: var(--ink-3);">
+                  <span>{{ b.cap }}</span>
+                  <a href="{{ b.href }}" target="_blank" rel="noreferrer" style="color: var(--ink-4); text-decoration: none; white-space: nowrap;">youtube ↗</a>
+                </figcaption>
+              </figure>
+            </sc-if>
+            <sc-if value="{{ b.isCallout }}" hint-placeholder-val="{{ false }}">
+              <div class="ds-callout {{ b.cls }}" style="margin: 30px 0;">
+                <span class="ds-callout__level">{{ b.level }}</span>
+                <div class="ds-callout__body">{{ b.text }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+
+        <div style="border-top: 3px double var(--line-2); margin-top: 48px; padding: 18px 0 0; display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font: 500 12px/1 var(--font-mono); color: var(--ink-3);">∎ {{ endLabel }}</span>
+          <button onClick="{{ goHome }}" style="background: none; border: none; padding: 0; cursor: pointer; font: 500 12px/1 var(--font-mono); color: var(--green-700); text-decoration: underline; text-underline-offset: 3px;">← {{ backLabel }}</button>
+        </div>
+      </article>
+      <div style="height: 72px;"></div>
+    </main>
+  </sc-if>
+
+  <footer style="border-top: 3px double var(--line-2); background: var(--paper-0);">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 22px 32px; display: flex; justify-content: space-between; align-items: baseline; gap: 24px; font: 400 12px/1.6 var(--font-mono); color: var(--ink-3);">
+      <span>built with the basic that works. © 2026</span>
+      <span style="display: flex; gap: 18px;">
+        <a href="mailto:hi@jon.dev.br" style="color: var(--ink-3); text-decoration: none;">@ hi@jon.dev.br</a>
+        <a href="#" style="color: var(--ink-3); text-decoration: none;">rss ↗</a>
+        <a href="#" style="color: var(--ink-3); text-decoration: none;">github ↗</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;auto&quot;, &quot;en&quot;, &quot;pt&quot;], &quot;default&quot;: &quot;auto&quot;, &quot;tsType&quot;: &quot;'auto'|'en'|'pt'&quot;, &quot;section&quot;: &quot;behavior&quot;}, &quot;showProgress&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;behavior&quot;}, &quot;homeCount&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 5, &quot;min&quot;: 3, &quot;max&quot;: 5, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;behavior&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const pref = this.props.defaultLang ?? 'auto';
+    const auto = (typeof navigator !== 'undefined' && (navigator.language || '').toLowerCase().startsWith('pt')) ? 'pt' : 'en';
+    this.state = { view: 'home', slug: null, lang: pref === 'auto' ? auto : pref, progress: 0 };
+    this._rendered = {};
+    this.posts = [
+      { slug: 'two-of-everything', num: '001', date: '2026-07-21', mins: 5, tags: '#redundancy #ops',
+        en: { title: 'two of everything: redundancy for a one-person backend', dek: 'What a 1948 flight manual taught me about running production alone.',
+          blocks: [
+            { t: 'p', text: 'Light aircraft carry two magnetos. The engine runs fine on one; the second exists so that a failure is boring. That is the whole philosophy I want for infrastructure I operate alone: not zero failures — boring failures.' },
+            { t: 'h', text: 'the boring failover' },
+            { t: 'p', text: 'My setup is deliberately small. One primary box, one warm standby, and a watchdog that promotes the standby when heartbeats stop. Nothing clever. Clever is what breaks at 3am, when there is exactly one engineer and he is asleep.' },
+            { t: 'code', title: 'watchdog.py', lang: 'python', code: 'def check(host):\n    try:\n        return ping(host, timeout=2)\n    except TimeoutError:\n        return False\n\nif not any(check(PRIMARY) for _ in range(3)):\n    promote(STANDBY)          # boring by design\n    notify(ME, "failover complete. go back to sleep.")' },
+            { t: 'mermaid', cap: 'fig 01 — the entire failover system. if it needs a runbook, it is too big.', graph: 'flowchart LR\n  C[client] --> D[dns · ttl 60s]\n  D --> P[primary]\n  D -.-> S[standby]\n  W[watchdog] -- heartbeat 5s --> P\n  W -- promote --> S' },
+            { t: 'p', text: 'The diagram above is the complete system. That is the point. A failover path you can hold in your head is a failover path you can trust while half awake.' },
+            { t: 'callout', level: 'NOTE', text: 'Redundancy you have never exercised is decoration. I pull the plug on the primary on the first friday of every month. So far, boring — which is the goal.' } ] },
+        pt: { title: 'dois de tudo: redundância para um backend de uma pessoa só', dek: 'O que um manual de voo de 1948 me ensinou sobre operar produção sozinho.',
+          blocks: [
+            { t: 'p', text: 'Aviões leves carregam dois magnetos. O motor funciona bem com um; o segundo existe para que uma falha seja entediante. Essa é a filosofia inteira que eu quero para infraestrutura que opero sozinho: não zero falhas — falhas entediantes.' },
+            { t: 'h', text: 'o failover entediante' },
+            { t: 'p', text: 'Minha configuração é deliberadamente pequena. Uma máquina primária, um standby aquecido, e um watchdog que promove o standby quando os heartbeats param. Nada esperto. Esperto é o que quebra às 3h da manhã, quando existe exatamente um engenheiro e ele está dormindo.' },
+            { t: 'code', title: 'watchdog.py', lang: 'python', code: 'def check(host):\n    try:\n        return ping(host, timeout=2)\n    except TimeoutError:\n        return False\n\nif not any(check(PRIMARY) for _ in range(3)):\n    promote(STANDBY)          # entediante por design\n    notify(EU, "failover completo. volte a dormir.")' },
+            { t: 'mermaid', cap: 'fig 01 — o sistema de failover inteiro. se precisa de runbook, é grande demais.', graph: 'flowchart LR\n  C[cliente] --> D[dns · ttl 60s]\n  D --> P[primária]\n  D -.-> S[standby]\n  W[watchdog] -- heartbeat 5s --> P\n  W -- promover --> S' },
+            { t: 'p', text: 'O diagrama acima é o sistema completo. Esse é o ponto. Um caminho de failover que cabe na sua cabeça é um caminho de failover em que você confia meio acordado.' },
+            { t: 'callout', level: 'NOTA', text: 'Redundância que você nunca exercitou é decoração. Eu puxo a tomada da primária na primeira sexta-feira de cada mês. Até agora, entediante — que é o objetivo.' } ] } },
+      { slug: 'idempotency-keys', num: '002', date: '2026-07-02', mins: 4, tags: '#api #reliability',
+        en: { title: 'idempotency keys are seatbelts', dek: 'Retries are inevitable. Duplicates are a choice.',
+          blocks: [
+            { t: 'p', text: 'Every client will retry. The network guarantees it, mobile carriers guarantee it, and your own timeout code guarantees it. The only question is what happens when the same request lands twice.' },
+            { t: 'code', title: 'orders/api.py', lang: 'python', code: '@app.post("/orders")\ndef create_order(req):\n    key = req.headers["Idempotency-Key"]\n    if done := store.get(key):\n        return done            # same answer, no side effects\n    order = charge_and_create(req.body)\n    store.set(key, order, ttl=DAY)\n    return order' },
+            { t: 'p', text: 'Twelve lines. The store is the same Postgres you already run, with a unique constraint doing the actual work. You do not need a distributed lock; you need a place where the second write fails politely.' },
+            { t: 'callout', level: 'CAUTION', text: 'Queues are at-least-once. If your consumer is not idempotent, "at least once" means "twice, on the worst day of the quarter".' } ] },
+        pt: { title: 'chaves de idempotência são cintos de segurança', dek: 'Retries são inevitáveis. Duplicatas são uma escolha.',
+          blocks: [
+            { t: 'p', text: 'Todo cliente vai fazer retry. A rede garante isso, as operadoras garantem isso, e o seu próprio código de timeout garante isso. A única questão é o que acontece quando a mesma requisição chega duas vezes.' },
+            { t: 'code', title: 'orders/api.py', lang: 'python', code: '@app.post("/orders")\ndef create_order(req):\n    key = req.headers["Idempotency-Key"]\n    if done := store.get(key):\n        return done            # mesma resposta, sem efeitos\n    order = charge_and_create(req.body)\n    store.set(key, order, ttl=DIA)\n    return order' },
+            { t: 'p', text: 'Doze linhas. O store é o mesmo Postgres que você já roda, com uma unique constraint fazendo o trabalho de verdade. Você não precisa de um lock distribuído; precisa de um lugar onde a segunda escrita falha educadamente.' },
+            { t: 'callout', level: 'CUIDADO', text: 'Filas são at-least-once. Se o seu consumer não é idempotente, "pelo menos uma vez" significa "duas vezes, no pior dia do trimestre".' } ] } },
+      { slug: 'reading-the-black-box', num: '003', date: '2026-06-14', mins: 6, tags: '#culture #aviation',
+        en: { title: 'reading the black box: postmortems without blame', dek: 'Aviation stopped asking "whose fault" in 1974. Software should catch up.',
+          blocks: [
+            { t: 'p', text: 'After an incident, the interesting question is never who typed the command. It is why the system made that command easy to type, plausible to type, and catastrophic once typed. Aviation learned this the expensive way and wrote it into how investigations work.' },
+            { t: 'mermaid', cap: 'fig 01 — the investigation pipeline. blame appears nowhere in it.', graph: 'flowchart LR\n  E[event] --> T[timeline]\n  T --> F[contributing factors]\n  F --> A[corrective actions]\n  A -.feeds.-> C[preflight checklist]' },
+            { t: 'h', text: 'the rule that makes it work' },
+            { t: 'p', text: 'One rule: nothing said in the review can be used against the person who said it. The moment testimony becomes evidence, people stop testifying — and your timeline becomes fiction. You can have blame or you can have facts. Not both.' },
+            { t: 'p', text: 'The output is never a promise to be more careful. It is a change to the system: a guard rail, a placard, a checklist item. Careful is not a control. Checklists are controls.' } ] },
+        pt: { title: 'lendo a caixa-preta: postmortems sem culpa', dek: 'A aviação parou de perguntar "de quem é a culpa" em 1974. O software deveria alcançá-la.',
+          blocks: [
+            { t: 'p', text: 'Depois de um incidente, a pergunta interessante nunca é quem digitou o comando. É por que o sistema tornou aquele comando fácil de digitar, plausível de digitar, e catastrófico depois de digitado. A aviação aprendeu isso do jeito caro e escreveu isso no funcionamento das investigações.' },
+            { t: 'mermaid', cap: 'fig 01 — o pipeline de investigação. culpa não aparece em lugar nenhum.', graph: 'flowchart LR\n  E[evento] --> T[linha do tempo]\n  T --> F[fatores contribuintes]\n  F --> A[ações corretivas]\n  A -.alimenta.-> C[checklist de preflight]' },
+            { t: 'h', text: 'a regra que faz funcionar' },
+            { t: 'p', text: 'Uma regra: nada dito na revisão pode ser usado contra quem disse. No momento em que testemunho vira evidência, as pessoas param de testemunhar — e a sua linha do tempo vira ficção. Você pode ter culpa ou pode ter fatos. Não os dois.' },
+            { t: 'p', text: 'O resultado nunca é uma promessa de ser mais cuidadoso. É uma mudança no sistema: uma proteção, um placar, um item de checklist. Cuidado não é um controle. Checklists são controles.' } ] } },
+      { slug: 'step-sequencer-python', num: '004', date: '2026-05-30', mins: 7, tags: '#music #python',
+        en: { title: 'a step sequencer in 200 lines of python', dek: 'Sixteen steps, one clock, zero dependencies you cannot read in an afternoon.',
+          blocks: [
+            { t: 'p', text: 'A step sequencer is the most honest instrument there is: a grid of booleans and a clock. Which makes it a perfect weekend project — the whole thing is a loop with good timing.' },
+            { t: 'code', title: 'seq/clock.py', lang: 'python', code: 'STEPS = 16\n\nasync def run(pattern, bpm=120):\n    beat = 60 / bpm / 4          # sixteenth notes\n    while True:\n        for step in range(STEPS):\n            for track, hits in pattern.items():\n                if hits[step]:\n                    trigger(track)\n            await asyncio.sleep(beat)' },
+            { t: 'yt', cap: 'demo — sequencer v0.2 driving a hardware synth', vid: 'aqz-KE-bpKQ' },
+            { t: 'p', text: 'The interesting problems are all timing: asyncio.sleep drifts, so v0.3 schedules against a monotonic deadline instead. Same lesson as backends — never sleep for a duration when you can sleep until an instant.' } ] },
+        pt: { title: 'um step sequencer em 200 linhas de python', dek: 'Dezesseis passos, um clock, zero dependências que você não consiga ler numa tarde.',
+          blocks: [
+            { t: 'p', text: 'Um step sequencer é o instrumento mais honesto que existe: uma grade de booleanos e um clock. O que o torna um projeto de fim de semana perfeito — a coisa toda é um loop com timing bom.' },
+            { t: 'code', title: 'seq/clock.py', lang: 'python', code: 'STEPS = 16\n\nasync def run(pattern, bpm=120):\n    beat = 60 / bpm / 4          # semicolcheias\n    while True:\n        for step in range(STEPS):\n            for track, hits in pattern.items():\n                if hits[step]:\n                    trigger(track)\n            await asyncio.sleep(beat)' },
+            { t: 'yt', cap: 'demo — sequencer v0.2 tocando um synth de hardware', vid: 'aqz-KE-bpKQ' },
+            { t: 'p', text: 'Os problemas interessantes são todos de timing: asyncio.sleep deriva, então a v0.3 agenda contra um deadline monotônico. Mesma lição dos backends — nunca durma por uma duração quando você pode dormir até um instante.' } ] } },
+      { slug: 'film-grain-log-files', num: '005', date: '2026-05-11', mins: 3, tags: '#photography #essays',
+        en: { title: 'film grain and log files', dek: 'Both are records of what actually happened, developed later.',
+          blocks: [
+            { t: 'p', text: 'I shoot film because it forces the discipline I want in engineering: you commit at write time and you find out at read time. A negative, like a log line, is only as good as what you decided to capture before anything went wrong.' },
+            { t: 'p', text: 'Nobody adds grain to a photo before knowing it matters, and nobody adds context to a log line after the incident. The craft, in both, is deciding in advance what future-you will wish was recorded.' },
+            { t: 'callout', level: 'NOTE', text: 'Rule of thumb since 2019: every log line answers "what were you trying to do, for whom, and with what input". Everything else is noise with a timestamp.' } ] },
+        pt: { title: 'grão de filme e arquivos de log', dek: 'Os dois são registros do que realmente aconteceu, revelados depois.',
+          blocks: [
+            { t: 'p', text: 'Eu fotografo em filme porque isso força a disciplina que eu quero na engenharia: você se compromete na hora da escrita e descobre na hora da leitura. Um negativo, como uma linha de log, é tão bom quanto o que você decidiu capturar antes de qualquer coisa dar errado.' },
+            { t: 'p', text: 'Ninguém adiciona grão a uma foto antes de saber que importa, e ninguém adiciona contexto a uma linha de log depois do incidente. O ofício, nos dois, é decidir com antecedência o que o você-do-futuro vai querer ter registrado.' },
+            { t: 'callout', level: 'NOTA', text: 'Regra prática desde 2019: toda linha de log responde "o que você estava tentando fazer, para quem, e com qual entrada". Todo o resto é ruído com timestamp.' } ] } }
+    ];
+  }
+  componentDidMount() {
+    this._onScroll = () => {
+      if (this.state.view !== 'post') return;
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const p = h > 0 ? Math.min(100, Math.max(0, (window.scrollY / h) * 100)) : 0;
+      if (Math.abs(p - this.state.progress) > 0.5) this.setState({ progress: p });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this.renderMermaids();
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
+  componentDidUpdate() { this.renderMermaids(); }
+  renderMermaids(attempt = 0) {
+    const nodes = document.querySelectorAll('[data-mermaid-id]');
+    if (!nodes.length) return;
+    if (!window.mermaid) { if (attempt < 40) setTimeout(() => this.renderMermaids(attempt + 1), 250); return; }
+    if (!this._mmInit) {
+      this._mmInit = true;
+      window.mermaid.initialize({ startOnLoad: false, theme: 'base', fontFamily: '"IBM Plex Mono", monospace', themeVariables: {
+        fontSize: '13px', primaryColor: '#FFF4EC', primaryBorderColor: '#CBC2B2', primaryTextColor: '#211D18',
+        lineColor: '#A84A05', secondaryColor: '#F7F4EE', tertiaryColor: '#FFFFFF', edgeLabelBackground: '#FDFCF9',
+        clusterBkg: '#F7F4EE', nodeBorder: '#CBC2B2', mainBkg: '#FFF4EC', textColor: '#554F47' } });
+    }
+    nodes.forEach((node) => {
+      const mid = node.getAttribute('data-mermaid-id');
+      if (!mid || this._rendered[mid] === 'done' || !this._graphs || !this._graphs[mid]) return;
+      this._rendered[mid] = 'done';
+      window.mermaid.render('mm-' + mid.replace(/[^a-z0-9]/gi, '-') + '-' + Date.now(), this._graphs[mid])
+        .then(({ svg }) => { node.innerHTML = svg; const s = node.querySelector('svg'); if (s) { s.style.maxWidth = '100%'; s.style.height = 'auto'; } })
+        .catch(() => { node.innerHTML = '<span style="font:400 11px/1 IBM Plex Mono,monospace;color:#A8A196;">diagram failed to render</span>'; });
+    });
+  }
+  open(slug) { this.setState({ view: 'post', slug, progress: 0 }); window.scrollTo(0, 0); }
+  renderVals() {
+    const { view, lang, progress } = this.state;
+    const pt = lang === 'pt';
+    const showProgress = this.props.showProgress ?? true;
+    const count = Math.min(this.posts.length, this.props.homeCount ?? 5);
+    const shown = this.posts.slice(0, count);
+    const rows = shown.map((p) => ({ num: p.num, date: p.date, mins: p.mins + ' min', tags: p.tags, title: p[pt ? 'pt' : 'en'].title, open: () => this.open(p.slug) }));
+    const feat = this.posts[0];
+    const cur = this.posts.find((p) => p.slug === this.state.slug) || feat;
+    const loc = cur[pt ? 'pt' : 'en'];
+    this._graphs = {};
+    let hnum = 0;
+    const blocks = loc.blocks.map((b, i) => {
+      const base = { k: cur.slug + '-' + lang + '-' + i, isP: b.t === 'p', isH: b.t === 'h', isCode: b.t === 'code', isMermaid: b.t === 'mermaid', isYt: b.t === 'yt', isCallout: b.t === 'callout' };
+      if (b.t === 'h') { hnum += 1; return { ...base, text: b.text, num: String(hnum).padStart(2, '0') }; }
+      if (b.t === 'code') return { ...base, title: b.title, lang: b.lang, code: b.code };
+      if (b.t === 'mermaid') { const mid = base.k; this._graphs[mid] = b.graph; return { ...base, mid, cap: b.cap }; }
+      if (b.t === 'yt') return { ...base, cap: b.cap, src: 'https://www.youtube-nocookie.com/embed/' + b.vid, href: 'https://www.youtube.com/watch?v=' + b.vid };
+      if (b.t === 'callout') return { ...base, level: b.level, text: b.text, cls: b.level === 'CAUTION' || b.level === 'CUIDADO' ? 'ds-callout--caution' : 'ds-callout--note' };
+      return { ...base, text: b.text };
+    });
+    return {
+      isHome: view === 'home', isPost: view === 'post',
+      showBar: view === 'post' && showProgress, progressW: progress.toFixed(1) + '%',
+      goHome: () => { this.setState({ view: 'home', slug: null }); window.scrollTo(0, 0); },
+      setEn: () => this.setState({ lang: 'en' }), setPt: () => this.setState({ lang: 'pt' }),
+      toggleLang: () => this.setState({ lang: pt ? 'en' : 'pt' }),
+      enBg: pt ? 'transparent' : 'var(--green-700)', enFg: pt ? 'var(--ink-3)' : 'var(--paper-0)',
+      ptBg: pt ? 'var(--green-700)' : 'transparent', ptFg: pt ? 'var(--paper-0)' : 'var(--ink-3)',
+      heroKicker: pt ? 'blog · backend · brasil' : 'blog · backend · brazil',
+      heroTitle: pt ? 'oi, eu sou o jon.' : "hi, i'm jon.",
+      heroDek: pt ? 'Eu construo backends entediantes e confiáveis em Python, e escrevo sobre o que a aviação, o filme fotográfico e os sequenciadores me ensinam sobre sistemas.' : 'I build boring, reliable backends in Python, and write about what aviation, film photography and step sequencers teach me about systems.',
+      ctaRead: pt ? 'ler o mais recente' : 'read latest',
+      heroLangNote: pt ? 'artigos em EN · PT' : 'articles in EN · PT',
+      latestLabel: pt ? 'mais recentes' : 'latest entries',
+      postCountLabel: count + (pt ? ' registros' : ' entries'),
+      featuredLabel: pt ? 'última entrada' : 'latest entry',
+      logLabel: pt ? 'diário de bordo' : 'flight log',
+      rows,
+      featured: { date: feat.date, mins: feat.mins + ' min', tags: feat.tags, title: feat[pt ? 'pt' : 'en'].title, dek: feat[pt ? 'pt' : 'en'].dek },
+      openFeatured: () => this.open(feat.slug),
+      scrollToLog: () => { const el = document.getElementById('log'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); },
+      post: { slug: cur.slug, num: cur.num, date: cur.date, mins: cur.mins + ' min', tags: cur.tags, title: loc.title, dek: loc.dek },
+      otherLangCta: pt ? 'read this in english' : 'ler em português',
+      blocks,
+      endLabel: pt ? 'fim do registro' : 'end of entry',
+      backLabel: pt ? 'voltar ao diário' : 'back to the log'
+    };
+  }
+}
+</script>
+</body>
+</html>

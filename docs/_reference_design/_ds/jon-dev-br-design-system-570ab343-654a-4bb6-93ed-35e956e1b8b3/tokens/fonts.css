@@ -1,0 +1,5 @@
+/* jon.dev.br — webfonts
+   SUBSTITUTION NOTE: no font binaries were provided. Faces are served from
+   Google Fonts CDN: IBM Plex Mono (structure/UI/code) + IBM Plex Serif (prose).
+   To self-host, replace this @import with @font-face rules + local woff2 files. */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");

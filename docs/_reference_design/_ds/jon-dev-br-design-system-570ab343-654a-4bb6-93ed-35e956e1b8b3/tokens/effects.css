@@ -1,0 +1,18 @@
+/* jon.dev.br — radii, borders, elevation, motion */
+:root {
+  /* radii — near-square, technical */
+  --radius-sm: 2px;   /* buttons, inputs, tags, cards */
+  --radius-md: 4px;   /* terminal panels, dialogs */
+  --radius-lg: 8px;   /* rare — large media */
+  --radius-round: 999px;
+
+  /* elevation — flat by default; hard offset for lifted interactive cards */
+  --shadow-hard: 4px 4px 0 0 var(--line-1);
+  --shadow-hard-strong: 5px 5px 0 0 var(--line-2);
+  --shadow-pop: 0 12px 32px rgba(20, 30, 22, 0.14); /* dialogs/popovers only */
+
+  /* motion — fast, functional, no bounces */
+  --dur-fast: 120ms; /* @kind other */
+  --dur-base: 180ms; /* @kind other */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1); /* @kind other */
+}
