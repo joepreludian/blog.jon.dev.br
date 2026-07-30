@@ -33,12 +33,17 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean \
  && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' \
       > /etc/apt/apt.conf.d/keep-cache
 
+# libcurl4t64 is a runtime dependency of html-proofer's URL checker (via
+# typhoeus/ethon, which dlopens libcurl at require time) — needed even when
+# rake proof runs with --disable-external, since the library load happens
+# unconditionally before any external/internal check distinction is made.
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     apt-get update \
  && apt-get install -y --no-install-recommends \
       build-essential \
       git \
+      libcurl4t64 \
       libyaml-dev \
       pkg-config \
       zlib1g-dev

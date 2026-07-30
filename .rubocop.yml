@@ -1,0 +1,28 @@
+plugins:
+  - rubocop-minitest
+  - rubocop-rake
+
+AllCops:
+  TargetRubyVersion: 4.0
+  NewCops: enable
+  Include:
+    - "_plugins/**/*.rb"
+    - "test/**/*.rb"
+    - "Rakefile"
+  Exclude:
+    - "vendor/**/*"
+    - "_site/**/*"
+
+# Liquid tag render methods build markup with heredocs; the resulting
+# methods are cohesive but longer than the default allowance.
+Metrics/MethodLength:
+  Max: 25
+
+# Plugin classes are small; the default block-length limit fires on
+# Minitest describe-style blocks.
+Metrics/BlockLength:
+  Exclude:
+    - "test/**/*.rb"
+
+Style/Documentation:
+  Enabled: true
