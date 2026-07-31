@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+
+# Build explicitly first: `docker compose run` only builds the image when
+# it doesn't exist yet, so a shell opened here with no accompanying rebuild
+# would otherwise explore/run against the previous version of the code.
+# Build chatter is redirected to stderr, matching bin/export.
+docker compose build task 1>&2
+
 exec docker compose run --rm task bash

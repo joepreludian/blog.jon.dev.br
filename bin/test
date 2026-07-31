@@ -8,6 +8,12 @@ if [[ "${1:-}" == "--external" ]]; then
   shift
 fi
 
+# Build explicitly first: `docker compose run` only builds the image when
+# it doesn't exist yet, so a source edit with no accompanying rebuild would
+# otherwise run against the previous version of the code. Build chatter is
+# redirected to stderr, matching bin/export.
+docker compose build task 1>&2
+
 exec docker compose run --rm \
   -e "PROOF_EXTERNAL=${proof_external}" \
   task bundle exec rake test proof
