@@ -37,5 +37,14 @@ Metrics/BlockLength:
   Exclude:
     - "test/**/*.rb"
 
+# Test method names spell out the exact value under test — e.g. the
+# zero-padded entry number in `test_newest_english_post_is_001` — so the
+# reader can match a failure straight back to the assertion without opening
+# the file. That is the project's test-naming convention, not something to
+# rename around a cosmetic numbering-style cop.
+Naming/VariableNumber:
+  Exclude:
+    - "test/**/*.rb"
+
 Style/Documentation:
   Enabled: true
