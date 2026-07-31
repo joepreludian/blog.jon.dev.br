@@ -89,17 +89,22 @@ CMD ["bundle", "exec", "rake", "serve"]
 # ---------------------------------------------------------------------------
 FROM src AS ci
 
-# This stage's log carries two known-benign warnings under Ruby 4.0 — expect
-# them on every run, not just this one:
+# This stage's log carries three known-benign warnings under Ruby 4.0 —
+# expect them on every run, not just this one:
 #   1. `warning: already initialized constant Gem::Platform::*` (x6), from
 #      Bundler 2.6.9's rubygems_ext.rb monkeypatch colliding with constants
 #      Ruby 4.0 already ships in rubygems/platform.rb.
 #   2. `IO::Buffer is experimental...`, from Nokogiri's HTML5 parser (used by
 #      html-proofer during `rake proof`) touching Ruby 4.0's still-experimental
 #      IO::Buffer API.
-# Both are upstream gems not yet fully adjusted to Ruby 4.0, not regressions
-# in this project, and not ours to silence — do not add -W0 or similar to
-# make them disappear, since that would hide the next real warning too.
+#   3. `literal string will be frozen in the future`, from liquid 4.0.4's
+#      lib/liquid/errors.rb, raised whenever a Liquid::SyntaxError's message
+#      is read (e.g. by the tag-attribute tests) — Ruby 4.0's frozen-string
+#      warning firing on a gem literal that predates the deprecation.
+# All three are upstream gems not yet fully adjusted to Ruby 4.0, not
+# regressions in this project, and not ours to silence — do not add -W0 or
+# similar to make them disappear, since that would hide the next real
+# warning too.
 ENV JEKYLL_ENV=production
 RUN bundle exec rake ci
 
