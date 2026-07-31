@@ -17,10 +17,14 @@ task :lint do
   sh "bundle exec rubocop"
 end
 
+test_files = FileList["test/**/*_test.rb"]
+puts "Found #{test_files.size} test file(s)."
+abort "No test files matched test/**/*_test.rb — check the glob." if test_files.empty?
+
 Rake::TestTask.new(:test) do |t|
   t.description = "Run the Minitest suite"
   t.libs << "test"
-  t.test_files = FileList["test/**/*_test.rb"]
+  t.test_files = test_files
   t.warning = false
 end
 
