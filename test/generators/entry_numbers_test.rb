@@ -37,9 +37,14 @@ class EntryNumbersTest < Minitest::Test
   end
 
   def test_projects_are_numbered_by_order
-    project = @site.collections["projects"].docs.find { |d| d.data["lang"] == "en" }
+    assert_equal "001", project_at(lang: "en", ref: "seq").data["num"]
+    assert_equal "002", project_at(lang: "en", ref: "beacon").data["num"]
+  end
 
-    assert_equal "001", project.data["num"]
+  def test_project_numbering_restarts_per_language
+    # Two English projects precede this one in `order`; if projects were
+    # numbered globally instead of per language, this would be "003".
+    assert_equal "001", project_at(lang: "pt", ref: "seq").data["num"]
   end
 
   private
@@ -48,5 +53,11 @@ class EntryNumbersTest < Minitest::Test
     @site.posts.docs.find { |doc| doc.url == url } ||
 
       flunk("no post rendered at #{url}")
+  end
+
+  def project_at(lang:, ref:)
+    @site.collections["projects"].docs.find do |doc|
+      doc.data["lang"] == lang && doc.data["ref"] == ref
+    end || flunk("no project found for lang=#{lang} ref=#{ref}")
   end
 end

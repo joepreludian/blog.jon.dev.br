@@ -20,8 +20,13 @@ class ReadingTimeTest < Minitest::Test
   end
 
   def test_ignores_markup_when_counting
-    # Ten words of prose wrapped in tags is still ten words.
-    html = "<p>#{(["word"] * 10).join(" ")}</p><pre><code>x</code></pre>"
+    # 200 words sits exactly on the one-minute boundary at 200 wpm. The six
+    # tags below are surrounded by whitespace, so an implementation that
+    # failed to strip them would count each as its own token — 206 words,
+    # two minutes — comfortably past a one-token margin. Only correctly
+    # stripping the tags keeps this at one minute.
+    words = (["word"] * 200).join(" ")
+    html = "<p> #{words} </p> <pre> <code> </code> </pre>"
 
     assert_equal 1, render(html)
   end
