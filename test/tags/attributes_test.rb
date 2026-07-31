@@ -56,4 +56,17 @@ class AttributesTest < Minitest::Test
 
     assert_includes error.message, "colour"
   end
+
+  # Distinct from test_bang_returns_the_hash_when_requirements_are_met: that
+  # test never supplies its declared optional key, so it can't tell a build
+  # that silently dropped `optional` from the known-attributes list apart
+  # from a correct one. This one actually supplies "title" and checks both
+  # that parse! accepts it and that it comes back in the result.
+  def test_bang_accepts_a_supplied_optional_key
+    parsed = Attributes.parse!(
+      %(lang="python" title="watchdog.py"), tag_name: "codeblock", required: ["lang"], optional: ["title"]
+    )
+
+    assert_equal({ "lang" => "python", "title" => "watchdog.py" }, parsed)
+  end
 end
