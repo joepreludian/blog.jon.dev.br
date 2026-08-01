@@ -1,0 +1,64 @@
+.resume {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-9);
+  max-width: 820px;
+  margin-inline: auto;
+
+  &__section {
+    margin-bottom: var(--sp-7);
+
+    .ds-rule {
+      margin-bottom: var(--sp-4);
+    }
+  }
+
+  &__job {
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid var(--line-1);
+  }
+
+  &__job-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    margin-bottom: var(--sp-3);
+  }
+
+  &__role {
+    font-size: var(--fs-base);
+    color: var(--ink-1);
+  }
+
+  &__org {
+    font-size: var(--fs-sm);
+    color: var(--accent-700);
+  }
+
+  &__dates {
+    margin-left: auto;
+    font-size: var(--fs-xs);
+    color: var(--ink-3);
+    white-space: nowrap;
+  }
+
+  &__notes {
+    margin: 0;
+    padding-left: var(--sp-5);
+    font: 400 var(--fs-sm) / 1.7 var(--font-serif);
+    color: var(--ink-2);
+
+    li {
+      margin-bottom: 6px;
+      text-wrap: pretty;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .resume__dates {
+    margin-left: 0;
+    width: 100%;
+  }
+}

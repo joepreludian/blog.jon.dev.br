@@ -1,0 +1,87 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign resume = site.data.resume[lang] -%}
+
+<section class="shell page-head">
+  <h1 class="page-head__title">{{ strings.resume.title }}</h1>
+  <p class="page-head__intro">{{ resume.summary }}</p>
+  <div class="page-head__count">{{ resume.headline }}</div>
+</section>
+
+<section class="shell resume">
+  <div class="resume__section">
+    <div class="ds-rule">
+      <span class="ds-rule__num">§ 01</span><span>{{ strings.resume.experience }}</span>
+    </div>
+    {%- for job in resume.experience %}
+      <article class="resume__job">
+        <div class="resume__job-head">
+          <span class="resume__role">{{ job.role }}</span>
+          <span class="resume__org">{{ job.org }}</span>
+          <span class="resume__dates">
+            {{ job.from | date: "%Y-%m" }} →
+            {%- if job.to == "present" %} {{ strings.resume.present }}
+            {%- else %} {{ job.to | date: "%Y-%m" }}{% endif %}
+          </span>
+        </div>
+        <ul class="resume__notes">
+          {%- for note in job.notes %}
+            <li>{{ note }}</li>
+          {%- endfor %}
+        </ul>
+      </article>
+    {%- endfor %}
+  </div>
+
+  <div class="resume__section">
+    <div class="ds-rule">
+      <span class="ds-rule__num">§ 02</span><span>{{ strings.resume.skills }}</span>
+    </div>
+    <ul class="ds-checklist">
+      {%- for skill in resume.skills %}
+        <li class="ds-checklist__item">
+          <span class="ds-checklist__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="ds-checklist__label">{{ skill.label }}</span>
+          <span class="ds-checklist__leader"></span>
+          <span class="ds-checklist__value ds-checklist__value--ok">{{ skill.value }}</span>
+        </li>
+      {%- endfor %}
+    </ul>
+  </div>
+
+  <div class="resume__section">
+    <div class="ds-rule">
+      <span class="ds-rule__num">§ 03</span><span>{{ strings.resume.education }}</span>
+    </div>
+    <ul class="ds-checklist">
+      {%- for item in resume.education %}
+        <li class="ds-checklist__item">
+          <span class="ds-checklist__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="ds-checklist__label">{{ item.qualification }} · {{ item.org }}</span>
+          <span class="ds-checklist__leader"></span>
+          <span class="ds-checklist__value ds-checklist__value--pending">{{ item.year }}</span>
+        </li>
+      {%- endfor %}
+    </ul>
+  </div>
+
+  <div class="resume__section">
+    <div class="ds-rule ds-rule--double">
+      <span class="ds-rule__num">§ 04</span><span>{{ strings.resume.contact }}</span>
+    </div>
+    <ul class="ds-checklist">
+      {%- for item in resume.contact %}
+        <li class="ds-checklist__item">
+          <span class="ds-checklist__label">@ {{ item.label }}</span>
+          <span class="ds-checklist__leader"></span>
+          <span class="ds-checklist__value">
+            <a href="{{ item.href }}">{{ item.value }}</a>
+          </span>
+        </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>

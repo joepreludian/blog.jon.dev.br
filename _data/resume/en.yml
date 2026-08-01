@@ -1,0 +1,34 @@
+headline: "REPLACE: one-line headline describing the role and location"
+summary: >-
+  REPLACE: a short paragraph summarising professional focus and approach to
+  work. Replace this placeholder text with real content before publishing.
+
+experience:
+  - role: "REPLACE: role"
+    org: "REPLACE: employer"
+    from: 1970-01-01
+    to: present
+    notes:
+      - "REPLACE: a note describing a concrete accomplishment in this role."
+      - "REPLACE: a second note describing a concrete accomplishment in this role."
+  - role: "REPLACE: role"
+    org: "REPLACE: employer"
+    from: 1970-01-01
+    to: 1970-06-01
+    notes:
+      - "REPLACE: a note describing a concrete accomplishment in this role."
+      - "REPLACE: a second note describing a concrete accomplishment in this role."
+
+skills:
+  - { label: "replace-skill-1", value: "REPLACE: duration" }
+  - { label: "replace-skill-2", value: "REPLACE: duration" }
+  - { label: "replace-skill-3", value: "REPLACE: duration" }
+  - { label: "replace-skill-4", value: "REPLACE: duration" }
+  - { label: "replace-skill-5", value: "REPLACE: duration" }
+
+education:
+  - { qualification: "REPLACE: qualification", org: "REPLACE: institution", year: 1970 }
+
+contact:
+  - { label: email, value: "me@jon.dev.br", href: "mailto:me@jon.dev.br" }
+  - { label: "REPLACE: label", value: "REPLACE: value", href: "https://example.invalid/REPLACE" }
