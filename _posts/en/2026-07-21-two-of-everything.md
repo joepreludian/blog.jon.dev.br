@@ -15,3 +15,8 @@ My setup is deliberately small. One primary box, one warm standby, and a
 watchdog that promotes the standby when heartbeats stop. Nothing clever.
 Clever is what breaks at 3am, when there is exactly one engineer and he is
 asleep.
+
+{% callout level="NOTE" %}
+Redundancy you have never exercised is decoration. I pull the plug on the
+primary on the first friday of every month. So far, boring — which is the goal.
+{% endcallout %}

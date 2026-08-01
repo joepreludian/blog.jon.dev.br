@@ -16,3 +16,8 @@ Minha configuração é deliberadamente pequena. Uma máquina primária, um
 standby aquecido, e um watchdog que promove o standby quando os heartbeats
 param. Nada esperto. Esperto é o que quebra às 3h da manhã, quando existe
 exatamente um engenheiro e ele está dormindo.
+
+{% callout level="NOTA" %}
+Redundância que você nunca exercitou é decoração. Eu puxo a tomada da primária
+na primeira sexta-feira de cada mês. Até agora, entediante — que é o objetivo.
+{% endcallout %}
