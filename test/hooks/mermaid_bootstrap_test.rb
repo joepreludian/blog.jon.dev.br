@@ -38,10 +38,33 @@ class MermaidBootstrapTest < Minitest::Test
     assert_includes output, "IBM Plex Mono"
   end
 
+  # Posts render with layout: null in this fixture site, so every assertion
+  # above exercises only the `:documents` registration and the append
+  # branch of `inject`. This fixture page has a real layout with a <body>,
+  # so it exercises the `:pages` registration and the substitution branch.
+  def test_injects_the_loader_into_a_page_with_a_diagram
+    assert_includes page_output_at("/diagram-page.html"), "mermaid.min.js"
+  end
+
+  def test_inserts_the_loader_before_the_closing_body_tag
+    output = page_output_at("/diagram-page.html")
+    script_index = output.index("mermaid.min.js")
+    body_close_index = output.index("</body>")
+
+    refute_nil script_index, "expected mermaid.min.js in the page output"
+    refute_nil body_close_index, "expected the page layout to carry </body>"
+    assert_operator script_index, :<, body_close_index
+  end
+
   private
 
   def output_at(url)
     doc = @site.posts.docs.find { |d| d.url == url }
     doc ? doc.output : flunk("no post rendered at #{url}")
+  end
+
+  def page_output_at(url)
+    page = @site.pages.find { |p| p.url == url }
+    page ? page.output : flunk("no page rendered at #{url}")
   end
 end
