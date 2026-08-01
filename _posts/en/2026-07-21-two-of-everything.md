@@ -20,3 +20,21 @@ asleep.
 Redundancy you have never exercised is decoration. I pull the plug on the
 primary on the first friday of every month. So far, boring — which is the goal.
 {% endcallout %}
+
+{% codeblock lang="python" title="watchdog.py" %}
+def check(host):
+    try:
+        return ping(host, timeout=2)
+    except TimeoutError:
+        return False
+
+if not any(check(PRIMARY) for _ in range(3)):
+    promote(STANDBY)          # boring by design
+    notify(ME, "failover complete. go back to sleep.")
+{% endcodeblock %}
+
+A plain fence, for comparison:
+
+```python
+print("no title bar")
+```
