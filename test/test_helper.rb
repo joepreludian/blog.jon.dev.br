@@ -28,6 +28,22 @@ module TestHelper
     site
   end
 
+  # Builds the repository's own site into a fresh temp directory. Slower than
+  # the fixture build, so only whole-site assertions should use it.
+  def self.build_real_site
+    @build_real_site ||= begin
+      destination = Dir.mktmpdir("jon-dev-br-real")
+      config = Jekyll.configuration(
+        "source" => ROOT,
+        "destination" => destination,
+        "quiet" => true
+      )
+      site = Jekyll::Site.new(config)
+      site.process
+      site
+    end
+  end
+
   # Renders a Liquid template against a built site. `page` seeds the
   # `page` drop, which tags and filters read for `lang` and `ref`.
   def self.render_liquid(template, site:, page: {})

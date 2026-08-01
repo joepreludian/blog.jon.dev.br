@@ -1,0 +1,59 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # Runs rake ci inside the image: lint, test, build, proof.
+      # A failure here fails the pipeline before anything is exported.
+      - name: Validate
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: ci
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # The export stage is FROM scratch and holds only _site.
+      - name: Export the built site
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: export
+          outputs: type=local,dest=_site
+          cache-from: type=gha
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
