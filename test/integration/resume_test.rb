@@ -29,6 +29,14 @@ class ResumeTest < Minitest::Test
     assert_equal @data["en"]["experience"].length, @data["pt"]["experience"].length
   end
 
+  def test_both_languages_list_the_same_number_of_education_entries
+    assert_equal @data["en"]["education"].length, @data["pt"]["education"].length
+  end
+
+  def test_both_languages_list_the_same_number_of_contact_entries
+    assert_equal @data["en"]["contact"].length, @data["pt"]["contact"].length
+  end
+
   def test_both_languages_list_the_same_skills_in_the_same_order
     assert_equal(
       @data["en"]["skills"].map { |s| s["label"] },
