@@ -1,0 +1,31 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign entries = site.posts | where: "lang", lang -%}
+{%- assign years = entries | group_by_exp: "entry", "entry.date | date: '%Y'" -%}
+
+<section class="shell page-head">
+  <h1 class="page-head__title">{{ strings.writing.title }}</h1>
+  <p class="page-head__intro">{{ strings.writing.intro }}</p>
+  <div class="page-head__count">
+    {{ entries | size }} {{ strings.home.entries }}
+  </div>
+</section>
+
+<section class="shell archive">
+  {%- for year in years %}
+    <div class="archive__year">
+      <div class="ds-rule">
+        <span class="ds-rule__num">§ {{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <span>{{ year.name }}</span>
+      </div>
+      <div class="entry-list">
+        {%- for entry in year.items %}
+          {% include entry-row.html entry=entry %}
+        {%- endfor %}
+      </div>
+    </div>
+  {%- endfor %}
+</section>

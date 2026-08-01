@@ -1,0 +1,40 @@
+// Shared by the writing, projects and resume pages.
+.page-head {
+  padding-top: 56px;
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--line-1);
+
+  &__title {
+    margin: 0 0 var(--sp-3);
+    font: 600 var(--fs-2xl) / var(--lh-tight) var(--font-mono);
+    letter-spacing: -0.01em;
+    color: var(--ink-1);
+  }
+
+  &__intro {
+    margin: 0;
+    max-width: var(--measure-prose);
+    font: 400 var(--fs-md) / var(--lh-prose) var(--font-serif);
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  &__count {
+    margin-top: var(--sp-4);
+    font: 400 var(--fs-xs) / 1 var(--font-mono);
+    color: var(--ink-4);
+  }
+}
+
+.archive {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-9);
+
+  &__year {
+    margin-bottom: var(--sp-7);
+
+    .ds-rule {
+      margin-bottom: var(--sp-4);
+    }
+  }
+}
