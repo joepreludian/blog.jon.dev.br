@@ -29,7 +29,13 @@ and is **not** something this author wrote. Each one carries `sample: true` in
 its front matter as a marker for the author — it is metadata only, not a
 visible badge or banner, and has no effect on rendering.
 
-- `_posts/{en,pt}/2026-07-21-two-of-everything.md`
+- `_posts/{en,pt}/2026-07-21-two-of-everything.md` — also structurally
+  lopsided, not just placeholder voice: the PT file is missing the code,
+  mermaid and closing blocks the EN file has, because Tasks 10–13 each
+  appended a demonstration block to the EN file only while exercising their
+  tag. If you are editing this pair rather than deleting it, do not treat the
+  EN file as a translation source for the PT one — they diverged in
+  structure, not just language.
 - `_posts/{en,pt}/2026-07-02-idempotency-keys.md`
 - `_posts/{en,pt}/2026-06-14-reading-the-black-box.md`
 - `_posts/{en,pt}/2026-05-30-step-sequencer-python.md`
@@ -111,6 +117,14 @@ a raw `docker compose run` producing a false green — happened during this
 plan's implementation. If you ever run Compose by hand for debugging, rebuild
 first (`docker compose build task`) or you cannot trust the result.
 
+That is a stale **image**. There is a separate, cheaper way to get a stale
+**`_site`**: `./bin/test` runs `rake test proof`, and `rake proof` never
+invokes `rake build` — so its html-proofer pass checks whatever `_site`
+already sits in the `jekyll_site` volume, which may be left over from an
+earlier, unrelated `rake build`. `./bin/build` is the only invocation that
+runs `lint → test → build → proof` in that order (via `rake ci`), so it is the
+only one guaranteed to proof the site you currently have checked out.
+
 ## Adding a post
 
 Two files, always. EN and PT are peers, not original and translation.
@@ -177,16 +191,34 @@ one raises an error — that is exactly what makes them expensive.
   `footer.html`, and the same pattern in `_includes/project-row.html`
   (`strings.projects.status[project.status] | default: project.status`).
 
-- **Liquid discards a block whose entire body is whitespace.** A `{% for %}`
-  or `{% if %}` tag whose rendered body is nothing but whitespace/newlines
-  produces no output at all — not even the whitespace. This is why the tag
-  separator between entries is built with `join: " #"` on an array, rather
-  than looping over tags with `{% unless forloop.last %} {% endunless %}` to
-  insert a separator: a trailing `{% unless forloop.last %}` whose only content
-  is a space is exactly the kind of block Liquid throws away, so the separator
-  silently vanishes on the last real render pass, not in a way that fails a
-  test that isn't looking for it. See `_includes/entry-row.html`,
-  `_layouts/home.html` and `_layouts/post.html`.
+- **Liquid drops a block's entire output when `blank?` is true — and that one
+  root cause shows up as two unrelated-looking symptoms.** `Liquid::Block`
+  decides whether to render at all by asking its own `blank?`, which by
+  default means "is the rendered body nothing but whitespace". When it is,
+  the parent `BlockBody` silently discards the whole node's output — not a
+  trim, a full drop, no warning. Two places in this codebase hit that:
+  - **A separator that disappears.** A `{% for %}` or `{% if %}` tag whose
+    rendered body is only whitespace/newlines produces no output at all — not
+    even the whitespace. This is why the tag separator between entries is
+    built with `join: " #"` on an array, rather than looping over tags with
+    `{% unless forloop.last %} {% endunless %}` to insert a separator: a
+    trailing `{% unless forloop.last %}` whose only content is a space is
+    exactly the kind of block Liquid throws away, so the separator silently
+    vanishes on the last real render pass, not in a way that fails a test that
+    isn't looking for it. See `_includes/entry-row.html`, `_layouts/home.html`
+    and `_layouts/post.html`.
+  - **A tag that renders nothing because its body is empty.** Every `ds-*`
+    block tag (`callout`, `codeblock`, `mermaid`, `youtube`, `figure`)
+    extends `Liquid::Block` through `JonDevBr::Tags::Base`, and `youtube` and
+    `figure` are legitimately always called with an empty body —
+    `{% youtube id="…" %}{% endyoutube %}`. Left at Liquid's default, an
+    empty body means `blank?` is `true`, so `BlockBody` would discard the
+    tag's entire rendered output — the whole `render_html` result, not just
+    the (empty) body — with no error. `_plugins/jon_dev_br/tags/base.rb`
+    overrides `blank?` to always return `false`, and every tag gets this for
+    free by inheriting from `Base`. If you write a new Liquid block tag here
+    and it silently renders nothing with no error, check first whether it
+    extends `Base` — this is almost certainly why.
 
 ## `sitemap: false` on the feeds and 404 is inert belt-and-braces
 
