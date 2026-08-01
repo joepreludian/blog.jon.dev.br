@@ -1,0 +1,81 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign entries = site.posts | where: "lang", lang -%}
+{%- assign shown = entries | slice: 0, site.home_entries -%}
+{%- assign featured = entries | first -%}
+{%- assign writing_index = "/writing/" -%}
+{%- if lang == "pt" -%}{%- assign writing_index = "/pt/writing/" -%}{%- endif -%}
+
+<section class="hero">
+  <div class="shell hero__inner">
+    <div class="hero__lede">
+      <div class="hero__kicker">{{ strings.hero.kicker }}</div>
+      <h1 class="hero__title">
+        <span class="hero__prompt">&gt;&gt;&gt;</span> {{ strings.hero.title }}<span
+          class="hero__cursor" aria-hidden="true">▮</span>
+      </h1>
+      <p class="hero__dek">{{ strings.hero.dek }}</p>
+      <div class="hero__actions">
+        <a class="ds-btn ds-btn--md ds-btn--primary" href="{{ featured.url | relative_url }}">
+          {{ strings.cta.read_latest }} →
+        </a>
+        <a class="ds-btn ds-btn--md ds-btn--secondary" href="#log">{{ strings.cta.writing }}</a>
+      </div>
+      <div class="hero__status">
+        {{ strings.hero.last_deploy }} {{ site.time | date: "%Y-%m-%d" }} · {{ strings.hero.lang_note }}
+      </div>
+    </div>
+
+    <aside class="ds-card hero__aside">
+      <div class="hero__aside-bar">
+        <span class="hero__aside-label">~/writing · {{ strings.home.latest }}</span>
+        <span class="hero__aside-count">{{ shown | size }} {{ strings.home.entries }}</span>
+      </div>
+      <div class="hero__aside-rows">
+        {%- for entry in shown %}
+          {% include entry-row.html entry=entry compact=true %}
+        {%- endfor %}
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="shell home-section">
+  <div class="ds-rule">
+    <span class="ds-rule__num">§ 01</span><span>{{ strings.home.featured }}</span>
+  </div>
+  <a class="ds-card ds-card--interactive featured" href="{{ featured.url | relative_url }}">
+    <div class="featured__body">
+      <div class="featured__meta">
+        <span>{{ featured.date | date: "%Y-%m-%d" }}</span><span>·</span>
+        <span>{{ featured.content | reading_time }} {{ strings.post.minutes }}</span><span>·</span>
+        <span class="featured__tags">
+          {%- assign tag_list = featured.tags | join: " #" -%}{%- if tag_list != empty -%}#{{ tag_list }}{%- endif -%}
+        </span>
+      </div>
+      <h2 class="featured__title">{{ featured.title }}</h2>
+      <p class="featured__dek">{{ featured.dek }}</p>
+    </div>
+    <div class="featured__aside">
+      <span class="ds-badge ds-badge--neutral">EN · PT</span>
+      <span class="featured__cta">{{ strings.cta.read_latest }} →</span>
+    </div>
+  </a>
+</section>
+
+<section class="shell home-section" id="log">
+  <div class="ds-rule">
+    <span class="ds-rule__num">§ 02</span><span>{{ strings.home.log }}</span>
+  </div>
+  <div class="entry-list">
+    {%- for entry in shown %}
+      {% include entry-row.html entry=entry %}
+    {%- endfor %}
+  </div>
+  <a class="home-section__more" href="{{ writing_index | relative_url }}">
+    {{ strings.writing.archive }} →
+  </a>
+</section>

@@ -1,0 +1,19 @@
+{%- assign entry = include.entry -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+<a class="entry-row {% if include.compact %}entry-row--compact{% endif %}"
+   href="{{ entry.url | relative_url }}">
+  <span class="entry-row__num">{{ entry.num }}</span>
+  <span class="entry-row__title">{{ entry.title }}</span>
+  <span class="entry-row__leader"></span>
+  {%- unless include.compact %}
+    <span class="entry-row__tags">
+      {%- assign tag_list = entry.tags | join: " #" -%}{%- if tag_list != empty -%}#{{ tag_list }}{%- endif -%}
+    </span>
+  {%- endunless %}
+  <span class="entry-row__date">{{ entry.date | date: "%Y-%m-%d" }}</span>
+  {%- unless include.compact %}
+    <span class="entry-row__mins">{{ entry.content | reading_time }} {{ strings.post.minutes }}</span>
+    <span class="entry-row__arrow" aria-hidden="true">→</span>
+  {%- endunless %}
+</a>
