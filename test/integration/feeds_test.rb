@@ -46,12 +46,29 @@ class FeedsTest < Minitest::Test
     assert_includes read("sitemap.xml"), "/writing/alpha/"
   end
 
-  def test_feeds_are_excluded_from_the_sitemap
-    # `sitemap: false` keeps the feeds and the 404 page out of jekyll-sitemap's
-    # output; without it html-proofer and crawlers both complain. Assert
-    # against the actual generated sitemap.xml, not the feed files themselves —
-    # a feed can never contain sitemap markup, so that would pass regardless
-    # of the flag.
+  def test_the_sitemap_excludes_the_feeds_and_the_404_page
+    # This is a property guard, not a behavioural test of `sitemap: false`.
+    #
+    # Under jekyll-sitemap 1.4.0, this assertion cannot currently be driven
+    # red by removing `sitemap: false` from feed.xml, pt/feed.xml, or 404.html
+    # — verified directly against the gem's bundled sitemap.xml template.
+    # It loops over `site.html_pages`, a Jekyll-core collection already
+    # filtered to `.html`-extension output, so the two `.xml` feeds are never
+    # candidates in the first place and the `doc.sitemap != false` check is
+    # never reached for them. Separately, the template hardcodes
+    # `doc.url != "/404.html"`, excluding our 404 page by URL regardless of
+    # its own flag. `sitemap: false` on all three files is therefore
+    # belt-and-braces, not the mechanism — it costs nothing and stays correct
+    # if the plugin's filtering ever changes, but it is not what this test
+    # exercises.
+    #
+    # What the assertion protects is the outcome for *our* configuration: if
+    # a future change renamed the 404 page, moved it off `/404.html`, gave a
+    # feed an `.html` permalink, or swapped the sitemap plugin, these URLs
+    # could start being indexed by search engines. This test exists to catch
+    # that regression, even though nothing in the current suite can force it
+    # to fail on its own — a future jekyll-sitemap upgrade is the only thing
+    # likely to.
     sitemap = read("sitemap.xml")
 
     refute_includes sitemap, "feed.xml"
