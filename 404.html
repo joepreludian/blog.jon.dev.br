@@ -1,0 +1,20 @@
+---
+layout: default
+lang: en
+permalink: /404.html
+sitemap: false
+alt_url: /pt/
+---
+{%- assign strings = site.data.strings.en -%}
+<section class="shell not-found">
+  <h1 class="not-found__title">
+    <span class="not-found__prompt">&gt;&gt;&gt;</span> {{ strings.not_found.title }}
+  </h1>
+  <p class="not-found__body">{{ strings.not_found.body }}</p>
+  <div class="not-found__actions">
+    <a class="ds-btn ds-btn--md ds-btn--primary" href="{{ '/writing/' | relative_url }}">
+      ~/writing →
+    </a>
+    <a class="ds-btn ds-btn--md ds-btn--secondary" href="{{ '/' | relative_url }}">~/home</a>
+  </div>
+</section>
