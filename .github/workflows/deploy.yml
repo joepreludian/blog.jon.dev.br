@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Packages a zip on demand without waiting for a push to main.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -39,6 +41,41 @@ jobs:
           target: export
           outputs: type=local,dest=_site
           cache-from: type=gha
+
+      # A server-installable bundle, for unpacking straight into a docroot.
+      #
+      # The archive root IS the site root: `zip` runs from inside _site and
+      # archives `.`, so the entries are `index.html`, `assets/…` — not
+      # `_site/index.html`. Unzipping nests nothing.
+      #
+      # The zip is written to the workspace, deliberately NOT into _site —
+      # writing it in place would ship the archive inside the very site the
+      # next step uploads to Pages.
+      #
+      # GitHub wraps every artifact in a zip of its own, so downloading
+      # `site-zip` yields a zip containing this zip. That nesting is the
+      # platform's doing, not a packaging bug — do not "fix" it by dropping
+      # this step, or the artifact loses its stable, scp-able filename.
+      - name: Package the site as a zip
+        if: github.event_name != 'pull_request'
+        id: package
+        working-directory: _site
+        run: |
+          set -euo pipefail
+          name="site-${GITHUB_SHA::7}.zip"
+          zip -qr "${GITHUB_WORKSPACE}/${name}" .
+          echo "name=${name}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the zip
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-zip
+          path: ${{ steps.package.outputs.name }}
+          # An empty artifact would look like a green build that shipped
+          # nothing. Fail loudly instead.
+          if-no-files-found: error
+          retention-days: 30
 
       - uses: actions/upload-pages-artifact@v3
         with:

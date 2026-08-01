@@ -269,6 +269,21 @@ deleting it would change nothing.
   concept of a `/pt/404.html` variant, so one cannot be made to serve for
   Portuguese paths. Do not "fix" this by adding a Portuguese 404 page; Pages
   will never route to it.
+- **The `site-zip` artifact is a zip inside a zip, and that is the platform,
+  not the packaging.** `.github/workflows/deploy.yml` builds one site and
+  ships it two ways: `upload-pages-artifact` for the Pages deploy, and
+  `site-<short-sha>.zip` for installing onto a server by hand. GitHub wraps
+  *every* artifact in a zip of its own, so downloading `site-zip` gives you an
+  outer zip containing `site-<short-sha>.zip`. The inner zip is what earns the
+  step — it is the stable, `scp`-able filename, and its archive root is the
+  site root (`index.html`, not `_site/index.html`), so it unpacks straight into
+  a docroot. Two things about that step are load-bearing: `zip` runs with
+  `working-directory: _site` and archives `.` (archiving `_site` from the
+  workspace would nest the whole site one level down), and it writes the
+  archive to `$GITHUB_WORKSPACE`, *not* into `_site` — writing it in place
+  would ship the zip inside the very site the next step uploads to Pages.
+  The zip steps skip pull requests; PRs still run the full `rake ci`
+  validation, they just do not package.
 
 ## Recorded follow-ups
 
