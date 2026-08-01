@@ -1,0 +1,159 @@
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 90;
+  pointer-events: none;
+
+  &__bar {
+    height: 100%;
+    width: 0;
+    background: var(--accent-bright);
+    transition: width 80ms linear;
+  }
+}
+
+.post-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-top: 28px;
+
+  &__path {
+    font: 400 var(--fs-xs) / 1 var(--font-mono);
+    color: var(--ink-4);
+  }
+}
+
+.post {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-9);
+
+  &__meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    font: 400 var(--fs-xs) / 1 var(--font-mono);
+    color: var(--ink-3);
+    margin-bottom: 20px;
+  }
+
+  &__num {
+    color: var(--ink-4);
+  }
+
+  &__tags {
+    color: var(--accent-700);
+  }
+
+  &__title {
+    margin: 0 0 18px;
+    font: 600 var(--fs-2xl) / 1.3 var(--font-mono);
+    letter-spacing: -0.01em;
+    color: var(--ink-1);
+    text-wrap: pretty;
+  }
+
+  &__dek {
+    margin: 0 0 22px;
+    font: 400 19px / 1.65 var(--font-serif);
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  &__other-lang {
+    font: 500 var(--fs-xs) / 1 var(--font-mono);
+    color: var(--accent-700);
+  }
+
+  &__divider {
+    border-top: 1px solid var(--line-1);
+    margin: 28px 0 36px;
+  }
+
+  // Closing double rule — the retro technical-document device.
+  &__end {
+    border-top: 3px double var(--line-2);
+    margin-top: var(--sp-7);
+    padding-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font: 500 var(--fs-xs) / 1 var(--font-mono);
+    color: var(--ink-3);
+  }
+}
+
+.post__body {
+  // Section rules: `## heading` in Markdown becomes `§ 01 heading` plus a
+  // hairline. A CSS counter rather than a Liquid tag, so authors write plain
+  // Markdown and there is nothing to keep in sync.
+  counter-reset: section;
+
+  p {
+    margin: 0 0 26px;
+    font: 400 var(--fs-md) / var(--lh-prose) var(--font-serif);
+    color: var(--ink-1);
+    text-wrap: pretty;
+  }
+
+  h2 {
+    counter-increment: section;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin: 44px 0 24px;
+    font: 600 var(--fs-2xs) / 1 var(--font-mono);
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    color: var(--ink-2);
+    white-space: nowrap;
+
+    &::before {
+      content: "§ " counter(section, decimal-leading-zero);
+      color: var(--accent-600);
+    }
+
+    &::after {
+      content: "";
+      flex: 1;
+      border-top: 1px solid var(--line-1);
+      white-space: normal;
+    }
+  }
+
+  // h3 is a plain mono heading: no rule, no number.
+  h3 {
+    margin: 32px 0 16px;
+    font: 600 var(--fs-base) / 1.4 var(--font-mono);
+    color: var(--ink-1);
+  }
+
+  ul,
+  ol {
+    margin: 0 0 26px;
+    padding-left: var(--sp-5);
+    font: 400 var(--fs-md) / var(--lh-prose) var(--font-serif);
+  }
+
+  blockquote {
+    margin: 30px 0;
+    padding-left: var(--sp-5);
+    border-left: 1px solid var(--line-2);
+    font-style: italic;
+    color: var(--ink-2);
+  }
+
+  .ds-code,
+  .highlighter-rouge {
+    margin: 34px 0;
+  }
+
+  .ds-callout {
+    margin: 30px 0;
+  }
+}

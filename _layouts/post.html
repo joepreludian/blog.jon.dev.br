@@ -1,7 +1,63 @@
 ---
 layout: default
 ---
-<article>
-  <h1>{{ page.title }}</h1>
-  {{ content }}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign this_lang = page.lang -%}
+{%- assign counterpart = site.posts
+    | where: "ref", page.ref
+    | where_exp: "p", "p.lang != this_lang"
+    | first -%}
+{%- assign writing_index = "/writing/" -%}
+{%- if page.lang == "pt" -%}{%- assign writing_index = "/pt/writing/" -%}{%- endif -%}
+
+<div class="progress" data-progress aria-hidden="true">
+  <div class="progress__bar"></div>
+</div>
+
+<div class="shell post-breadcrumb">
+  <a class="ds-btn ds-btn--sm ds-btn--ghost" href="{{ writing_index | relative_url }}">
+    ← {{ strings.cta.writing }}
+  </a>
+  <span class="post-breadcrumb__path">~/writing/{{ page.slug }}</span>
+</div>
+
+<article class="measure post">
+  <div class="post__meta">
+    <span class="post__num">{{ page.num }}</span><span>·</span>
+    <span>{{ page.date | date: "%Y-%m-%d" }}</span><span>·</span>
+    <span>{{ content | reading_time }} {{ strings.post.minutes }}</span><span>·</span>
+    <span class="post__tags">
+      {%- comment -%}
+        A for-loop with a plain-space separator inside an unless/endunless
+        block renders as nothing: Liquid 4 treats a block whose whole body is
+        whitespace as blank and skips it, no matter the condition. Building
+        the string with the join filter first sidesteps that.
+      {%- endcomment -%}
+      {%- assign tag_list = page.tags | join: " #" -%}
+      {%- if tag_list != empty -%}#{{ tag_list }}{%- endif -%}
+    </span>
+  </div>
+
+  <h1 class="post__title">{{ page.title }}</h1>
+  <p class="post__dek">{{ page.dek }}</p>
+
+  {%- if counterpart %}
+    <a class="post__other-lang" href="{{ counterpart.url | relative_url }}">
+      {{ strings.post.other_lang }} →
+    </a>
+  {%- endif %}
+
+  <div class="post__divider"></div>
+
+  <div class="post__body">
+    {{ content }}
+  </div>
+
+  <div class="post__end">
+    <span>∎ {{ strings.post.end_of_entry }}</span>
+    <a href="{{ writing_index | relative_url }}">← {{ strings.post.back }}</a>
+  </div>
 </article>
+
+<script src="{{ '/assets/js/progress.js' | relative_url }}" defer></script>
