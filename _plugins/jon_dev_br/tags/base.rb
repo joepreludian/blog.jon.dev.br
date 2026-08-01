@@ -38,6 +38,17 @@ module JonDevBr
         render_html(super.to_s.strip, context)
       end
 
+      # Liquid::Block#blank? reports whether the tag's *body* is empty and,
+      # when true, the parent BlockBody silently drops this tag's rendered
+      # output (see block_body.rb's render_node_to_output). That is fine for
+      # stock Liquid blocks, whose output is the body itself, but every ds-*
+      # tag renders real markup from render_html regardless of body content
+      # — most sharply for youtube and figure, whose bodies are always empty.
+      # Left at the inherited default, their entire output would vanish.
+      def blank?
+        false
+      end
+
       private
 
       def attribute(key)
