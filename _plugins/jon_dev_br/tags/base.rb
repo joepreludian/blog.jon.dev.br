@@ -40,7 +40,7 @@ module JonDevBr
 
       private
 
-      def attr(key)
+      def attribute(key)
         @attributes[key.to_s]
       end
 
