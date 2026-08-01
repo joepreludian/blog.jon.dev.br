@@ -11,6 +11,9 @@ collections:
   projects:
     output: false
 
+plugins:
+  - jekyll-sitemap
+
 defaults:
   - scope: { path: "_posts/en", type: posts }
     values: { lang: en, layout: null, permalink: /writing/:title/ }

@@ -38,10 +38,24 @@ class FeedsTest < Minitest::Test
     assert_includes read("feed.xml"), "<id>https://example.test/writing/alpha/</id>"
   end
 
+  def test_the_sitemap_is_generated_and_lists_the_fixtures_own_pages
+    # Proves jekyll-sitemap actually ran against the fixture and produced a
+    # real sitemap containing real pages, so the exclusion check below is
+    # against a document that could have leaked the feeds, not an empty one.
+    assert_path_exists File.join(@root, "sitemap.xml")
+    assert_includes read("sitemap.xml"), "/writing/alpha/"
+  end
+
   def test_feeds_are_excluded_from_the_sitemap
-    # `sitemap: false` keeps XML out of the sitemap; without it html-proofer
-    # and crawlers both complain.
-    refute_includes read("feed.xml"), "<urlset"
+    # `sitemap: false` keeps the feeds and the 404 page out of jekyll-sitemap's
+    # output; without it html-proofer and crawlers both complain. Assert
+    # against the actual generated sitemap.xml, not the feed files themselves —
+    # a feed can never contain sitemap markup, so that would pass regardless
+    # of the flag.
+    sitemap = read("sitemap.xml")
+
+    refute_includes sitemap, "feed.xml"
+    refute_includes sitemap, "404.html"
   end
 
   private
