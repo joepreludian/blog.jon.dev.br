@@ -8,6 +8,11 @@ layout: default
 {%- assign featured = entries | first -%}
 {%- assign writing_index = "/writing/" -%}
 {%- if lang == "pt" -%}{%- assign writing_index = "/pt/writing/" -%}{%- endif -%}
+{%- assign featured_lang = featured.lang -%}
+{%- assign featured_counterpart = site.posts
+    | where: "ref", featured.ref
+    | where_exp: "p", "p.lang != featured_lang"
+    | first -%}
 
 <section class="hero">
   <div class="shell hero__inner">
@@ -31,7 +36,7 @@ layout: default
 
     <aside class="ds-card hero__aside">
       <div class="hero__aside-bar">
-        <span class="hero__aside-label">~/writing · {{ strings.home.latest }}</span>
+        <span class="hero__aside-label">{{ strings.cta.writing }} · {{ strings.home.latest }}</span>
         <span class="hero__aside-count">{{ shown | size }} {{ strings.home.entries }}</span>
       </div>
       <div class="hero__aside-rows">
@@ -60,7 +65,9 @@ layout: default
       <p class="featured__dek">{{ featured.dek }}</p>
     </div>
     <div class="featured__aside">
-      <span class="ds-badge ds-badge--neutral">EN · PT</span>
+      {%- if featured_counterpart -%}
+        <span class="ds-badge ds-badge--neutral">EN · PT</span>
+      {%- endif %}
       <span class="featured__cta">{{ strings.cta.read_latest }} →</span>
     </div>
   </a>
