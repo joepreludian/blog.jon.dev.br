@@ -38,3 +38,12 @@ A plain fence, for comparison:
 ```python
 print("no title bar")
 ```
+
+{% mermaid caption="fig 01 — the entire failover system. if it needs a runbook, it is too big." %}
+flowchart LR
+  C[client] --> D[dns · ttl 60s]
+  D --> P[primary]
+  D -.-> S[standby]
+  W[watchdog] -- heartbeat 5s --> P
+  W -- promote --> S
+{% endmermaid %}
