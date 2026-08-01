@@ -1,0 +1,27 @@
+{%- assign project = include.project -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- case project.status -%}
+  {%- when "flying" -%}{%- assign variant = "ok" -%}
+  {%- when "grounded" -%}{%- assign variant = "caution" -%}
+  {%- else -%}{%- assign variant = "neutral" -%}
+{%- endcase -%}
+
+<a class="project-row" href="{{ project.repo }}" rel="noreferrer noopener">
+  <span class="project-row__num">{{ project.num }}</span>
+  <div class="project-row__body">
+    <span class="project-row__title">{{ project.title }}</span>
+    <p class="project-row__summary">{{ project.summary }}</p>
+  </div>
+  <span class="project-row__tags">
+    {%- for tag in project.tags -%}
+      <span class="ds-tag">#{{ tag }}</span>
+    {%- endfor -%}
+  </span>
+  <span class="ds-badge ds-badge--{{ variant }}">
+    {%- if variant == "ok" %}<span class="ds-badge__dot"></span>{% endif -%}
+    {{ strings.projects.status[project.status] | default: project.status }}
+  </span>
+  <span class="project-row__year">{{ project.year }}</span>
+  <span class="project-row__arrow" aria-hidden="true">↗</span>
+</a>

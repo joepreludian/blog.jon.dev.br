@@ -1,0 +1,79 @@
+.registry {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-9);
+
+  .ds-rule {
+    margin-bottom: var(--sp-4);
+  }
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto 60px 24px;
+  gap: var(--sp-3) 20px;
+  align-items: center;
+  padding: 20px var(--sp-2);
+  border-bottom: 1px solid var(--line-1);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    background: var(--accent-050);
+  }
+
+  &__num {
+    font-size: var(--fs-2xs);
+    color: var(--ink-4);
+    align-self: start;
+    padding-top: 2px;
+  }
+
+  &__body {
+    min-width: 0;
+  }
+
+  &__title {
+    display: block;
+    font-size: var(--fs-base);
+    color: var(--ink-1);
+    margin-bottom: 6px;
+  }
+
+  &__summary {
+    margin: 0;
+    max-width: 560px;
+    font: 400 var(--fs-sm) / 1.65 var(--font-serif);
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    max-width: 200px;
+  }
+
+  &__year {
+    font-size: var(--fs-xs);
+    color: var(--ink-3);
+  }
+
+  &__arrow {
+    font-size: 14px;
+    color: var(--accent-600);
+  }
+}
+
+@media (max-width: 940px) {
+  .project-row {
+    grid-template-columns: 40px 1fr auto;
+
+    &__tags,
+    &__year,
+    &__arrow {
+      display: none;
+    }
+  }
+}

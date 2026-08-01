@@ -1,0 +1,22 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign projects = site.projects | where: "lang", lang | sort: "order" -%}
+
+<section class="shell page-head">
+  <h1 class="page-head__title">{{ strings.projects.title }}</h1>
+  <p class="page-head__intro">{{ strings.projects.intro }}</p>
+</section>
+
+<section class="shell registry">
+  <div class="ds-rule">
+    <span class="ds-rule__num">§ 01</span><span>{{ strings.projects.registry }}</span>
+  </div>
+  <div class="registry__rows">
+    {%- for project in projects %}
+      {% include project-row.html project=project %}
+    {%- endfor %}
+  </div>
+</section>
