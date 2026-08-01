@@ -3,6 +3,7 @@ title: "dois de tudo: redundância para um backend de uma pessoa só"
 dek: "O que um manual de voo de 1948 me ensinou sobre operar produção sozinho."
 ref: two-of-everything
 tags: [redundancy, ops]
+sample: true
 ---
 
 Aviões leves carregam dois magnetos. O motor funciona bem com um; o segundo

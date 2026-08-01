@@ -3,6 +3,7 @@ title: "two of everything: redundancy for a one-person backend"
 dek: "What a 1948 flight manual taught me about running production alone."
 ref: two-of-everything
 tags: [redundancy, ops]
+sample: true
 ---
 
 Light aircraft carry two magnetos. The engine runs fine on one; the second
