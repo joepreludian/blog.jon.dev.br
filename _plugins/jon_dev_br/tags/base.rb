@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "cgi"
 require_relative "attributes"
 
 module JonDevBr
@@ -53,6 +54,17 @@ module JonDevBr
 
       def attribute(key)
         @attributes[key.to_s]
+      end
+
+      # HTML-escapes an attribute's value for interpolation into rendered
+      # markup. Attribute *values* are free text the author writes inline in
+      # Liquid markup — unlike a tag's body, they never go through
+      # `markdownify`, so nothing else escapes them. `Attributes::PAIR`'s
+      # `[^"]*` keeps a value from ever containing a `"`, so this is not a
+      # security boundary, but an unescaped `&` or `<` in a caption still
+      # produces invalid HTML or accidental live markup.
+      def escaped(key)
+        CGI.escapeHTML(attribute(key).to_s)
       end
 
       def markdownify(text, context)

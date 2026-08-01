@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "nokogiri"
 
 # Each feed lists only its own language. A feed mixing both is the exact
 # failure jekyll-feed would have produced, and the reason it is not used.
@@ -13,6 +14,12 @@ class FeedsTest < Minitest::Test
   def test_both_feeds_are_written
     assert_path_exists File.join(@root, "feed.xml")
     assert_path_exists File.join(@root, "pt", "feed.xml")
+  end
+
+  def test_both_feeds_are_well_formed_xml
+    %w[feed.xml pt/feed.xml].each do |path|
+      assert_empty Nokogiri::XML(read(path)).errors, "#{path} is not well-formed XML"
+    end
   end
 
   def test_the_english_feed_excludes_portuguese_entries

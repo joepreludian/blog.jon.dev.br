@@ -252,10 +252,23 @@ deleting it would change nothing.
   `bin/export` when you need the files.
 - **UI copy lives in `_data/strings/{en,pt}.yml`.** Both files must carry every
   key — a missing key renders blank with no warning.
-- **The Mermaid loader is injected by a hook**, only into documents containing
-  `data-mermaid`. Its SRI hash is pinned; changing the Mermaid version means
+- **The Mermaid loader is injected by a hook**, only into `.html` output
+  (checked via `output_ext`) that contains the literal
+  `<pre class="mermaid" data-mermaid>` opening tag. Both gates matter: the
+  hook also registers on Atom feed rendering, and `strip_newlines |
+  xml_escape` on `post.content` leaves the `data-mermaid` attribute *name*
+  intact (`xml_escape` only escapes markup characters, not attribute names),
+  so a bare substring check on `"data-mermaid"` would have matched inside a
+  feed too, with no `</body>` to insert before and raw `<script>` tags
+  appended after `</feed>` — this corrupted both feeds' XML until it was
+  caught in review. Its SRI hash is pinned; changing the Mermaid version means
   recomputing it:
   `curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A`
+- **`404.html` is English-only, and that is not a bug.** GitHub Pages serves a
+  single `404.html` for every unmatched path on the whole site — it has no
+  concept of a `/pt/404.html` variant, so one cannot be made to serve for
+  Portuguese paths. Do not "fix" this by adding a Portuguese 404 page; Pages
+  will never route to it.
 
 ## Recorded follow-ups
 

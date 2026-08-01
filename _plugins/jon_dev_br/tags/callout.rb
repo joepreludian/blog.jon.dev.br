@@ -39,7 +39,7 @@ module JonDevBr
       def render_html(body, context)
         <<~HTML
           <div class="ds-callout ds-callout--#{@variant}">
-            <span class="ds-callout__level">#{attribute(:level)}</span>
+            <span class="ds-callout__level">#{escaped(:level)}</span>
             <div class="ds-callout__body">#{markdownify(body, context)}</div>
           </div>
         HTML

@@ -25,8 +25,8 @@ module JonDevBr
           <figure class="ds-figure">
             <div class="ds-figure__frame">#{frame_contents}</div>
             <figcaption class="ds-figure__cap">
-              <span>#{attribute(:caption)}</span>
-              <span class="ds-figure__meta">#{attribute(:meta)}</span>
+              <span>#{escaped(:caption)}</span>
+              <span class="ds-figure__meta">#{escaped(:meta)}</span>
             </figcaption>
           </figure>
         HTML

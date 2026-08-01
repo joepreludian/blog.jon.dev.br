@@ -34,8 +34,8 @@ module JonDevBr
 
       def bar
         parts = []
-        parts << %(<span class="ds-code__title">#{attribute(:title)}</span>) if attribute(:title)
-        parts << %(<span class="ds-code__lang">#{attribute(:lang)}</span>)
+        parts << %(<span class="ds-code__title">#{escaped(:title)}</span>) if attribute(:title)
+        parts << %(<span class="ds-code__lang">#{escaped(:lang)}</span>)
         parts.join
       end
 

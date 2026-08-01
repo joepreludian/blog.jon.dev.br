@@ -29,7 +29,7 @@ module JonDevBr
               <pre class="mermaid" data-mermaid>#{CGI.escapeHTML(body)}</pre>
             </div>
             <figcaption class="ds-mermaid__cap">
-              <span>#{attribute(:caption)}</span>
+              <span>#{escaped(:caption)}</span>
               <span class="ds-mermaid__meta">fig · mermaid</span>
             </figcaption>
           </figure>

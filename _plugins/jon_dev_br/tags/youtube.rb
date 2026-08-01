@@ -26,13 +26,13 @@ module JonDevBr
           <figure class="ds-embed">
             <div class="ds-embed__frame">
               <iframe src="#{EMBED_HOST}/#{attribute(:id)}"
-                      title="#{attribute(:caption)}"
+                      title="#{escaped(:caption)}"
                       loading="lazy"
                       allow="#{ALLOW}"
                       allowfullscreen></iframe>
             </div>
             <figcaption class="ds-embed__cap">
-              <span>#{attribute(:caption)}</span>
+              <span>#{escaped(:caption)}</span>
               <a class="ds-embed__meta" href="#{WATCH_URL}#{attribute(:id)}"
                  rel="noreferrer noopener">youtube ↗</a>
             </figcaption>

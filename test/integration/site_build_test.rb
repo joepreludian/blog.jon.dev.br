@@ -15,6 +15,7 @@ class SiteBuildTest < Minitest::Test
     "resume/index.html",
     "pt/resume/index.html",
     "404.html",
+    "writing/two-of-everything/index.html",
     "feed.xml",
     "pt/feed.xml",
     "robots.txt",
@@ -31,6 +32,15 @@ class SiteBuildTest < Minitest::Test
 
   def test_every_expected_page_is_written
     PAGES.each { |path| assert_path_exists File.join(@root, path) }
+  end
+
+  def test_the_site_actually_has_posts
+    # Every other whole-site test below iterates @site.posts.docs. Without
+    # this, a defaults scope-path typo or an exclude regression could drop
+    # every post and leave those tests passing vacuously against an empty
+    # collection — empty archive, empty feeds, a home hero CTA linking to
+    # "" — while the suite stays green.
+    refute_empty @site.posts.docs
   end
 
   def test_every_post_has_a_counterpart_in_the_other_language
@@ -84,7 +94,8 @@ class SiteBuildTest < Minitest::Test
     assert_includes css, "#ff6a00"
   end
 
-  def test_the_reference_design_is_never_published
+  def test_the_reference_design_is_excluded_from_the_build
+    assert_includes @site.config["exclude"], "docs/"
     refute_path_exists File.join(@root, "docs")
   end
 

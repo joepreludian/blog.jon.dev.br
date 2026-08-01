@@ -1,5 +1,5 @@
 {%- if page.collection == "posts" -%}
-  {%- assign this_lang = page.lang -%}
+  {%- assign this_lang = page.lang | default: site.lang -%}
   {%- assign counterpart = site.posts
       | where: "ref", page.ref
       | where_exp: "p", "p.lang != this_lang"
@@ -12,7 +12,7 @@
     {{- "/" | relative_url -}}
   {%- endif -%}
 {%- else -%}
-  {%- assign this_lang = page.lang -%}
+  {%- assign this_lang = page.lang | default: site.lang -%}
   {%- if page.alt_url -%}
     {{- page.alt_url | relative_url -}}
   {%- elsif this_lang == "en" -%}
