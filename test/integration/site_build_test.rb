@@ -15,7 +15,7 @@ class SiteBuildTest < Minitest::Test
     "resume/index.html",
     "pt/resume/index.html",
     "404.html",
-    "writing/two-of-everything/index.html",
+    "writing/hello-world/index.html",
     "feed.xml",
     "pt/feed.xml",
     "robots.txt",
