@@ -8,10 +8,11 @@ status: "all systems normal"
 
 hero:
   kicker: "blog · backend · brazil"
-  title: "hi, i'm jon."
+  title: "Jon Trigueiro"
   dek: >-
-    I build boring, reliable backends in Python, and write about what
-    aviation, film photography and step sequencers teach me about systems.
+    I am a Computer Engineer by training, a software developer who likes to
+    bring the philosophy of aviation into my code. Systems should be elegant,
+    simple, explicit and safe.
   last_deploy: "last deploy"
   lang_note: "articles in EN · PT"
 
@@ -33,30 +34,27 @@ post:
 
 writing:
   title: "~/writing"
-  intro: "every entry, newest first."
+  intro: "all my written entries, newest at the top."
   archive: "archive"
 
 projects:
   title: "~/projects"
-  intro: "a registry of things I build and keep flying."
+  intro: "a registry of projects I have built and keep operational."
   registry: "registry"
   status:
-    flying: "flying"
+    operational: "operational"
     hangared: "hangared"
     grounded: "grounded"
 
 resume:
   title: "~/resume"
-  intro: "what I have flown, and for how long."
-  summary: "summary"
-  experience: "experience"
-  skills: "skills"
-  education: "education"
-  contact: "contact"
-  present: "present"
+  intro: "experience, skills and contacts."
+  download: "download pdf"
+  open: "open in a new tab"
+  fallback: "the pdf could not be displayed here. open it directly:"
 
 footer:
-  built: "built with the basic that works."
+  built: "simple and functional."
   rss: "rss"
   github: "github"
 

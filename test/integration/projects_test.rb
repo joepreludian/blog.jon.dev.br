@@ -5,7 +5,7 @@ require "test_helper"
 # The projects collection is a registry: no per-project pages, both languages
 # present, and every status maps to a known badge variant.
 class ProjectsTest < Minitest::Test
-  KNOWN_STATUSES = %w[flying hangared grounded].freeze
+  KNOWN_STATUSES = %w[operational hangared grounded].freeze
 
   def setup
     @site = TestHelper.build_fixture_site

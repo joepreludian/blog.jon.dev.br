@@ -6,20 +6,20 @@ changing anything visual.
 
 ## Identity — confirm before deploy
 
-`_config.yml` carries three identity values. Only one is confirmed:
+`_config.yml` carries three identity values. Two are confirmed:
 
 | Key | Value | Status |
 | --- | --- | --- |
 | `email` | `me@jon.dev.br` | **Confirmed real address.** Flows into both Atom feeds (`<email>`) and the footer `mailto:` link. |
 | `url` | `https://blog.jon.dev.br` | **Placeholder, invented by the plan. Must be confirmed before the first deploy.** |
-| `github` | `https://github.com/jondevbr` | **Placeholder, invented by the plan. Must be confirmed before the first deploy.** |
+| `github` | `https://github.com/joepreludian` | **Confirmed real profile.** Only appears in on-page links (the footer). |
 
 `url` is not cosmetic: it bakes into every absolute URL the site emits —
 both feeds' `<link>`/`id` elements, every hreflang alternate
 (`test_hreflang_alternates_are_reciprocal` builds its expected URLs from
 `site.config["url"]`), and `sitemap.xml`. Deploying with the wrong `url` means
-every one of those is silently wrong, not obviously broken. Confirm it (and
-`github`, which only appears in on-page links) before the first real deploy.
+every one of those is silently wrong, not obviously broken. Confirm it before
+the first real deploy.
 
 ## Sample content — rewrite or delete before publishing
 
@@ -294,7 +294,6 @@ Deliberately not built. Each is a small, self-contained addition.
 - Publishing the build image to GHCR (needs multi-arch: this machine is arm64,
   runners are amd64).
 - Mermaid 11 upgrade.
-- A PDF resume, if an asset ever exists.
 
 ## Conventions
 

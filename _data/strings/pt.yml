@@ -8,11 +8,11 @@ status: "todos os sistemas normais"
 
 hero:
   kicker: "blog · backend · brasil"
-  title: "oi, eu sou o jon."
+  title: "Jon Trigueiro"
   dek: >-
-    Eu construo backends entediantes e confiáveis em Python, e escrevo sobre
-    o que a aviação, o filme fotográfico e os sequenciadores me ensinam sobre
-    sistemas.
+    Sou Engenheiro de computação por formação, Desenvolvedor de softwares que
+    gosta de utilizar a filosofia da aviação nos seus códigos. Sistemas devem
+    ser elegantes, simples, explícitos e seguros.
   last_deploy: "último deploy"
   lang_note: "artigos em EN · PT"
 
@@ -34,30 +34,27 @@ post:
 
 writing:
   title: "~/writing"
-  intro: "todos os registros, do mais recente ao mais antigo."
+  intro: "todos os meus registros textuais, novos no topo."
   archive: "arquivo"
 
 projects:
   title: "~/projects"
-  intro: "um registro de coisas que eu construo e mantenho voando."
+  intro: "registro de projetos que eu construí e mantenho operando."
   registry: "registro"
   status:
-    flying: "voando"
+    operational: "operacional"
     hangared: "no hangar"
     grounded: "em solo"
 
 resume:
   title: "~/resume"
-  intro: "o que eu já voei, e por quanto tempo."
-  summary: "resumo"
-  experience: "experiência"
-  skills: "habilidades"
-  education: "formação"
-  contact: "contato"
-  present: "presente"
+  intro: "experiência, habilidades e contatos."
+  download: "baixar pdf"
+  open: "abrir em nova aba"
+  fallback: "não foi possível exibir o pdf aqui. abra diretamente:"
 
 footer:
-  built: "construído com o básico que funciona."
+  built: "simples e funcional."
   rss: "rss"
   github: "github"
 

@@ -2,7 +2,7 @@
 title: beacon
 ref: beacon
 summary: "Um beacon VOR/DME simulado para praticar navegação IFR."
-status: flying
+status: operational
 year: 2025
 repo: https://github.com/jondevbr/beacon
 tags: [aviation, simulation]

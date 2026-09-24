@@ -2,7 +2,7 @@
 title: seq
 ref: seq
 summary: "A 200-line step sequencer in Python."
-status: flying
+status: operational
 year: 2026
 repo: https://github.com/jondevbr/seq
 tags: [python, music]

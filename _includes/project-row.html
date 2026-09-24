@@ -2,7 +2,7 @@
 {%- assign lang = page.lang | default: site.lang -%}
 {%- assign strings = site.data.strings[lang] -%}
 {%- case project.status -%}
-  {%- when "flying" -%}{%- assign variant = "ok" -%}
+  {%- when "operational" -%}{%- assign variant = "ok" -%}
   {%- when "grounded" -%}{%- assign variant = "caution" -%}
   {%- else -%}{%- assign variant = "neutral" -%}
 {%- endcase -%}

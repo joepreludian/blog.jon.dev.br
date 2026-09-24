@@ -22,7 +22,8 @@ class SiteBuildTest < Minitest::Test
     "sitemap.xml",
     "assets/css/main.css",
     "assets/js/progress.js",
-    "assets/favicon.svg"
+    "assets/favicon.svg",
+    "assets/pdf/resume.pdf"
   ].freeze
 
   def setup
@@ -92,6 +93,16 @@ class SiteBuildTest < Minitest::Test
 
     assert_includes css, "#a84a05"
     assert_includes css, "#ff6a00"
+  end
+
+  def test_both_resume_pages_render_and_offer_the_pdf
+    %w[resume/index.html pt/resume/index.html].each do |path|
+      body = File.read(File.join(@root, path))
+
+      assert_includes body, %(<object data="/assets/pdf/resume.pdf#toolbar=1&amp;navpanes=0),
+                      "#{path} does not show the pdf with its toolbar and without the page list"
+      assert_includes body, %(href="/assets/pdf/resume.pdf" download), "#{path} has no download link"
+    end
   end
 
   def test_the_reference_design_is_excluded_from_the_build
