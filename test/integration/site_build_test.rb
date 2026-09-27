@@ -95,6 +95,16 @@ class SiteBuildTest < Minitest::Test
     assert_includes css, "#ff6a00"
   end
 
+  # Kramdown tags inline `code` spans with `highlighter-rouge` as well as the
+  # div around a fenced block, so an unqualified selector paints the dark
+  # terminal surface behind every inline span.
+  def test_inline_code_gets_the_orange_surface_not_the_terminal
+    css = File.read(File.join(@root, "assets", "css", "main.css"))
+
+    refute_match(/(?<!div)\.highlighter-rouge/, css)
+    assert_match(/:not\(pre\)\s*>\s*code\s*\{[^}]*var\(--code-inline-bg\)/, css)
+  end
+
   def test_both_resume_pages_render_and_offer_the_pdf
     %w[resume/index.html pt/resume/index.html].each do |path|
       body = File.read(File.join(@root, path))

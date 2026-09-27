@@ -38,7 +38,9 @@
 
 // Plain Markdown fences get the same terminal surface without a title bar,
 // so authors are not forced to use the tag for ordinary snippets.
-.highlighter-rouge {
+// Qualified with `div` because Kramdown also puts `highlighter-rouge` on
+// inline `code` spans, which would otherwise get the dark surface.
+div.highlighter-rouge {
   background: var(--terminal-bg);
   border: 1px solid var(--accent-900);
   border-radius: var(--radius-md);
@@ -54,9 +56,20 @@
   }
 }
 
+// Inline code: a flat orange mark inside prose. Block code always sits in a
+// <pre>, so this never reaches the terminal surface.
+:not(pre) > code {
+  padding: 0.1em 0.3em;
+  font-size: 0.88em;
+  background: var(--code-inline-bg);
+  color: var(--code-inline-fg);
+  border-radius: var(--radius-sm);
+  box-decoration-break: clone;
+}
+
 // Rouge token classes, mapped onto the terminal palette.
 .ds-code,
-.highlighter-rouge {
+div.highlighter-rouge {
   .k,
   .kc,
   .kd,
