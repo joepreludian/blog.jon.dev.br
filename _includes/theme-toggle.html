@@ -1,0 +1,12 @@
+{%- comment -%}
+  LIGHT | DARK. Both buttons start unpressed: assets/js/theme.js sets
+  aria-pressed from the theme actually showing, which may come from the
+  device rather than a saved choice. Hidden when scripts cannot run
+  (html:not(.js)), since the buttons would do nothing.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+<div class="ds-toggle theme-toggle" role="group" aria-label="{{ strings.theme.label }}">
+  <button type="button" class="ds-toggle__item" data-theme-choice="light" aria-pressed="false">{{ strings.theme.light }}</button>
+  <button type="button" class="ds-toggle__item" data-theme-choice="dark" aria-pressed="false">{{ strings.theme.dark }}</button>
+</div>

@@ -273,6 +273,27 @@ deleting it would change nothing.
   caught in review. Its SRI hash is pinned; changing the Mermaid version means
   recomputing it:
   `curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A`
+- **Dark mode is role tokens plus two scripts, and the order matters.**
+  `_sass/tokens/_colors.scss` emits the dark roles (mixin `dark-roles`)
+  twice: under `:root[data-theme="dark"]` for a reader who chose dark, and
+  inside `prefers-color-scheme: dark` under `:root:not([data-theme="light"])`
+  for a dark device with no choice made. `ThemeTest` fails if a role token
+  has no dark value, so a new role needs one in the mixin too.
+  - The inline boot script in `_includes/head.html` must stay **above** the
+    stylesheet link: it copies a saved choice from `localStorage` onto
+    `<html data-theme>` before the first paint. Move it below and every
+    reader who chose dark sees a flash of the light page on each load.
+  - It also adds the `js` class to `<html>`. That class is what reveals the
+    LIGHT | DARK switch (`html:not(.js) .theme-toggle` hides it), because the
+    buttons do nothing without `assets/js/theme.js`.
+  - The two `theme-color` meta tags repeat `--paper-0` and the dark
+    `--surface-page` as hex, because meta tags cannot read CSS. `ThemeTest`
+    keeps them equal to `_colors.scss`; change both together.
+  - `theme.js` announces every change as a `themechange` event on
+    `document`. The Mermaid loader listens for it and redraws: Mermaid
+    replaces each `<pre>` with an SVG once, so the loader keeps each
+    diagram's source and puts it back before drawing again. Its colours are
+    read from the computed role tokens at draw time, never written in Ruby.
 - **`404.html` is English-only, and that is not a bug.** GitHub Pages serves a
   single `404.html` for every unmatched path on the whole site — it has no
   concept of a `/pt/404.html` variant, so one cannot be made to serve for

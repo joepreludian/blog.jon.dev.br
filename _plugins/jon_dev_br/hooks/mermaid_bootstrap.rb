@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 module JonDevBr
   module Hooks
     # Injects the Mermaid loader into rendered documents that actually contain
@@ -34,34 +36,71 @@ module JonDevBr
       VERSION = "10.9.1"
       SRI = "sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr"
 
-      # Theme variables carried over from the reference design, orange edition.
-      THEME = <<~JS.strip
-        {
-          startOnLoad: true,
-          theme: "base",
-          fontFamily: '"IBM Plex Mono", monospace',
-          themeVariables: {
-            fontSize: "13px",
-            primaryColor: "#fff4ec",
-            primaryBorderColor: "#cbc2b2",
-            primaryTextColor: "#211d18",
-            lineColor: "#a84a05",
-            secondaryColor: "#f7f4ee",
-            tertiaryColor: "#ffffff",
-            edgeLabelBackground: "#fdfcf9",
-            clusterBkg: "#f7f4ee",
-            nodeBorder: "#cbc2b2",
-            mainBkg: "#fff4ec",
-            textColor: "#554f47"
+      # Mermaid theme variables, each read from a role token on <html> at
+      # draw time, so diagrams follow the light and dark themes without a
+      # second palette here. In light, every token resolves to the colour
+      # this hook used to hard-code from the reference design.
+      THEME_TOKENS = {
+        primaryColor: "--surface-hover",
+        mainBkg: "--surface-hover",
+        primaryBorderColor: "--border-strong",
+        nodeBorder: "--border-strong",
+        primaryTextColor: "--text-body",
+        textColor: "--text-secondary",
+        lineColor: "--accent-label",
+        secondaryColor: "--surface-inset",
+        clusterBkg: "--surface-inset",
+        tertiaryColor: "--surface-card",
+        edgeLabelBackground: "--surface-page"
+      }.freeze
+
+      # Mermaid draws once, replacing each <pre> with an SVG. To redraw on a
+      # theme change, keep every diagram's source, put it back, clear
+      # Mermaid's `data-processed` marker and run again. The first draw
+      # waits for `load`, as `startOnLoad` did, so the fonts are in.
+      LOADER = <<~JS.freeze
+        (function () {
+          var tokens = #{JSON.generate(THEME_TOKENS)};
+          var root = document.documentElement;
+          var nodes = Array.prototype.slice.call(document.querySelectorAll("pre.mermaid[data-mermaid]"));
+          var sources = nodes.map(function (node) { return node.textContent; });
+
+          function dark() {
+            var chosen = root.getAttribute("data-theme");
+            if (chosen === "light" || chosen === "dark") return chosen === "dark";
+            return window.matchMedia("(prefers-color-scheme: dark)").matches;
           }
-        }
+
+          function config() {
+            var style = window.getComputedStyle(root);
+            var read = function (name) { return style.getPropertyValue(name).trim(); };
+            var themeVariables = { fontSize: "13px", darkMode: dark() };
+            Object.keys(tokens).forEach(function (key) { themeVariables[key] = read(tokens[key]); });
+            return { startOnLoad: false, theme: "base", fontFamily: read("--font-mono"), themeVariables: themeVariables };
+          }
+
+          function render() {
+            nodes.forEach(function (node, i) {
+              node.removeAttribute("data-processed");
+              node.textContent = sources[i];
+            });
+            mermaid.initialize(config());
+            mermaid.run({ nodes: nodes }).catch(function (error) { console.error(error); });
+          }
+
+          mermaid.initialize({ startOnLoad: false });
+          if (document.readyState === "complete") render();
+          else window.addEventListener("load", render);
+          document.addEventListener("themechange", render);
+        })();
       JS
 
       def self.snippet
         <<~HTML
           <script src="https://cdn.jsdelivr.net/npm/mermaid@#{VERSION}/dist/mermaid.min.js"
                   integrity="#{SRI}" crossorigin="anonymous"></script>
-          <script>mermaid.initialize(#{THEME});</script>
+          <script>
+          #{LOADER}</script>
         HTML
       end
 

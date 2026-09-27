@@ -31,11 +31,18 @@ class MermaidBootstrapTest < Minitest::Test
     assert_includes output, 'crossorigin="anonymous"'
   end
 
-  def test_the_theme_uses_the_orange_palette
+  # The diagram theme is read from the page's role tokens at runtime, so it
+  # follows the light and dark themes without a second palette in Ruby.
+  def test_the_theme_is_read_from_the_role_tokens
     output = output_at("/writing/gamma/")
 
-    assert_includes output, "#a84a05"
-    assert_includes output, "IBM Plex Mono"
+    assert_includes output, "--accent-label"
+    assert_includes output, "--font-mono"
+    refute_match(/#\h{6}/, output[output.index("mermaid.min.js")..])
+  end
+
+  def test_diagrams_redraw_when_the_theme_changes
+    assert_includes output_at("/writing/gamma/"), 'addEventListener("themechange"'
   end
 
   # Posts render with layout: null in this fixture site, so every assertion

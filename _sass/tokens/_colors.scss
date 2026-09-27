@@ -2,6 +2,8 @@
 // White paper, burnt-orange ink. Retro terminal / aviation-manual palette.
 // Source: docs/_reference_design/jon.dev.br Blog.dc.html (token overrides)
 :root {
+  color-scheme: light;
+
   // paper — warm, print-like whites
   --paper-0: #fdfcf9;
   --paper-1: #f7f4ee;
@@ -29,6 +31,25 @@
   --accent-700: #a84a05;
   --accent-800: #7e3804;
   --accent-900: #572603;
+
+  // graphite — the dark theme's paper, ink and hairlines. Warm near-neutral
+  // greys, darkest first, so the terminal stays the one brown surface.
+  --graphite-0: #1b1a18;
+  --graphite-1: #1f1d1b;
+  --graphite-2: #232120;
+  --graphite-3: #2c2925;
+  --graphite-ink-1: #ece6dc;
+  --graphite-ink-2: #bdb5a8;
+  --graphite-ink-3: #948c80;
+  --graphite-ink-4: #6f685e;
+  --graphite-line-1: #312e2a;
+  --graphite-line-2: #48433d;
+
+  // graphite warmed toward the accent — dark hover, placard and mark fills
+  --graphite-warm-1: #2b211a;
+  --graphite-warm-2: #3a2a1e;
+  --graphite-warm-3: #5a3a22;
+  --graphite-warm-4: #7a4a28;
 
   // phosphor accent — cursors, live dots, small marks. Small doses only.
   --accent-bright: #ff6a00;
@@ -85,4 +106,59 @@
   --selection-bg: var(--accent-100);
   --code-inline-bg: var(--accent-200);
   --code-inline-fg: var(--accent-900);
+}
+
+// Dark theme — warm graphite. Only role tokens change; the raw palettes and
+// the theme-independent tokens (--accent-bright, --terminal-*) stay put.
+// Emitted twice below: once for a reader who chose dark, once for a device
+// in dark mode whose reader has not chosen light.
+@mixin dark-roles {
+  color-scheme: dark;
+  --surface-page: var(--graphite-0);
+  --surface-card: var(--graphite-2);
+  --surface-inset: var(--graphite-1);
+  --surface-hatch: var(--graphite-3);
+  --surface-hover: var(--graphite-warm-1);
+  --text-body: var(--graphite-ink-1);
+  --text-secondary: var(--graphite-ink-2);
+  --text-muted: var(--graphite-ink-3);
+  --text-faint: var(--graphite-ink-4);
+  --text-on-accent: var(--graphite-0);
+  --border-default: var(--graphite-line-1);
+  --border-strong: var(--graphite-line-2);
+  --link: var(--accent-300);
+  --link-hover: var(--accent-200);
+  --link-underline: var(--graphite-warm-4);
+  --link-underline-hover: var(--accent-300);
+  --accent-label: var(--accent-300);
+  --accent-mark: var(--accent-400);
+  --accent-hover: var(--accent-200);
+  --fill-accent: var(--accent-400);
+  --fill-accent-hover: var(--accent-300);
+  --focus-ring: var(--accent-400);
+  --selection-bg: var(--graphite-warm-3);
+  --code-inline-bg: var(--graphite-warm-2);
+  --code-inline-fg: var(--accent-200);
+
+  // Dark placards. Caution and warning stay amber and red for the same
+  // reason as in light: they are safety signals.
+  --ok-ink: var(--accent-300);
+  --ok-bg: var(--graphite-warm-1);
+  --ok-line: var(--graphite-warm-3);
+  --caution-ink: #e8c15a;
+  --caution-bg: #29230f;
+  --caution-line: #5c4b1c;
+  --warning-ink: #ef9282;
+  --warning-bg: #2d1815;
+  --warning-line: #6a3129;
+}
+
+:root[data-theme="dark"] {
+  @include dark-roles;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include dark-roles;
+  }
 }

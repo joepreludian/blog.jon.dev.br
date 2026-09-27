@@ -1,6 +1,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+{%- comment -%}
+  Theme boot. Runs before the stylesheet so a saved choice is on <html>
+  before the first paint — no flash of the other theme. The `js` class
+  reveals the theme toggle, which is useless without scripts. With no
+  saved choice (or no storage), the stylesheet follows the device.
+{%- endcomment -%}
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add("js");
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") root.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();
+</script>
+
+{%- comment -%}
+  Browser chrome colour, matching --surface-page in each theme. Meta tags
+  cannot read CSS, so these hex values repeat _sass/tokens/_colors.scss;
+  ThemeTest keeps them equal. theme.js overrides both for a saved choice.
+{%- endcomment -%}
+<meta name="theme-color" content="#fdfcf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b1a18" media="(prefers-color-scheme: dark)">
+
 {%- assign lang = page.lang | default: site.lang -%}
 {%- if page.title -%}
   <title>{{ page.title | strip_html }} · {{ site.title }}</title>
@@ -44,4 +69,5 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
 
 <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
 <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">

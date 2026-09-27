@@ -6,6 +6,11 @@ nav:
 
 status: "all systems normal"
 
+theme:
+  label: "theme"
+  light: "light"
+  dark: "dark"
+
 hero:
   kicker: "blog · backend · brazil"
   title: "Jon Trigueiro"

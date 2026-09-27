@@ -1,5 +1,6 @@
 // Segmented switch: a bordered row of uppercase mono segments, the active
-// one filled. The EN/PT switch in the header uses it.
+// one filled. The header's EN/PT (links, the current one a span) and
+// LIGHT/DARK (buttons, the current one aria-pressed) switches both use it.
 .ds-toggle {
   display: flex;
   border: 1px solid var(--border-strong);
@@ -8,12 +9,22 @@
     padding: 7px 11px 6px;
     font: 600 var(--fs-2xs) / 1 var(--font-mono);
     letter-spacing: var(--track-label);
+    text-transform: uppercase;
     color: var(--text-muted);
     background: transparent;
     text-decoration: none;
     transition:
       background-color var(--dur-fast) var(--ease-out),
       color var(--dur-fast) var(--ease-out);
+
+    // Buttons arrive with native chrome; strip it so they match the links.
+    &:where(button) {
+      margin: 0;
+      border: 0;
+      border-radius: var(--radius-sm);
+      appearance: none;
+      cursor: pointer;
+    }
 
     + .ds-toggle__item {
       border-left: 1px solid var(--border-strong);
@@ -24,7 +35,8 @@
       color: var(--accent-hover);
     }
 
-    &--current {
+    &--current,
+    &[aria-pressed="true"] {
       background: var(--fill-accent);
       color: var(--text-on-accent);
 
