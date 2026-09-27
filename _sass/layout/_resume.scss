@@ -13,7 +13,7 @@
 
   &__viewer {
     background: var(--surface-card);
-    border: 1px solid var(--line-1);
+    border: 1px solid var(--border-default);
     padding: var(--sp-2);
 
     object {
@@ -21,7 +21,7 @@
       width: 100%;
       // A US Letter page fitted to the width, plus the viewer's toolbar.
       aspect-ratio: 8.5 / 12;
-      border: 1px solid var(--line-1);
+      border: 1px solid var(--border-default);
       background: var(--surface-inset);
     }
   }
@@ -30,6 +30,6 @@
     margin: 0;
     padding: var(--sp-5);
     font: 400 var(--fs-sm) / 1.6 var(--font-serif);
-    color: var(--ink-2);
+    color: var(--text-secondary);
   }
 }

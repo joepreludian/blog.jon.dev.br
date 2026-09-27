@@ -13,19 +13,19 @@
   }
 
   &__num {
-    color: var(--ink-4);
+    color: var(--text-faint);
     font-size: var(--fs-2xs);
   }
 
   &__label {
-    color: var(--ink-1);
+    color: var(--text-body);
   }
 
   // Dotted leader — the preflight-checklist device.
   &__leader {
     flex: 1;
     min-width: 24px;
-    border-bottom: 1px dotted var(--line-2);
+    border-bottom: 1px dotted var(--border-strong);
     transform: translateY(-4px);
   }
 

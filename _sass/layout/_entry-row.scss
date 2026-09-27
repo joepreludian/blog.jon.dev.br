@@ -4,23 +4,23 @@
   gap: 20px;
   align-items: baseline;
   padding: 18px var(--sp-2);
-  border-bottom: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--border-default);
   font-family: var(--font-mono);
   text-decoration: none;
   transition: background-color var(--dur-fast) var(--ease-out);
 
   &:hover {
-    background: var(--accent-050);
+    background: var(--surface-hover);
   }
 
   &__num {
     font-size: var(--fs-2xs);
-    color: var(--ink-4);
+    color: var(--text-faint);
   }
 
   &__title {
     font-size: var(--fs-base);
-    color: var(--ink-1);
+    color: var(--text-body);
     min-width: 0;
   }
 
@@ -31,7 +31,7 @@
 
   &__tags {
     font-size: var(--fs-xs);
-    color: var(--accent-700);
+    color: var(--accent-label);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -40,17 +40,17 @@
 
   &__date {
     font-size: var(--fs-xs);
-    color: var(--ink-3);
+    color: var(--text-muted);
   }
 
   &__mins {
     font-size: var(--fs-xs);
-    color: var(--ink-4);
+    color: var(--text-faint);
   }
 
   &__arrow {
     font-size: 14px;
-    color: var(--accent-600);
+    color: var(--accent-mark);
   }
 
   &--compact {
@@ -78,7 +78,7 @@
     .entry-row__leader {
       display: block;
       min-width: 24px;
-      border-bottom: 1px dotted var(--line-2);
+      border-bottom: 1px dotted var(--border-strong);
       transform: translateY(-4px);
     }
   }

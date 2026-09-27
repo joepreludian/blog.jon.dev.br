@@ -1,10 +1,10 @@
 {%- assign lang = page.lang | default: site.lang -%}
-<div class="lang-toggle">
+<div class="ds-toggle">
   {%- if lang == "en" -%}
-    <span class="lang-toggle__item lang-toggle__item--current" aria-current="true">EN</span>
-    <a class="lang-toggle__item" href="{{ alt_url }}" hreflang="pt-BR">PT</a>
+    <span class="ds-toggle__item ds-toggle__item--current" aria-current="true">EN</span>
+    <a class="ds-toggle__item" href="{{ alt_url }}" hreflang="pt-BR">PT</a>
   {%- else -%}
-    <a class="lang-toggle__item" href="{{ alt_url }}" hreflang="en">EN</a>
-    <span class="lang-toggle__item lang-toggle__item--current" aria-current="true">PT</span>
+    <a class="ds-toggle__item" href="{{ alt_url }}" hreflang="en">EN</a>
+    <span class="ds-toggle__item ds-toggle__item--current" aria-current="true">PT</span>
   {%- endif -%}
 </div>

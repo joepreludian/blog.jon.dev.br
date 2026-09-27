@@ -1,6 +1,6 @@
 .site-footer {
-  border-top: 3px double var(--line-2);
-  background: var(--paper-0);
+  border-top: 3px double var(--border-strong);
+  background: var(--surface-page);
 
   &__inner {
     max-width: var(--container-max);
@@ -11,7 +11,7 @@
     align-items: baseline;
     gap: var(--sp-5);
     font: 400 var(--fs-xs) / 1.6 var(--font-mono);
-    color: var(--ink-3);
+    color: var(--text-muted);
   }
 
   &__links {
@@ -21,11 +21,11 @@
   }
 
   a {
-    color: var(--ink-3);
+    color: var(--text-muted);
     text-decoration: none;
 
     &:hover {
-      color: var(--accent-800);
+      color: var(--accent-hover);
     }
   }
 }

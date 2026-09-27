@@ -87,6 +87,15 @@ way: no new visual language.
 The accent ramp is named `--accent-050…900` and `--accent-bright`, not
 `--green-*` as in the reference — same values, honest names.
 
+**Components use role tokens only** (`--surface-*`, `--text-*`, `--border-*`,
+`--link*`, `--accent-label|mark|hover`, `--fill-accent*`, the status tokens).
+Raw palette names — `--paper-*`, `--ink-*`, `--white`, `--line-*`,
+`--accent-050…900` — and hex or `rgb()` literals appear only in
+`_sass/tokens/_colors.scss`. `ThemeTest` fails the build otherwise, naming the
+file and line. `--accent-bright` and `--terminal-*` are allowed anywhere: they
+do not change between themes. If no existing role fits, add one to
+`_colors.scss` rather than reaching past it.
+
 ## Commands
 
 **Two interfaces, one rule: `bin/*` outside the container, `rake *` inside.**

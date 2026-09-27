@@ -1,5 +1,5 @@
 .hero {
-  border-bottom: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--border-default);
 
   &__inner {
     padding-top: 72px;
@@ -21,14 +21,14 @@
     font: 500 var(--fs-2xs) / 1 var(--font-mono);
     letter-spacing: var(--track-wide);
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: var(--text-muted);
   }
 
   &__title {
     margin: 0;
     font: 600 var(--fs-3xl) / var(--lh-tight) var(--font-mono);
     letter-spacing: -0.01em;
-    color: var(--ink-1);
+    color: var(--text-body);
   }
 
   &__prompt,
@@ -44,7 +44,7 @@
     margin: 0;
     max-width: 520px;
     font: 400 var(--fs-md) / var(--lh-prose) var(--font-serif);
-    color: var(--ink-2);
+    color: var(--text-secondary);
     text-wrap: pretty;
   }
 
@@ -57,11 +57,11 @@
 
   &__status {
     font: 400 var(--fs-xs) / 1.6 var(--font-mono);
-    color: var(--ink-4);
+    color: var(--text-faint);
   }
 
   &__aside {
-    box-shadow: 6px 6px 0 0 var(--line-1);
+    box-shadow: 6px 6px 0 0 var(--border-default);
     min-width: 0;
   }
 
@@ -70,19 +70,19 @@
     justify-content: space-between;
     align-items: center;
     padding: 14px 18px;
-    border-bottom: 1px solid var(--line-1);
+    border-bottom: 1px solid var(--border-default);
   }
 
   &__aside-label {
     font: 600 var(--fs-2xs) / 1 var(--font-mono);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
-    color: var(--ink-2);
+    color: var(--text-secondary);
   }
 
   &__aside-count {
     font: 400 var(--fs-2xs) / 1 var(--font-mono);
-    color: var(--ink-4);
+    color: var(--text-faint);
   }
 
   &__aside-rows {
@@ -104,7 +104,7 @@
     font: 500 var(--fs-xs) / 1 var(--font-mono);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
-    color: var(--accent-700);
+    color: var(--accent-label);
   }
 }
 
@@ -126,17 +126,17 @@
     gap: 14px;
     align-items: center;
     font: 400 var(--fs-xs) / 1 var(--font-mono);
-    color: var(--ink-3);
+    color: var(--text-muted);
   }
 
   &__tags {
-    color: var(--accent-700);
+    color: var(--accent-label);
   }
 
   &__title {
     margin: 0;
     font: 600 var(--fs-xl) / 1.35 var(--font-mono);
-    color: var(--ink-1);
+    color: var(--text-body);
     text-wrap: pretty;
   }
 
@@ -144,7 +144,7 @@
     margin: 0;
     max-width: 640px;
     font: 400 var(--fs-base) / 1.7 var(--font-serif);
-    color: var(--ink-2);
+    color: var(--text-secondary);
     text-wrap: pretty;
   }
 
@@ -160,7 +160,7 @@
     font: 500 var(--fs-xs) / 1 var(--font-mono);
     letter-spacing: var(--track-label);
     text-transform: uppercase;
-    color: var(--accent-700);
+    color: var(--accent-label);
   }
 }
 

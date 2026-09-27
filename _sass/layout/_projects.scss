@@ -13,18 +13,18 @@
   gap: var(--sp-3) 20px;
   align-items: center;
   padding: 20px var(--sp-2);
-  border-bottom: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--border-default);
   font-family: var(--font-mono);
   text-decoration: none;
   transition: background-color var(--dur-fast) var(--ease-out);
 
   &:hover {
-    background: var(--accent-050);
+    background: var(--surface-hover);
   }
 
   &__num {
     font-size: var(--fs-2xs);
-    color: var(--ink-4);
+    color: var(--text-faint);
     align-self: start;
     padding-top: 2px;
   }
@@ -36,7 +36,7 @@
   &__title {
     display: block;
     font-size: var(--fs-base);
-    color: var(--ink-1);
+    color: var(--text-body);
     margin-bottom: 6px;
   }
 
@@ -44,7 +44,7 @@
     margin: 0;
     max-width: 560px;
     font: 400 var(--fs-sm) / 1.65 var(--font-serif);
-    color: var(--ink-2);
+    color: var(--text-secondary);
     text-wrap: pretty;
   }
 
@@ -57,12 +57,12 @@
 
   &__year {
     font-size: var(--fs-xs);
-    color: var(--ink-3);
+    color: var(--text-muted);
   }
 
   &__arrow {
     font-size: 14px;
-    color: var(--accent-600);
+    color: var(--accent-mark);
   }
 }
 

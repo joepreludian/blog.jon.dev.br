@@ -6,7 +6,7 @@
   &__title {
     margin: 0 0 var(--sp-4);
     font: 600 var(--fs-xl) / 1.3 var(--font-mono);
-    color: var(--ink-1);
+    color: var(--text-body);
   }
 
   &__prompt {
@@ -16,7 +16,7 @@
   &__body {
     margin: 0 0 var(--sp-5);
     font: 400 var(--fs-md) / var(--lh-prose) var(--font-serif);
-    color: var(--ink-2);
+    color: var(--text-secondary);
   }
 
   &__actions {

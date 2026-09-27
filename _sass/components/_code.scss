@@ -1,7 +1,7 @@
 .ds-code {
   margin: 0;
   background: var(--terminal-bg);
-  border: 1px solid var(--accent-900);
+  border: 1px solid var(--terminal-line);
   border-radius: var(--radius-md);
   overflow: hidden;
 
@@ -11,7 +11,7 @@
     align-items: center;
     gap: var(--sp-3);
     padding: 9px 14px;
-    border-bottom: 1px solid rgb(243 220 192 / 14%);
+    border-bottom: 1px solid var(--terminal-rule);
   }
 
   &__title {
@@ -42,7 +42,7 @@
 // inline `code` spans, which would otherwise get the dark surface.
 div.highlighter-rouge {
   background: var(--terminal-bg);
-  border: 1px solid var(--accent-900);
+  border: 1px solid var(--terminal-line);
   border-radius: var(--radius-md);
   overflow: hidden;
 

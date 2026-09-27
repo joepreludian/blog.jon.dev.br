@@ -7,8 +7,8 @@
 
   // elevation — flat by default; hard offset for lifted interactive cards.
   // No soft shadows on cards, ever.
-  --shadow-hard: 4px 4px 0 0 var(--line-1);
-  --shadow-hard-strong: 5px 5px 0 0 var(--line-2);
+  --shadow-hard: 4px 4px 0 0 var(--border-default);
+  --shadow-hard-strong: 5px 5px 0 0 var(--border-strong);
 
   // motion — fast, functional, no bounces
   --dur-fast: 120ms;

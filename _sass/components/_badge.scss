@@ -40,8 +40,8 @@
   }
 
   &--neutral {
-    color: var(--ink-2);
+    color: var(--text-secondary);
     background: var(--surface-inset);
-    border-color: var(--line-1);
+    border-color: var(--border-default);
   }
 }

@@ -1,14 +1,14 @@
 .ds-figure {
   margin: 0;
   background: var(--surface-card);
-  border: 1px solid var(--line-1);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: var(--sp-2);
 
   &__frame {
     position: relative;
     background: var(--surface-inset);
-    border: 1px solid var(--line-1);
+    border: 1px solid var(--border-default);
     overflow: hidden;
 
     img {
@@ -30,9 +30,9 @@
     background: repeating-linear-gradient(
       45deg,
       transparent 0 10px,
-      var(--paper-2) 10px 11px
+      var(--surface-hatch) 10px 11px
     );
-    color: var(--ink-4);
+    color: var(--text-faint);
     font: 500 var(--fs-2xs) / 1 var(--font-mono);
     letter-spacing: var(--track-label);
     text-transform: uppercase;

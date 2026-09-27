@@ -1,0 +1,37 @@
+// Segmented switch: a bordered row of uppercase mono segments, the active
+// one filled. The EN/PT switch in the header uses it.
+.ds-toggle {
+  display: flex;
+  border: 1px solid var(--border-strong);
+
+  &__item {
+    padding: 7px 11px 6px;
+    font: 600 var(--fs-2xs) / 1 var(--font-mono);
+    letter-spacing: var(--track-label);
+    color: var(--text-muted);
+    background: transparent;
+    text-decoration: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+
+    + .ds-toggle__item {
+      border-left: 1px solid var(--border-strong);
+    }
+
+    &:hover {
+      background: var(--surface-hover);
+      color: var(--accent-hover);
+    }
+
+    &--current {
+      background: var(--fill-accent);
+      color: var(--text-on-accent);
+
+      &:hover {
+        background: var(--fill-accent);
+        color: var(--text-on-accent);
+      }
+    }
+  }
+}

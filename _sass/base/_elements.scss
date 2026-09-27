@@ -10,7 +10,7 @@ body {
 
 ::selection {
   background: var(--selection-bg);
-  color: var(--ink-1);
+  color: var(--text-body);
 }
 
 h1,
@@ -30,14 +30,14 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  text-decoration-color: var(--accent-300);
+  text-decoration-color: var(--link-underline);
   transition:
     color var(--dur-fast) var(--ease-out),
     text-decoration-color var(--dur-fast) var(--ease-out);
 
   &:hover {
     color: var(--link-hover);
-    text-decoration-color: var(--accent-700);
+    text-decoration-color: var(--link-underline-hover);
   }
 }
 
@@ -50,7 +50,7 @@ samp {
 
 hr {
   border: 0;
-  border-top: 1px solid var(--line-1);
+  border-top: 1px solid var(--border-default);
   margin: var(--sp-6) 0;
 }
 

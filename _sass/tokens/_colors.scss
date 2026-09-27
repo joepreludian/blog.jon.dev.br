@@ -40,6 +40,8 @@
   --terminal-green: #ffa033;
   --terminal-amber: #ffd23f;
   --terminal-comment: #8a6f55;
+  --terminal-line: var(--accent-900);
+  --terminal-rule: rgb(243 220 192 / 14%);
 
   // status — aviation placard levels.
   // Caution and warning keep the design system's amber and red: they are
@@ -54,18 +56,31 @@
   --warning-bg: #f9ede9;
   --warning-line: #eac3ba;
 
-  // semantic aliases
+  // role tokens — the only colour names components may use. Everything
+  // above this line is raw palette, referenced from this file alone
+  // (ThemeTest enforces it). --accent-bright and --terminal-* are the
+  // exception: they are the same in every theme.
   --surface-page: var(--paper-0);
   --surface-card: var(--white);
   --surface-inset: var(--paper-1);
+  --surface-hatch: var(--paper-2);
+  --surface-hover: var(--accent-050);
   --text-body: var(--ink-1);
   --text-secondary: var(--ink-2);
   --text-muted: var(--ink-3);
   --text-faint: var(--ink-4);
-  --link: var(--accent-700);
-  --link-hover: var(--accent-900);
+  --text-on-accent: var(--paper-0);
   --border-default: var(--line-1);
   --border-strong: var(--line-2);
+  --link: var(--accent-700);
+  --link-hover: var(--accent-900);
+  --link-underline: var(--accent-300);
+  --link-underline-hover: var(--accent-700);
+  --accent-label: var(--accent-700);
+  --accent-mark: var(--accent-600);
+  --accent-hover: var(--accent-800);
+  --fill-accent: var(--accent-700);
+  --fill-accent-hover: var(--accent-800);
   --focus-ring: var(--accent-500);
   --selection-bg: var(--accent-100);
   --code-inline-bg: var(--accent-200);

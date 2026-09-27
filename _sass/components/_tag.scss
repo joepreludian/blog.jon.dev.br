@@ -4,9 +4,9 @@
   gap: var(--sp-1);
   white-space: nowrap;
   font: 400 var(--fs-xs) / 1 var(--font-mono);
-  color: var(--ink-2);
+  color: var(--text-secondary);
   background: var(--surface-inset);
-  border: 1px solid var(--line-1);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
   padding: 5px 8px 4px;
   text-decoration: none;
