@@ -1,11 +1,10 @@
 nav:
-  home: "~/home"
-  writing: "/writing"
-  projects: "/projects"
-  resume: "/resume"
+  home: "home"
+  writing: "writing"
+  projects: "projects"
+  resume: "resume"
   photography: "fotografia"
 
-status: "todos os sistemas normais"
 
 theme:
   label: "tema"

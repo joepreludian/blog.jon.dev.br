@@ -8,10 +8,10 @@
   &__inner {
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: 14px var(--sp-6);
+    padding: var(--sp-5) var(--sp-6);
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: var(--sp-7);
   }
 
   &__aside {
@@ -21,8 +21,7 @@
     gap: var(--sp-4);
   }
 
-  // The theme and language switches travel together, so on a narrow
-  // screen they wrap below the status badge as a pair.
+  // The theme and language switches travel together as a pair.
   &__controls {
     display: flex;
     align-items: center;
@@ -58,10 +57,13 @@ html:not(.js) .theme-toggle {
 .nav {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2) 18px;
+  gap: var(--sp-3) var(--sp-5);
   font: 400 var(--fs-xs) / 1 var(--font-mono);
 
   &__item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
     color: var(--text-muted);
     text-decoration: none;
     transition: color var(--dur-fast) var(--ease-out);
@@ -74,6 +76,11 @@ html:not(.js) .theme-toggle {
       color: var(--accent-hover);
       font-weight: 600;
     }
+  }
+
+  // Typographic glyphs only; the text label always follows.
+  &__icon {
+    color: var(--accent-label);
   }
 }
 

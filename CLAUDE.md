@@ -82,7 +82,8 @@ way: no new visual language.
   means the crosshatch placeholder.
 - **Never invent a metric.** The reference hero carries `uptime 99.98%`; it is
   deliberately absent here because nothing measures it. `last deploy` is real
-  (the build timestamp). The `all systems normal` placard is static brand copy.
+  (the build timestamp). The reference's `all systems normal` header placard
+  was removed at the author's request.
 
 The accent ramp is named `--accent-050…900` and `--accent-bright`, not
 `--green-*` as in the reference — same values, honest names.

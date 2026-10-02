@@ -11,12 +11,12 @@
 
 <nav class="nav">
   <a class="nav__item {% if page.section == 'home' %}nav__item--current{% endif %}"
-     href="{{ prefix | append: '/' | relative_url }}"{% if page.section == 'home' %} aria-current="page"{% endif %}>{{ strings.nav.home }}</a>
+     href="{{ prefix | append: '/' | relative_url }}"{% if page.section == 'home' %} aria-current="page"{% endif %}><span class="nav__icon" aria-hidden="true">~</span>{{ strings.nav.home }}</a>
   <a class="nav__item {% if page.section == 'writing' %}nav__item--current{% endif %}"
-     href="{{ prefix | append: '/writing/' | relative_url }}"{% if page.section == 'writing' %} aria-current="page"{% endif %}>{{ strings.nav.writing }}</a>
+     href="{{ prefix | append: '/writing/' | relative_url }}"{% if page.section == 'writing' %} aria-current="page"{% endif %}><span class="nav__icon" aria-hidden="true">§</span>{{ strings.nav.writing }}</a>
   <a class="nav__item {% if page.section == 'projects' %}nav__item--current{% endif %}"
-     href="{{ prefix | append: '/projects/' | relative_url }}"{% if page.section == 'projects' %} aria-current="page"{% endif %}>{{ strings.nav.projects }}</a>
+     href="{{ prefix | append: '/projects/' | relative_url }}"{% if page.section == 'projects' %} aria-current="page"{% endif %}><span class="nav__icon" aria-hidden="true">#</span>{{ strings.nav.projects }}</a>
   <a class="nav__item {% if page.section == 'resume' %}nav__item--current{% endif %}"
-     href="{{ prefix | append: '/resume/' | relative_url }}"{% if page.section == 'resume' %} aria-current="page"{% endif %}>{{ strings.nav.resume }}</a>
-  <a class="nav__item" href="{{ site.pexels }}" target="_blank" rel="me noopener noreferrer">{{ strings.nav.photography }} <span aria-hidden="true">↗</span></a>
+     href="{{ prefix | append: '/resume/' | relative_url }}"{% if page.section == 'resume' %} aria-current="page"{% endif %}><span class="nav__icon" aria-hidden="true">@</span>{{ strings.nav.resume }}</a>
+  <a class="nav__item" href="{{ site.pexels }}" target="_blank" rel="me noopener noreferrer"><span class="nav__icon" aria-hidden="true">▮</span>{{ strings.nav.photography }} <span aria-hidden="true">↗</span></a>
 </nav>
