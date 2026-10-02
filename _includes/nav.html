@@ -18,4 +18,5 @@
      href="{{ prefix | append: '/projects/' | relative_url }}"{% if page.section == 'projects' %} aria-current="page"{% endif %}>{{ strings.nav.projects }}</a>
   <a class="nav__item {% if page.section == 'resume' %}nav__item--current{% endif %}"
      href="{{ prefix | append: '/resume/' | relative_url }}"{% if page.section == 'resume' %} aria-current="page"{% endif %}>{{ strings.nav.resume }}</a>
+  <a class="nav__item" href="{{ site.pexels }}" target="_blank" rel="me noopener noreferrer">{{ strings.nav.photography }} <span aria-hidden="true">↗</span></a>
 </nav>

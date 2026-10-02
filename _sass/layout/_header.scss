@@ -57,7 +57,8 @@ html:not(.js) .theme-toggle {
 
 .nav {
   display: flex;
-  gap: 18px;
+  flex-wrap: wrap;
+  gap: var(--sp-2) 18px;
   font: 400 var(--fs-xs) / 1 var(--font-mono);
 
   &__item {
