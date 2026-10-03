@@ -159,8 +159,8 @@ tags: [redundancy, ops]
 comes from the filename. `num` and reading time are computed. Nothing else is
 needed, and `SiteBuildTest` fails the build if a pair is incomplete.
 
-`## a heading` renders as `§ 01 a heading` with a trailing hairline, via a CSS
-counter. There is no section tag.
+Headings in a post are plain mono in `--accent-label`, in the author's casing,
+sized `#` > `##` > `###`. There is no section numbering and no section tag.
 
 ## Liquid tags
 

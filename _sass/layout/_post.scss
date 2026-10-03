@@ -89,10 +89,13 @@
 }
 
 .post__body {
-  // Section rules: `## heading` in Markdown becomes `§ 01 heading` plus a
-  // hairline. A CSS counter rather than a Liquid tag, so authors write plain
-  // Markdown and there is nothing to keep in sync.
-  counter-reset: section;
+  // Prose is justified. Hyphenation follows <html lang>, so EN and PT each
+  // break words by their own rules and justified lines do not open rivers.
+  p,
+  li {
+    text-align: justify;
+    hyphens: auto;
+  }
 
   p {
     margin: 0 0 26px;
@@ -101,36 +104,26 @@
     text-wrap: pretty;
   }
 
-  h2 {
-    counter-increment: section;
-    display: flex;
-    align-items: center;
-    gap: var(--sp-3);
-    margin: 44px 0 24px;
-    font: 600 var(--fs-2xs) / 1 var(--font-mono);
-    letter-spacing: var(--track-wide);
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    white-space: nowrap;
-
-    &::before {
-      content: "§ " counter(section, decimal-leading-zero);
-      color: var(--accent-mark);
-    }
-
-    &::after {
-      content: "";
-      flex: 1;
-      border-top: 1px solid var(--border-default);
-      white-space: normal;
-    }
+  // Headings are plain mono in the accent, sized as a traditional
+  // hierarchy: `#` > `##` > `###`, each set in the author's own casing.
+  h1 {
+    margin: 52px 0 20px;
+    font: 600 var(--fs-xl) / 1.3 var(--font-mono);
+    color: var(--accent-label);
+    text-wrap: balance;
   }
 
-  // h3 is a plain mono heading: no rule, no number.
+  h2 {
+    margin: 44px 0 16px;
+    font: 600 var(--fs-lg) / 1.35 var(--font-mono);
+    color: var(--accent-label);
+    text-wrap: balance;
+  }
+
   h3 {
-    margin: 32px 0 16px;
-    font: 600 var(--fs-base) / 1.4 var(--font-mono);
-    color: var(--text-body);
+    margin: 32px 0 14px;
+    font: 600 var(--fs-md) / 1.4 var(--font-mono);
+    color: var(--accent-label);
   }
 
   ul,
@@ -155,5 +148,45 @@
 
   .ds-callout {
     margin: 30px 0;
+  }
+
+  // Markdown tables read as a technical-document grid: mono throughout,
+  // uppercase labels over a strong hairline, a hairline under each row.
+  table {
+    width: 100%;
+    margin: 34px 0;
+    border-collapse: collapse;
+    border-bottom: 1px solid var(--border-strong);
+    font: 400 var(--fs-sm) / 1.5 var(--font-mono);
+    color: var(--text-body);
+  }
+
+  th,
+  td {
+    padding: 10px var(--sp-3);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+
+  th {
+    border-bottom: 1px solid var(--border-strong);
+    font: 600 var(--fs-2xs) / 1.4 var(--font-mono);
+    letter-spacing: var(--track-wide);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  td {
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  // Leading column carries the row's name.
+  td:first-child {
+    color: var(--text-secondary);
   }
 }
