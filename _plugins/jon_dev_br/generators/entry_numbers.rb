@@ -4,11 +4,12 @@ module JonDevBr
   module Generators
     # Assigns the `num` display metadata shown in every entry row.
     #
-    # Posts are numbered per language in reverse-chronological order, so the
-    # newest entry is 001 — the scheme the reference design uses. A published
-    # entry's number therefore changes when a newer one appears. That is
-    # accepted: `num` is display metadata and never appears in a URL, an
-    # element id, or a feed id.
+    # Posts are numbered per language in chronological order: the oldest
+    # entry is 001 and each new one takes the next number, so a published
+    # entry keeps its number for good. (The reference design counts the other
+    # way, newest first; the author chose stable numbers instead.) `num` is
+    # display metadata and never appears in a URL, an element id, or a feed id.
+    # A post and its translation share a number because every post is paired.
     #
     # Projects have no dates, so they are numbered by their `order` key.
     class EntryNumbers < Jekyll::Generator
@@ -26,7 +27,7 @@ module JonDevBr
 
       def number_posts(site)
         site.posts.docs.group_by { |doc| doc.data["lang"] }.each_value do |docs|
-          assign(docs.sort_by(&:date).reverse)
+          assign(docs.sort_by(&:date))
         end
       end
 

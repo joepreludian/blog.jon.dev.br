@@ -247,10 +247,13 @@ deleting it would change nothing.
 - **`_posts/en/` and `_posts/pt/` make Jekyll assign categories `en` and
   `pt`.** That is a side effect of the directory layout. Categories are ignored
   everywhere in this theme; topics use `tags`. Do not add a category page.
-- **Entry numbers are reverse-chronological** — the newest post is `001`, as in
-  the reference. A post's number therefore changes when a newer one is
-  published. It is display metadata only and never appears in a URL, an
-  element id, or a feed id.
+- **Entry numbers are chronological** — the oldest post is `001` and each new
+  post takes the next number, so a published post keeps its number. The
+  reference counts newest-first; the author chose stable numbers instead.
+  Numbers are per language, so an EN post and its PT pair share a number only
+  because every post is paired. Deleting a post renumbers everything after
+  it. It is display metadata only and never appears in a URL, an element id,
+  or a feed id.
 - **`--force_polling` is off on purpose.** Compose Watch syncs files into the
   container, where they land as ordinary writes and fire real inotify events.
   Watching across the Colima mount is what does not work; polling was the
