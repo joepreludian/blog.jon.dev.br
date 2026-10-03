@@ -301,8 +301,9 @@ deleting it would change nothing.
   the term `<ref>-<lang>` (`data-mapping="specific"`, strict), which is what
   gives the EN and PT pages of one post separate threads, and which keeps
   them independent of slugs and of the site `url`. Renaming a `ref` orphans
-  the existing discussion with no error. giscus is not fetched until the
-  reader presses the load button (`assets/js/comments.js`); a `themechange`
+  the existing discussion with no error. `assets/js/comments.js` adds giscus's
+  script on every post with `data-loading="lazy"`, so the thread's frame only
+  loads as the reader scrolls near it; there is no load button. A `themechange`
   sends the frame giscus's own `light` or `dark` theme. Reactions are off:
   they are emoji. Removing `giscus.repo` turns comments off site-wide;
   `comments: false` turns them off for one post. The repo must stay public,

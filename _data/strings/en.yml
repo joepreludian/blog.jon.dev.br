@@ -39,7 +39,6 @@ post:
 
 comments:
   title: "comments"
-  load: "load comments"
   note: "loaded from giscus. commenting needs a github account."
   noscript: "comments need javascript."
   giscus_language: "en"

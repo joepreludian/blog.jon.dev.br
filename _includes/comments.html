@@ -1,5 +1,6 @@
 {%- comment -%}
-  giscus comments for a post, loaded only when the reader asks for them.
+  giscus comments for a post. The thread loads on its own as the reader
+  scrolls near it; there is no button to press.
   Each thread is a GitHub Discussion found by its term, `ref` plus `lang`, so
   a post's EN and PT pages never share one, and neither a PT slug nor the
   site `url` can orphan its comments. Never change a `ref` once its post has
@@ -20,10 +21,7 @@
          data-term="{{ page.ref }}-{{ lang }}"
          data-language="{{ strings.comments.giscus_language }}">
   <h2 class="comments__title">{{ strings.comments.title }}</h2>
-  <div class="comments__gate" data-comments-gate>
-    <button type="button" class="ds-btn ds-btn--sm ds-btn--secondary" data-comments-load>{{ strings.comments.load }}</button>
-    <span class="comments__note">{{ strings.comments.note }}</span>
-  </div>
+  <p class="comments__note">{{ strings.comments.note }}</p>
   <noscript><p class="comments__note">{{ strings.comments.noscript }}</p></noscript>
   <div class="giscus"></div>
 </section>

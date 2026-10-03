@@ -1,6 +1,7 @@
-// giscus comments, loaded on request. Nothing is fetched from giscus until the
-// reader presses the load button. The thread draws in giscus's own light or
-// dark theme, and a `themechange` (from theme.js) tells the frame to switch.
+// giscus comments. The script goes in as soon as the page is parsed, and
+// `data-loading="lazy"` holds the thread's frame back until the reader scrolls
+// near it. The thread draws in giscus's own light or dark theme, and a
+// `themechange` (from theme.js) tells the frame to switch.
 (function () {
   "use strict";
 
@@ -9,10 +10,7 @@
     return;
   }
 
-  var button = section.querySelector("[data-comments-load]");
-  var gate = section.querySelector("[data-comments-gate]");
   var origin = "https://giscus.app";
-  var loaded = false;
 
   // Same rule as theme.js: the reader's choice on <html>, else the device.
   function showing() {
@@ -24,12 +22,6 @@
   }
 
   function load() {
-    if (loaded) {
-      return;
-    }
-    loaded = true;
-    gate.hidden = true;
-
     var attrs = {
       "data-repo": section.getAttribute("data-repo"),
       "data-repo-id": section.getAttribute("data-repo-id"),
@@ -43,6 +35,7 @@
       "data-input-position": "bottom",
       "data-theme": showing(),
       "data-lang": section.getAttribute("data-language"),
+      "data-loading": "lazy",
       crossorigin: "anonymous"
     };
 
@@ -55,12 +48,7 @@
     section.appendChild(script);
   }
 
-  button.addEventListener("click", load);
-
-  // Arriving from a link to #comments means the reader already asked.
-  if (window.location.hash === "#comments") {
-    load();
-  }
+  load();
 
   document.addEventListener("themechange", function (event) {
     var frame = section.querySelector("iframe.giscus-frame");
