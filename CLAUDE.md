@@ -77,13 +77,41 @@ way: no new visual language.
 - Radii are `0`.
 - Motion is 120ms (colour) or 180ms (lifts), `cubic-bezier(.2,.7,.3,1)`.
   `prefers-reduced-motion` kills all of it. The only loop is the wordmark
-  cursor blink, `steps(1)`.
+  cursor blink, `steps(1)` — plus one lamp on the control panel, below.
 - Photography only, in `figure`. Never illustrate, never generate. No image
   means the crosshatch placeholder.
 - **Never invent a metric.** The reference hero carries `uptime 99.98%`; it is
   deliberately absent here because nothing measures it. `last deploy` is real
   (the build timestamp). The reference's `all systems normal` header placard
   was removed at the author's request.
+
+### The one exception: the hero's control panel
+
+The home hero carries a control panel (`_includes/cockpit.html`,
+`_sass/components/_cockpit.scss`, `assets/js/cockpit.js`): annunciator lamps
+over toggles, a push-button and a dimmer, drawn as a device installed in a
+cut-out in the page. The author asked for it, knowing it breaks the rules
+above. Inside that one component, and nowhere else, these are allowed:
+
+- gradients, blur and soft shadows (a lit lamp cannot be drawn flat);
+- round parts (the knob, the switch nut and lever);
+- an illustrated object, where the brief says photography only;
+- a second loop: the `writing` lamp blinks every 2.4s;
+- green and amber lamps, colours the site palette does not have.
+
+What still binds it:
+
+- **Nothing on it is invented.** Every lamp is a real link, control or value:
+  the page language, the theme showing, the post count, whether giscus is
+  configured, the build date. `CockpitTest` holds each to what it stands for.
+  A new lamp needs a real thing behind it and a test. `caution` is never lit
+  except under the lights test, because nothing raises it.
+- Lettering is still uppercase mono; durations are still 120ms and 180ms.
+- No colour literal in the component. Its palette is `--cockpit-*` in
+  `_colors.scss`, and alpha steps are taken with `color-mix(…, transparent)`.
+
+Do not borrow any of this for another component. If a second thing wants a
+glow, the answer is no.
 
 The accent ramp is named `--accent-050…900` and `--accent-bright`, not
 `--green-*` as in the reference — same values, honest names.
@@ -94,8 +122,14 @@ Raw palette names — `--paper-*`, `--ink-*`, `--white`, `--line-*`,
 `--accent-050…900` — and hex or `rgb()` literals appear only in
 `_sass/tokens/_colors.scss`. `ThemeTest` fails the build otherwise, naming the
 file and line. `--accent-bright` and `--terminal-*` are allowed anywhere: they
-do not change between themes. If no existing role fits, add one to
-`_colors.scss` rather than reaching past it.
+do not change between themes. `--cockpit-*` is theme-independent in the same
+way, but belongs to the control panel alone. If no existing role fits, add one
+to `_colors.scss` rather than reaching past it.
+
+That test matches on the *name*: any `var(--ink-…)`, `var(--line-…)`,
+`var(--paper-…)` or `var(--graphite-…)` outside the palette file fails it, even
+a custom property local to one component. The panel's lens variables were
+first called `--ink-on`/`--ink-off` and tripped it; they are `--label-*` now.
 
 ## Commands
 
@@ -298,6 +332,35 @@ deleting it would change nothing.
     replaces each `<pre>` with an SVG once, so the loader keeps each
     diagram's source and puts it back before drawing again. Its colours are
     read from the computed role tokens at draw time, never written in Ruby.
+- **The control panel is lit by three hands, and it starts dark on purpose.**
+  `_includes/cockpit.html` puts `is-on` on the lamps the build can know
+  (language, resume, feed, comments). `cockpit.js` lights the two theme lamps,
+  which only the browser can know. Hover, focus and the lights test light the
+  rest in CSS.
+  - `html.js .cockpit:not(.is-ready)` holds every lamp dark until `cockpit.js`
+    runs its power-up, so the sequence never starts from a lit panel. The
+    cost: if that script fails to load, the panel stays dark (its links still
+    work). Without scripts at all the gate does not apply, the lamps show
+    their static state and the controls row is hidden.
+  - The theme lamps and toggle carry `data-cockpit-theme` and
+    `data-cockpit-switch`, never `data-theme-choice`: `ThemeTest` counts
+    exactly two of those a page. `cockpit.js` clicks the header's own buttons
+    instead, so `theme.js` stays the one owner of the theme, its storage and
+    `themechange`.
+  - The blinking lamp needs its own reduced-motion rule. The reset in
+    `_sass/base/_reset.scss` cuts every animation to a single 0.01ms run,
+    which would leave the lamp at its resting state — dark. So the animation
+    is declared only under `prefers-reduced-motion: no-preference`, and under
+    `reduce` the lamp is simply lit.
+  - The dimmer sets two properties from JS: `--brt` and `--hot-mix`. The
+    second is a ready-made percentage because `calc()` inside a `color-mix()`
+    percentage is not dependable across browsers.
+  - Layout answers to two widths. The hero is two columns from 1080px, with
+    a fixed 460px column for the panel; below that the panel drops under the
+    text, capped at 520px. Separately, `.cockpit-bay` is a size container:
+    under 440px of its *own* width the lamps go two across and get a fixed
+    height. The longest legends (`comentários`, `002 registros`) are what set
+    440px; a longer string in `_data/strings` means checking it at 320px.
 - **giscus thread identity is `<ref>-<lang>`, so never change a `ref` once
   its post has comments.** Comments are GitHub Discussions in the repo named
   under `giscus:` in `_config.yml`. `_includes/comments.html` hands giscus

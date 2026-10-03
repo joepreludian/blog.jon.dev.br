@@ -11,7 +11,7 @@ class ThemeTest < Minitest::Test
   RAW_PALETTE = /var\(--(?:paper-|ink-|white\b|line-|graphite-|accent-\d)/
   COLOUR_LITERAL = /#\h{3,8}\b|\brgba?\(/
   # Tokens that are the same in every theme, so the dark block skips them.
-  THEME_INDEPENDENT = /\A--(?:paper-|ink-|white\z|line-|graphite-|accent-\d|accent-bright\z|terminal-)/
+  THEME_INDEPENDENT = /\A--(?:paper-|ink-|white\z|line-|graphite-|accent-\d|accent-bright\z|terminal-|cockpit-)/
   DARK_CHOSEN = /:root\[data-theme="?dark"?\]\{([^}]*)\}/
   DARK_DEVICE = /@media\s*\(prefers-color-scheme:\s*dark\)\s*\{\s*:root:not\(\[data-theme="?light"?\]\)\s*\{([^}]*)\}/
 

@@ -45,6 +45,9 @@
   --graphite-line-1: #312e2a;
   --graphite-line-2: #48433d;
 
+  // below graphite-0: the shaded wall of a cut-out in the dark page
+  --graphite-pit: #121110;
+
   // graphite warmed toward the accent — dark hover, placard and mark fills
   --graphite-warm-1: #2b211a;
   --graphite-warm-2: #3a2a1e;
@@ -63,6 +66,62 @@
   --terminal-comment: #8a6f55;
   --terminal-line: var(--accent-900);
   --terminal-rule: rgb(243 220 192 / 14%);
+
+  // cockpit — the home hero's control panel: painted metal, tinted glass,
+  // filament light and chrome. Like the terminal it is one dark device, the
+  // same in every theme. Only _sass/components/_cockpit.scss uses it, and
+  // it takes its alpha steps there with color-mix, so no literal leaves
+  // this file.
+  --cockpit-black: #070503;
+  --cockpit-shadow: #000000;
+  --cockpit-sheen: #fff0dc;
+  --cockpit-legend: #d9c6a6;
+  --cockpit-legend-glow: #ffb464;
+  --cockpit-flange-hi: #5b4b3d;
+  --cockpit-flange-mid: #2f241a;
+  --cockpit-flange-lo: #1c140c;
+  --cockpit-face-hi: #35261b;
+  --cockpit-face-mid: #20160d;
+  --cockpit-face-lo: #170f08;
+  --cockpit-bezel: #4a3a2c;
+  --cockpit-chrome-100: #fffaf0;
+  --cockpit-chrome-200: #ddd5c7;
+  --cockpit-chrome-300: #b9b0a2;
+  --cockpit-chrome-400: #8d8477;
+  --cockpit-chrome-500: #6f675c;
+  --cockpit-chrome-600: #564f46;
+  --cockpit-chrome-700: #2f2a24;
+
+  // cockpit lamps. Each lens has glass (unlit), ink (its legend, off and
+  // on) and a lamp: hot spots, a top-to-bottom body, a darker rim, and a
+  // near and a far glow. The orange lens's far glow is --accent-bright.
+  --cockpit-glass-hi: #2e2014;
+  --cockpit-glass-mid: #1d130a;
+  --cockpit-glass-lo: #150d06;
+  --cockpit-ink-off: #8a684b;
+  --cockpit-ink-on: #2b1203;
+  --cockpit-lamp-hot: #ffe4b0;
+  --cockpit-lamp-hi: #ff951f;
+  --cockpit-lamp-lo: #f27606;
+  --cockpit-lamp-rim: #963c00;
+  --cockpit-lamp-halo: #ff9632;
+  --cockpit-amber-hot: #fffad7;
+  --cockpit-amber-hi: #ffd54a;
+  --cockpit-amber-lo: #f0b400;
+  --cockpit-amber-rim: #966400;
+  --cockpit-amber-halo: #ffd75a;
+  --cockpit-amber-glow: #ffc828;
+  --cockpit-green-glass-hi: #1d2b1b;
+  --cockpit-green-glass-mid: #111b10;
+  --cockpit-green-glass-lo: #0b130a;
+  --cockpit-green-ink-off: #63905f;
+  --cockpit-green-ink-on: #06200b;
+  --cockpit-green-hot: #e1ffd7;
+  --cockpit-green-hi: #52e06c;
+  --cockpit-green-lo: #22b445;
+  --cockpit-green-rim: #005a1e;
+  --cockpit-green-halo: #5ae678;
+  --cockpit-green-glow: #28c850;
 
   // status — aviation placard levels.
   // Caution and warning keep the design system's amber and red: they are
@@ -93,6 +152,8 @@
   --text-on-accent: var(--paper-0);
   --border-default: var(--line-1);
   --border-strong: var(--line-2);
+  --recess-shade: var(--line-2);
+  --recess-light: var(--white);
   --link: var(--accent-700);
   --link-hover: var(--accent-900);
   --link-underline: var(--accent-300);
@@ -126,6 +187,8 @@
   --text-on-accent: var(--graphite-0);
   --border-default: var(--graphite-line-1);
   --border-strong: var(--graphite-line-2);
+  --recess-shade: var(--graphite-pit);
+  --recess-light: var(--graphite-line-2);
   --link: var(--accent-300);
   --link-hover: var(--accent-200);
   --link-underline: var(--graphite-warm-4);

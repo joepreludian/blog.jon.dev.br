@@ -25,6 +25,26 @@ cta:
   read_latest: "read latest"
   writing: "~/writing"
 
+cockpit:
+  label: "control panel"
+  lang: "lang"
+  panel: "panel"
+  sections: "sections"
+  systems: "systems"
+  available: "available"
+  photo: "photo"
+  feed: "feed"
+  deploy: "deploy"
+  caution: "caution"
+  lights: "lights"
+  test: "test"
+  push: "push"
+  lights_test: "lights test, hold to light every lamp"
+  lamps: "lamps"
+  dim: "dim"
+  bright: "brt"
+  brightness: "lamp brightness"
+
 home:
   entries: "entries"
   featured: "latest entry"

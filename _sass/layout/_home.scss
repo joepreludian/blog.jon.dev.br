@@ -1,7 +1,14 @@
 .hero {
   border-bottom: 1px solid var(--border-default);
 
+  // Text on the left, the control panel on the right. The panel's column
+  // is fixed: its lamps need the room, and below 1080px there is not enough
+  // for both, so the panel drops under the text.
   &__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 460px;
+    gap: var(--sp-7);
+    align-items: center;
     padding-top: 72px;
     padding-bottom: var(--sp-8);
   }
@@ -128,6 +135,17 @@
     letter-spacing: var(--track-label);
     text-transform: uppercase;
     color: var(--accent-label);
+  }
+}
+
+@media (max-width: 1079px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .hero .cockpit-bay {
+    max-width: 520px;
   }
 }
 

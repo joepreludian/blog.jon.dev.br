@@ -25,6 +25,26 @@ cta:
   read_latest: "ler o mais recente"
   writing: "~/writing"
 
+cockpit:
+  label: "painel de controle"
+  lang: "idioma"
+  panel: "painel"
+  sections: "seções"
+  systems: "sistemas"
+  available: "disponível"
+  photo: "foto"
+  feed: "feed"
+  deploy: "deploy"
+  caution: "cuidado"
+  lights: "luzes"
+  test: "teste"
+  push: "aperte"
+  lights_test: "teste de luzes, segure para acender todas as lâmpadas"
+  lamps: "lâmpadas"
+  dim: "mín"
+  bright: "máx"
+  brightness: "brilho das lâmpadas"
+
 home:
   entries: "registros"
   featured: "última entrada"

@@ -1,0 +1,687 @@
+// The home hero's control panel: annunciator lamps over a row of controls,
+// drawn as a device installed in a cut-out in the page.
+//
+// This file is the one deliberate exception to the flat-surface rules. It
+// uses gradients, blur and soft shadows, round parts and a looping lamp,
+// because a lit instrument cannot be drawn without them. None of that may
+// leave this file. Its palette is --cockpit-* in tokens/_colors.scss, the
+// same in both themes; only the cut-out's walls follow the theme.
+
+// An alpha step of a token. The colour itself stays in the palette file.
+@function veil($token, $amount) {
+  @return color-mix(in srgb, var(--#{$token}) #{$amount}, transparent);
+}
+
+// Engraved, backlit lettering: titles, captions and switch positions.
+@mixin legend($size: 9px, $track: var(--track-wide)) {
+  font-size: $size;
+  line-height: 1;
+  letter-spacing: $track;
+  text-transform: uppercase;
+  color: var(--cockpit-legend);
+  text-shadow: 0 0 5px veil(cockpit-legend-glow, 35%);
+}
+
+// A lamp that is on: the bulb shows and the legend reads dark against it.
+@mixin lit {
+  color: var(--label-on);
+
+  &::before {
+    opacity: 1;
+    transition-duration: var(--dur-fast); // a filament heats faster than it cools
+  }
+}
+
+// The cut-out in the page. The sheet has thickness, so its walls show: light
+// falls from the top left, which puts the top and left walls in shade.
+// Inside is the dark bay the unit slides into. It is also the size container
+// the layout below answers to.
+.cockpit-bay {
+  container-type: inline-size;
+  padding: 2px; // clearance between the unit and the cut-out
+  background: var(--cockpit-black);
+  border: 4px solid;
+  border-color: var(--recess-shade) var(--recess-light) var(--recess-light) var(--recess-shade);
+  outline: 1px solid var(--border-strong); // the machined edge
+  box-shadow:
+    inset 0 3px 5px veil(cockpit-shadow, 95%),
+    inset 2px 0 4px veil(cockpit-shadow, 70%);
+}
+
+// The unit: a narrow mounting flange around a lightplate.
+.cockpit {
+  --brt: 1; // lamp output, 0.45 to 1, set by the dimmer
+  --hot-mix: 90%; // strength of the bulbs' hot spots, set with it
+
+  position: relative;
+  padding: 7px; // the flange
+  background: linear-gradient(145deg, var(--cockpit-flange-hi) 0%, var(--cockpit-flange-mid) 52%, var(--cockpit-flange-lo) 100%);
+  box-shadow:
+    inset 0 1px 0 veil(cockpit-sheen, 26%),
+    inset 1px 0 0 veil(cockpit-sheen, 12%),
+    inset 0 -1px 0 veil(cockpit-shadow, 65%),
+    inset -1px 0 0 veil(cockpit-shadow, 50%);
+  font-family: var(--font-mono);
+  user-select: none;
+
+  // The lightplate, set a hair below the flange.
+  &__face {
+    background: radial-gradient(ellipse 120% 80% at 30% -10%, var(--cockpit-face-hi) 0%, var(--cockpit-face-mid) 55%, var(--cockpit-face-lo) 100%);
+    border: 1px solid var(--cockpit-black);
+    box-shadow:
+      inset 0 2px 3px veil(cockpit-shadow, 55%),
+      0 1px 0 veil(cockpit-sheen, 14%),
+      1px 0 0 veil(cockpit-sheen, 7%);
+  }
+
+  &__bar {
+    padding: 10px 12px;
+    border-bottom: 1px solid veil(cockpit-shadow, 55%);
+    box-shadow: 0 1px 0 veil(cockpit-sheen, 5%);
+    text-align: center;
+
+    @include legend(10px);
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px 8px;
+    padding: 14px 14px 16px;
+  }
+
+  &__group {
+    grid-column: span 4;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px 8px;
+
+    &--half {
+      grid-column: span 2;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // A bracket with a title, the way a lightplate groups its lamps.
+  &__caption {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+
+    @include legend;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 4px;
+      border-top: 1px solid veil(cockpit-legend, 55%);
+      transform: translateY(1px);
+    }
+
+    &::before {
+      border-left: 1px solid veil(cockpit-legend, 55%);
+    }
+
+    &::after {
+      border-right: 1px solid veil(cockpit-legend, 55%);
+    }
+  }
+
+  &__controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    align-items: start;
+    padding: 12px 14px 14px;
+    border-top: 1px solid veil(cockpit-shadow, 55%);
+    box-shadow: inset 0 1px 0 veil(cockpit-sheen, 5%);
+  }
+
+  &__control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+
+  &__title {
+    align-self: stretch;
+    margin: 0 8px 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid veil(cockpit-legend, 55%);
+    text-align: center;
+    white-space: nowrap;
+
+    @include legend;
+  }
+
+  &__pos {
+    opacity: 0.8;
+    white-space: nowrap;
+
+    @include legend(8.5px, var(--track-label));
+  }
+
+  &__ends {
+    display: flex;
+    justify-content: space-between;
+    width: 62px;
+    max-width: 100%;
+  }
+}
+
+// The controls do nothing without cockpit.js.
+html:not(.js) .cockpit__controls {
+  display: none;
+}
+
+// ---------------------------------------------------------------- lamps
+
+// An annunciator: a tinted lens in a black bezel with a lamp behind it.
+// `::before` is the lamp, `::after` the glass in front of it.
+.cockpit-lamp {
+  // This lens's colours. The amber and green lenses swap them below.
+  --glass-hi: var(--cockpit-glass-hi);
+  --glass-mid: var(--cockpit-glass-mid);
+  --glass-lo: var(--cockpit-glass-lo);
+  --label-off: var(--cockpit-ink-off);
+  --label-on: var(--cockpit-ink-on);
+  --hot: var(--cockpit-lamp-hot);
+  --hi: var(--cockpit-lamp-hi);
+  --lo: var(--cockpit-lamp-lo);
+  --rim: var(--cockpit-lamp-rim);
+  --halo: var(--cockpit-lamp-halo);
+  --glow: var(--accent-bright);
+
+  // This lamp's output: the dimmer setting times the bulb's age.
+  --lvl: calc(var(--brt) * var(--bulb, 1));
+
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1.75;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 3px;
+  // Unlit: dull tinted glass, legend still readable.
+  background: linear-gradient(175deg, var(--glass-hi) 0%, var(--glass-mid) 50%, var(--glass-lo) 100%);
+  border: 2px solid var(--cockpit-black); // the bezel
+  border-radius: 0;
+  box-shadow:
+    0 0 0 1px var(--cockpit-bezel),
+    inset 0 2px 4px veil(cockpit-shadow, 70%);
+  appearance: none;
+  color: var(--label-off);
+  font: 600 10px / 1.1 var(--font-mono);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  transition: color var(--dur-base) var(--ease-out);
+
+  &:where(a, button) {
+    cursor: pointer;
+  }
+
+  &--lg {
+    font-size: 12px;
+  }
+
+  small {
+    font-size: 8px;
+    font-weight: 500;
+  }
+
+  // Two bulbs behind a diffuser, so two soft hot spots, darker toward the
+  // bezel, and a glow that spills past it. A dimmed filament goes deeper
+  // and redder; it does not go grey.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 34% 64% at 28% 50%, color-mix(in srgb, var(--hot) var(--hot-mix), transparent), transparent 100%),
+      radial-gradient(ellipse 34% 64% at 72% 50%, color-mix(in srgb, var(--hot) var(--hot-mix), transparent), transparent 100%),
+      linear-gradient(var(--hi), var(--lo));
+    box-shadow:
+      inset 0 0 9px 2px veil(rim, 55%),
+      0 0 5px 0 veil(halo, 80%),
+      0 0 16px 2px veil(glow, 30%),
+      0 0 40px 8px veil(glow, 9%);
+    filter: brightness(calc(0.3 + 0.7 * var(--lvl))) hue-rotate(calc((1 - var(--lvl)) * -10deg));
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+
+  // A reflection across the top, fine ribbing in the diffuser.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(172deg, veil(cockpit-sheen, 14%) 0%, veil(cockpit-sheen, 3%) 30%, transparent 45%),
+      repeating-linear-gradient(90deg, veil(cockpit-shadow, 9%) 0 1px, transparent 1px 3px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  &--amber {
+    --hot: var(--cockpit-amber-hot);
+    --hi: var(--cockpit-amber-hi);
+    --lo: var(--cockpit-amber-lo);
+    --rim: var(--cockpit-amber-rim);
+    --halo: var(--cockpit-amber-halo);
+    --glow: var(--cockpit-amber-glow);
+  }
+
+  &--green {
+    --glass-hi: var(--cockpit-green-glass-hi);
+    --glass-mid: var(--cockpit-green-glass-mid);
+    --glass-lo: var(--cockpit-green-glass-lo);
+    --label-off: var(--cockpit-green-ink-off);
+    --label-on: var(--cockpit-green-ink-on);
+    --hot: var(--cockpit-green-hot);
+    --hi: var(--cockpit-green-hi);
+    --lo: var(--cockpit-green-lo);
+    --rim: var(--cockpit-green-rim);
+    --halo: var(--cockpit-green-halo);
+    --glow: var(--cockpit-green-glow);
+  }
+
+  // Lit by state, by a hand on it, or by the lights test.
+  &.is-on,
+  &:where(a, button):hover,
+  &:where(a, button):focus-visible,
+  .cockpit.is-test & {
+    @include lit;
+  }
+}
+
+// Bulbs age: no two put out quite the same light.
+.cockpit__group:nth-child(odd) .cockpit-lamp:nth-child(3),
+.cockpit__group:nth-child(even) .cockpit-lamp:nth-child(2) {
+  --bulb: 0.95;
+}
+
+.cockpit__group:nth-child(3) .cockpit-lamp:nth-child(5) {
+  --bulb: 0.97;
+}
+
+// Until cockpit.js has run, every lamp waits dark, so the power-up never
+// starts from a lit panel. Without scripts this does not apply and the
+// lamps simply show their state.
+html.js .cockpit:not(.is-ready) .cockpit-lamp,
+.cockpit .cockpit-lamp.is-dark {
+  color: var(--label-off) !important;
+
+  &::before {
+    opacity: 0 !important;
+    transition: none !important;
+  }
+}
+
+// The flasher: one blink every 2.4 seconds, with the filament's short fade
+// at each edge. The second loop on the site, after the wordmark cursor.
+// Steady under a hand or the lights test.
+@keyframes cockpit-lamp-blink {
+  0%,
+  46.5% {
+    opacity: 1;
+  }
+
+  53.5%,
+  96.5% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes cockpit-lamp-blink-ink {
+  0%,
+  46.5% {
+    color: var(--label-on);
+  }
+
+  53.5%,
+  96.5% {
+    color: var(--label-off);
+  }
+
+  100% {
+    color: var(--label-on);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.js) .cockpit-lamp--blink,
+  .cockpit.is-ready .cockpit-lamp--blink {
+    animation: cockpit-lamp-blink-ink 2.4s linear infinite;
+
+    &::before {
+      animation: cockpit-lamp-blink 2.4s linear infinite;
+    }
+  }
+
+  .cockpit .cockpit-lamp--blink:hover,
+  .cockpit .cockpit-lamp--blink:focus-visible,
+  .cockpit.is-test .cockpit-lamp--blink {
+    animation: none;
+
+    &::before {
+      animation: none;
+    }
+  }
+}
+
+// No flashing for a reader who asked for none: the lamp is simply on.
+@media (prefers-reduced-motion: reduce) {
+  .cockpit-lamp--blink {
+    @include lit;
+  }
+}
+
+// ---------------------------------------------------------------- controls
+
+// A bat-handle toggle, seen from the front: a hex nut, the bushing the
+// lever comes out of, a chrome stem and its bat end. It flips by scaling
+// through zero, the way a real lever foreshortens as it passes centre.
+.cockpit-switch {
+  position: relative;
+  display: block;
+  width: 48px;
+  height: 72px;
+  padding: 0;
+  border: 0;
+  background: none;
+  appearance: none;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 2px veil(cockpit-shadow, 65%));
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  &__nut {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;
+    height: 29px;
+    margin: -14.5px 0 0 -16px;
+    clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+    background: conic-gradient(
+      from 30deg,
+      var(--cockpit-chrome-400),
+      var(--cockpit-chrome-200),
+      var(--cockpit-chrome-500),
+      var(--cockpit-chrome-300),
+      var(--cockpit-chrome-600),
+      var(--cockpit-chrome-200),
+      var(--cockpit-chrome-400)
+    );
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 17px;
+      height: 17px;
+      margin: -8.5px 0 0 -8.5px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 35%, var(--cockpit-chrome-600), var(--cockpit-black) 75%);
+    }
+  }
+
+  &__lever {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 26px;
+    margin-left: -4px;
+    background: linear-gradient(
+      90deg,
+      var(--cockpit-chrome-500) 0%,
+      var(--cockpit-chrome-100) 38%,
+      var(--cockpit-chrome-300) 58%,
+      var(--cockpit-chrome-600) 100%
+    );
+    transform-origin: 50% 0;
+    transform: scaleY(-1); // up
+    transition: transform var(--dur-fast) var(--ease-out);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: -4.5px;
+      bottom: -6px;
+      width: 17px;
+      height: 18px;
+      border-radius: 7px 7px 8.5px 8.5px;
+      background: radial-gradient(
+        circle at 38% 40%,
+        var(--cockpit-chrome-100) 0%,
+        var(--cockpit-chrome-200) 35%,
+        var(--cockpit-chrome-500) 80%,
+        var(--cockpit-chrome-600) 100%
+      );
+    }
+  }
+
+  &.is-down &__lever {
+    transform: scaleY(1);
+  }
+}
+
+// A momentary push-button: a dark cap standing proud of a metal bezel. It
+// sinks while held and its legend lights.
+.cockpit-button {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin: 25px 0 13px; // centres it on the switches beside it
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(145deg, var(--cockpit-chrome-300) 0%, var(--cockpit-chrome-500) 45%, var(--cockpit-chrome-700) 100%);
+  box-shadow:
+    0 2px 3px veil(cockpit-shadow, 65%),
+    inset 0 0 0 1px veil(cockpit-shadow, 40%);
+  appearance: none;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  &__cap {
+    position: absolute;
+    inset: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(170deg, var(--cockpit-face-hi) 0%, var(--cockpit-face-mid) 55%, var(--cockpit-face-lo) 100%);
+    box-shadow:
+      inset 0 1px 0 veil(cockpit-sheen, 15%),
+      inset 0 -2px 3px veil(cockpit-shadow, 55%),
+      0 3px 0 var(--cockpit-black),
+      0 4px 5px veil(cockpit-shadow, 60%);
+    transform: translateY(-3px);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+
+    @include legend(9px, var(--track-label));
+  }
+
+  &.is-pressed &__cap {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 5px veil(cockpit-shadow, 75%);
+    color: var(--cockpit-lamp-hi);
+    text-shadow: 0 0 6px veil(accent-bright, 90%);
+  }
+}
+
+// A rotary dimmer: five detent marks, a knurled skirt, a cap and a lit
+// pointer. Only the pointer turns, so the cap's highlight stays put.
+.cockpit-knob {
+  position: relative;
+  width: 64px;
+  height: 72px;
+  margin-top: 14px;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  i {
+    position: absolute;
+    left: calc(50% - 1px);
+    top: calc(50% - 2.5px);
+    width: 2px;
+    height: 5px;
+    background: var(--cockpit-legend);
+    opacity: 0.8;
+    transform: rotate(var(--mark)) translateY(-26px);
+
+    @for $n from 1 through 5 {
+      &:nth-child(#{$n}) {
+        --mark: #{-120deg + ($n - 1) * 60deg};
+      }
+    }
+  }
+
+  &__skirt,
+  &__cap,
+  &__pointer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+  }
+
+  &__skirt {
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    background: repeating-conic-gradient(var(--cockpit-bezel) 0 6deg, var(--cockpit-face-lo) 6deg 12deg);
+    box-shadow:
+      0 3px 6px veil(cockpit-shadow, 65%),
+      0 0 0 1px var(--cockpit-black);
+  }
+
+  &__cap,
+  &__pointer {
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+  }
+
+  &__cap {
+    background: radial-gradient(circle at 36% 30%, var(--cockpit-flange-hi) 0%, var(--cockpit-flange-mid) 45%, var(--cockpit-flange-lo) 100%);
+    box-shadow:
+      inset 0 1px 0 veil(cockpit-sheen, 20%),
+      inset 0 -2px 3px veil(cockpit-shadow, 50%);
+  }
+
+  &__pointer {
+    transform: rotate(var(--turn, 120deg));
+    transition: transform var(--dur-base) var(--ease-out);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: calc(50% - 1px);
+      top: 2px;
+      width: 2px;
+      height: 11px;
+      background: var(--cockpit-lamp-hi);
+      box-shadow: 0 0 5px veil(accent-bright, 90%);
+    }
+  }
+}
+
+// ---------------------------------------------------------------- narrow
+
+// Below 440px of its own width the lamps go two across, each group on its
+// own rows, and the controls close up. This is what holds the panel
+// together on a phone, down to a 320px screen.
+@container (max-width: 440px) {
+  .cockpit__body {
+    gap: 10px 8px;
+    padding: 12px 10px 14px;
+  }
+
+  .cockpit__group,
+  .cockpit__group--half {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  // A fixed height, not a ratio: two across, a lens can be twice as wide
+  // as it is four across, and the panel must not grow that tall.
+  .cockpit-lamp {
+    aspect-ratio: auto;
+    height: 56px;
+  }
+
+  .cockpit__controls {
+    gap: 4px;
+    padding: 12px 6px 14px;
+  }
+
+  .cockpit__title {
+    margin-inline: 3px;
+    letter-spacing: var(--track-label);
+  }
+
+  .cockpit-knob {
+    width: 54px;
+
+    i {
+      transform: rotate(var(--mark)) translateY(-23px);
+    }
+
+    &__skirt {
+      width: 36px;
+      height: 36px;
+      margin: -18px 0 0 -18px;
+    }
+
+    &__cap,
+    &__pointer {
+      width: 26px;
+      height: 26px;
+      margin: -13px 0 0 -13px;
+    }
+  }
+
+  .cockpit__ends {
+    width: 100%;
+    padding-inline: 2px;
+  }
+}

@@ -1,0 +1,97 @@
+{%- comment -%}
+  The home hero's control panel: annunciator lamps over a row of controls,
+  drawn as a device installed in a cut-out in the page. Every lamp and
+  control is a real link, control or value. Nothing here is invented.
+
+  A lamp is lit by `is-on`, set here for what the build knows and by
+  assets/js/cockpit.js for what only the browser knows (the theme showing).
+  The theme lamps and switch carry `data-cockpit-*`, never
+  `data-theme-choice`: cockpit.js presses the header's own buttons, so
+  theme.js stays the one owner of the theme, and ThemeTest's count of two
+  toggle buttons a page holds.
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+{%- assign prefix = "" -%}
+{%- if lang == "pt" -%}{%- assign prefix = "/pt" -%}{%- endif -%}
+{%- assign other_home = page.alt_url | relative_url -%}
+{%- assign host = site.url | remove: "https://" | remove: "http://" -%}
+{%- assign count = site.posts | where: "lang", lang | size | prepend: "00" | slice: -3, 3 -%}
+<div class="cockpit-bay">
+  <div class="cockpit" data-cockpit role="group" aria-label="{{ strings.cockpit.label }}">
+    <div class="cockpit__face">
+      <div class="cockpit__bar">{{ host }}</div>
+
+      <div class="cockpit__body">
+        <div class="cockpit__group cockpit__group--half">
+          <div class="cockpit__caption"><span>{{ strings.cockpit.lang }}</span></div>
+          {%- if lang == "en" %}
+          <span class="cockpit-lamp cockpit-lamp--lg is-on" aria-current="true">EN</span>
+          <a class="cockpit-lamp cockpit-lamp--lg" href="{{ other_home }}" hreflang="pt-BR">PT</a>
+          {%- else %}
+          <a class="cockpit-lamp cockpit-lamp--lg" href="{{ other_home }}" hreflang="en">EN</a>
+          <span class="cockpit-lamp cockpit-lamp--lg is-on" aria-current="true">PT</span>
+          {%- endif %}
+        </div>
+
+        <div class="cockpit__group cockpit__group--half">
+          <div class="cockpit__caption"><span>{{ strings.cockpit.panel }}</span></div>
+          <button type="button" class="cockpit-lamp cockpit-lamp--lg" data-cockpit-theme="light" aria-pressed="false">{{ strings.theme.light }}</button>
+          <button type="button" class="cockpit-lamp cockpit-lamp--lg" data-cockpit-theme="dark" aria-pressed="false">{{ strings.theme.dark }}</button>
+        </div>
+
+        <div class="cockpit__group">
+          <div class="cockpit__caption"><span>{{ strings.cockpit.sections }}</span></div>
+          <a class="cockpit-lamp cockpit-lamp--blink" href="{{ prefix | append: '/writing/' | relative_url }}">{{ strings.nav.writing }} <small>{{ count }} {{ strings.home.entries }}</small></a>
+          <a class="cockpit-lamp" href="{{ prefix | append: '/projects/' | relative_url }}">{{ strings.nav.projects }} <small>{{ strings.projects.registry }}</small></a>
+          <a class="cockpit-lamp cockpit-lamp--green is-on" href="{{ prefix | append: '/resume/' | relative_url }}">{{ strings.nav.resume }} <small>{{ strings.cockpit.available }}</small></a>
+          <a class="cockpit-lamp" href="{{ site.pexels }}" target="_blank" rel="me noopener noreferrer">{{ strings.cockpit.photo }} <small>pexels <span aria-hidden="true">↗</span></small></a>
+        </div>
+
+        <div class="cockpit__group">
+          <div class="cockpit__caption"><span>{{ strings.cockpit.systems }}</span></div>
+          <span class="cockpit-lamp is-on">{{ strings.cockpit.feed }} <small>atom</small></span>
+          <span class="cockpit-lamp{% if site.giscus.repo %} is-on{% endif %}">{{ strings.comments.title }} <small>giscus</small></span>
+          <span class="cockpit-lamp">{{ strings.cockpit.deploy }} <small>{{ site.time | date: "%Y-%m-%d" }}</small></span>
+          <span class="cockpit-lamp cockpit-lamp--amber">{{ strings.cockpit.caution }}</span>
+        </div>
+      </div>
+
+      <div class="cockpit__controls">
+        <div class="cockpit__control">
+          <span class="cockpit__title">{{ strings.cockpit.lang }}</span>
+          <span class="cockpit__pos">EN</span>
+          {%- if lang == "en" %}
+          <a class="cockpit-switch" data-cockpit-switch="lang" href="{{ other_home }}" hreflang="pt-BR" aria-label="PT"><span class="cockpit-switch__nut"></span><span class="cockpit-switch__lever"></span></a>
+          {%- else %}
+          <a class="cockpit-switch is-down" data-cockpit-switch="lang" href="{{ other_home }}" hreflang="en" aria-label="EN"><span class="cockpit-switch__nut"></span><span class="cockpit-switch__lever"></span></a>
+          {%- endif %}
+          <span class="cockpit__pos">PT</span>
+        </div>
+
+        <div class="cockpit__control">
+          <span class="cockpit__title">{{ strings.cockpit.panel }}</span>
+          <span class="cockpit__pos">{{ strings.theme.light }}</span>
+          <button type="button" class="cockpit-switch" data-cockpit-switch="theme" role="switch" aria-checked="false" aria-label="{{ strings.theme.dark }}"><span class="cockpit-switch__nut"></span><span class="cockpit-switch__lever"></span></button>
+          <span class="cockpit__pos">{{ strings.theme.dark }}</span>
+        </div>
+
+        <div class="cockpit__control">
+          <span class="cockpit__title">{{ strings.cockpit.lights }}</span>
+          <button type="button" class="cockpit-button" data-cockpit-test aria-label="{{ strings.cockpit.lights_test }}"><span class="cockpit-button__cap">{{ strings.cockpit.test }}</span></button>
+          <span class="cockpit__pos">{{ strings.cockpit.push }}</span>
+        </div>
+
+        <div class="cockpit__control">
+          <span class="cockpit__title">{{ strings.cockpit.lamps }}</span>
+          <div class="cockpit-knob" data-cockpit-knob role="slider" tabindex="0" aria-label="{{ strings.cockpit.brightness }}" aria-valuemin="1" aria-valuemax="5" aria-valuenow="5">
+            <i></i><i></i><i></i><i></i><i></i>
+            <span class="cockpit-knob__skirt"></span><span class="cockpit-knob__cap"></span><span class="cockpit-knob__pointer"></span>
+          </div>
+          <span class="cockpit__ends"><span class="cockpit__pos">{{ strings.cockpit.dim }}</span><span class="cockpit__pos">{{ strings.cockpit.bright }}</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ '/assets/js/cockpit.js' | relative_url }}" defer></script>
