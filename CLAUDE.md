@@ -295,6 +295,15 @@ deleting it would change nothing.
     replaces each `<pre>` with an SVG once, so the loader keeps each
     diagram's source and puts it back before drawing again. Its colours are
     read from the computed role tokens at draw time, never written in Ruby.
+- **Disqus thread identity is `<ref>-<lang>`, so never change a `ref` once
+  its post has comments.** `_includes/comments.html` hands Disqus that
+  identifier plus the post's absolute URL; that is what gives the EN and PT
+  pages of one post separate threads. Renaming a `ref` (or changing `url`)
+  orphans the existing thread with no error. Disqus is not fetched until the
+  reader presses the load button (`assets/js/comments.js`), and a
+  `themechange` reloads it so its palette follows the theme. Removing
+  `disqus.shortname` from `_config.yml` turns comments off site-wide;
+  `comments: false` turns them off for one post.
 - **`404.html` is English-only, and that is not a bug.** GitHub Pages serves a
   single `404.html` for every unmatched path on the whole site — it has no
   concept of a `/pt/404.html` variant, so one cannot be made to serve for

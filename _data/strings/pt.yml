@@ -37,6 +37,13 @@ post:
   back: "voltar ao diário"
   minutes: "min"
 
+comments:
+  title: "comentários"
+  load: "carregar comentários"
+  note: "carregados do disqus, que define seus próprios cookies."
+  noscript: "os comentários precisam de javascript."
+  disqus_language: "pt_BR"
+
 writing:
   title: "~/writing"
   intro: "todos os meus registros textuais, novos no topo."

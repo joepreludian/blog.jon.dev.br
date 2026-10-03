@@ -6,6 +6,10 @@ email: "me@jon.dev.br"
 github: "https://github.com/joepreludian"
 pexels: "https://www.pexels.com/@jon-trigueiro-2155893850/"
 
+# Comments on posts. Remove the shortname and no comments render anywhere.
+disqus:
+  shortname: "blog-jon-dev-br"
+
 # Default language for anything not covered by `defaults` below.
 lang: en
 languages: [en, pt]

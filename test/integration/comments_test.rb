@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+require "test_helper"
+require "nokogiri"
+
+# Disqus keys a thread on the identifier and URL a page hands it, so each
+# language gets its own thread only if those differ between a post's pair.
+class CommentsTest < Minitest::Test
+  def setup
+    @site = TestHelper.build_real_site
+    @root = @site.config["destination"]
+  end
+
+  def test_every_post_has_a_comments_section_for_the_configured_site
+    shortname = @site.config.dig("disqus", "shortname")
+
+    @site.posts.docs.each do |post|
+      section = comments_in(post.url)
+
+      refute_nil section, "#{post.url} has no comments section"
+      assert_equal shortname, section["data-shortname"], post.url
+    end
+  end
+
+  def test_each_thread_is_keyed_on_ref_and_language
+    @site.posts.docs.each do |post|
+      expected = "#{post.data["ref"]}-#{post.data["lang"]}"
+
+      assert_equal expected, comments_in(post.url)["data-identifier"], post.url
+    end
+  end
+
+  def test_each_thread_carries_the_posts_absolute_url
+    @site.posts.docs.each do |post|
+      assert_equal "#{@site.config["url"]}#{post.url}", comments_in(post.url)["data-url"], post.url
+    end
+  end
+
+  def test_the_two_languages_of_a_post_get_different_threads
+    @site.posts.docs.group_by { |post| post.data["ref"] }.each do |ref, pair|
+      identifiers = pair.map { |post| comments_in(post.url)["data-identifier"] }
+
+      assert_equal identifiers.uniq, identifiers, "#{ref} shares a thread between languages"
+    end
+  end
+
+  def test_each_language_loads_disqus_in_its_own_language
+    @site.posts.docs.each do |post|
+      expected = post.data["lang"] == "pt" ? "pt_BR" : "en"
+
+      assert_equal expected, comments_in(post.url)["data-language"], post.url
+    end
+  end
+
+  def test_pages_that_are_not_posts_have_no_comments
+    %w[index.html pt/index.html writing/index.html projects/index.html resume/index.html].each do |path|
+      html = Nokogiri::HTML(File.read(File.join(@root, path)))
+
+      assert_nil html.at_css("[data-comments]"), "#{path} has a comments section"
+    end
+  end
+
+  def test_a_post_can_opt_out
+    assert_empty render_comments("comments" => false)
+  end
+
+  def test_nothing_renders_without_a_shortname
+    disqus = @site.config.delete("disqus")
+
+    assert_empty render_comments
+  ensure
+    @site.config["disqus"] = disqus
+  end
+
+  private
+
+  def comments_in(url)
+    path = File.join(@root, url, "index.html")
+    Nokogiri::HTML(File.read(path)).at_css("[data-comments]")
+  end
+
+  def render_comments(page = {})
+    page = { "lang" => "en", "ref" => "x", "url" => "/writing/x/", "title" => "x" }.merge(page)
+    TestHelper.render_liquid("{% include comments.html %}", site: @site, page: page).strip
+  end
+end

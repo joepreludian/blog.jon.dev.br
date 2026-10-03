@@ -1,0 +1,29 @@
+{%- comment -%}
+  Disqus comments for a post, loaded only when the reader asks for them.
+  Each language gets its own thread: the identifier is `ref` plus `lang`, so
+  a post's EN and PT pages never share one, and a PT slug can change without
+  orphaning its comments. Never change a `ref` once its post has comments.
+
+  Renders nothing without `disqus.shortname` in _config.yml, or when the post
+  sets `comments: false`. assets/js/comments.js does the loading.
+{%- endcomment -%}
+{%- assign shortname = site.disqus.shortname -%}
+{%- if shortname and page.comments != false -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- assign strings = site.data.strings[lang] -%}
+<section class="measure comments" id="comments" data-comments
+         data-shortname="{{ shortname }}"
+         data-identifier="{{ page.ref }}-{{ lang }}"
+         data-url="{{ page.url | absolute_url }}"
+         data-title="{{ page.title | strip_html | escape }}"
+         data-language="{{ strings.comments.disqus_language }}">
+  <h2 class="comments__title">{{ strings.comments.title }}</h2>
+  <div class="comments__gate" data-comments-gate>
+    <button type="button" class="ds-btn ds-btn--sm ds-btn--secondary" data-comments-load>{{ strings.comments.load }}</button>
+    <span class="comments__note">{{ strings.comments.note }}</span>
+  </div>
+  <noscript><p class="comments__note">{{ strings.comments.noscript }}</p></noscript>
+  <div id="disqus_thread"></div>
+</section>
+<script src="{{ '/assets/js/comments.js' | relative_url }}" defer></script>
+{%- endif -%}

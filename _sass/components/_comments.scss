@@ -1,0 +1,43 @@
+// Disqus comments under a post. The thread itself is Disqus's iframe; only
+// the heading and the load gate are ours.
+.comments {
+  margin-top: var(--sp-7);
+  margin-bottom: var(--sp-8);
+
+  &__title {
+    margin: 0 0 var(--sp-4);
+    font: 600 var(--fs-base) / 1.2 var(--font-mono);
+    color: var(--text-body);
+  }
+
+  &__gate {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3) var(--sp-4);
+
+    // comments.js sets `hidden` once Disqus is loading; `display: flex`
+    // would otherwise win over the attribute.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__note {
+    margin: 0;
+    font: 400 var(--fs-2xs) / 1.5 var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  // Disqus's frame declares no color-scheme. Under the dark theme's
+  // `color-scheme: dark` the browser would paint it an opaque white backdrop;
+  // matching its scheme keeps it transparent so Disqus can read our colours.
+  iframe {
+    color-scheme: normal;
+  }
+}
+
+// Without scripts the button does nothing; the noscript note says so.
+html:not(.js) .comments__gate {
+  display: none;
+}

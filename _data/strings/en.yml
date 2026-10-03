@@ -37,6 +37,13 @@ post:
   back: "back to the log"
   minutes: "min"
 
+comments:
+  title: "comments"
+  load: "load comments"
+  note: "loaded from disqus, which sets its own cookies."
+  noscript: "comments need javascript."
+  disqus_language: "en"
+
 writing:
   title: "~/writing"
   intro: "all my written entries, newest at the top."
