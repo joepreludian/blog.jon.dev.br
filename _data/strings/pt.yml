@@ -26,7 +26,6 @@ cta:
   writing: "~/writing"
 
 home:
-  latest: "mais recentes"
   entries: "registros"
   featured: "última entrada"
   log: "diário de bordo"

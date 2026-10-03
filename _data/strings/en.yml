@@ -26,7 +26,6 @@ cta:
   writing: "~/writing"
 
 home:
-  latest: "latest entries"
   entries: "entries"
   featured: "latest entry"
   log: "flight log"

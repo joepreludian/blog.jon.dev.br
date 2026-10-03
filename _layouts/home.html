@@ -27,24 +27,17 @@ layout: default
         <a class="ds-btn ds-btn--md ds-btn--primary" href="{{ featured.url | relative_url }}">
           {{ strings.cta.read_latest }} →
         </a>
-        <a class="ds-btn ds-btn--md ds-btn--secondary" href="#log">{{ strings.cta.writing }}</a>
+        <a class="ds-btn ds-btn--md ds-btn--secondary" href="{{ writing_index | relative_url }}">
+          <span aria-hidden="true">§</span> {{ strings.nav.writing }}
+        </a>
+        <a class="ds-btn ds-btn--md ds-btn--secondary" href="{{ site.pexels }}" target="_blank" rel="me noopener noreferrer">
+          <span aria-hidden="true">▮</span> {{ strings.nav.photography }} <span aria-hidden="true">↗</span>
+        </a>
       </div>
       <div class="hero__status">
         {{ strings.hero.last_deploy }} {{ site.time | date: "%Y-%m-%d" }} · {{ strings.hero.lang_note }}
       </div>
     </div>
-
-    <aside class="ds-card hero__aside">
-      <div class="hero__aside-bar">
-        <span class="hero__aside-label">{{ strings.cta.writing }} · {{ strings.home.latest }}</span>
-        <span class="hero__aside-count">{{ shown | size }} {{ strings.home.entries }}</span>
-      </div>
-      <div class="hero__aside-rows">
-        {%- for entry in shown %}
-          {% include entry-row.html entry=entry compact=true %}
-        {%- endfor %}
-      </div>
-    </aside>
   </div>
 </section>
 

@@ -24,11 +24,6 @@
     min-width: 0;
   }
 
-  // Dotted leader. Only the compact variant shows it.
-  &__leader {
-    display: none;
-  }
-
   &__tags {
     font-size: var(--fs-xs);
     color: var(--accent-label);
@@ -51,36 +46,6 @@
   &__arrow {
     font-size: 14px;
     color: var(--accent-mark);
-  }
-
-  &--compact {
-    grid-template-columns: auto 1fr auto auto;
-    gap: var(--sp-3);
-    padding: 11px var(--sp-3);
-    border-bottom: 0;
-
-    .entry-row__title {
-      font-size: var(--fs-sm);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .entry-row__num {
-      font-size: var(--fs-2xs);
-    }
-
-    .entry-row__date {
-      font-size: var(--fs-2xs);
-      white-space: nowrap;
-    }
-
-    .entry-row__leader {
-      display: block;
-      min-width: 24px;
-      border-bottom: 1px dotted var(--border-strong);
-      transform: translateY(-4px);
-    }
   }
 }
 
