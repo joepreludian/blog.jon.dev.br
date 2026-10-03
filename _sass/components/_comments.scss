@@ -1,5 +1,7 @@
-// Disqus comments under a post. The thread itself is Disqus's iframe; only
-// the heading and the load gate are ours.
+// giscus comments under a post. The thread itself is giscus's iframe; only
+// the heading and the load gate are ours. The frame inherits the page's
+// `color-scheme`, and comments.js keeps giscus's theme on the same side, so
+// the browser never paints an opaque backdrop behind it.
 .comments {
   margin-top: var(--sp-7);
   margin-bottom: var(--sp-8);
@@ -16,7 +18,7 @@
     align-items: center;
     gap: var(--sp-3) var(--sp-4);
 
-    // comments.js sets `hidden` once Disqus is loading; `display: flex`
+    // comments.js sets `hidden` once giscus is loading; `display: flex`
     // would otherwise win over the attribute.
     &[hidden] {
       display: none;
@@ -27,13 +29,6 @@
     margin: 0;
     font: 400 var(--fs-2xs) / 1.5 var(--font-mono);
     color: var(--text-muted);
-  }
-
-  // Disqus's frame declares no color-scheme. Under the dark theme's
-  // `color-scheme: dark` the browser would paint it an opaque white backdrop;
-  // matching its scheme keeps it transparent so Disqus can read our colours.
-  iframe {
-    color-scheme: normal;
   }
 }
 

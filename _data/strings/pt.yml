@@ -40,9 +40,9 @@ post:
 comments:
   title: "comentários"
   load: "carregar comentários"
-  note: "carregados do disqus, que define seus próprios cookies."
+  note: "carregados do giscus. para comentar é preciso uma conta no github."
   noscript: "os comentários precisam de javascript."
-  disqus_language: "pt_BR"
+  giscus_language: "pt"
 
 writing:
   title: "~/writing"

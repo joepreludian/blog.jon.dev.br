@@ -6,9 +6,13 @@ email: "me@jon.dev.br"
 github: "https://github.com/joepreludian"
 pexels: "https://www.pexels.com/@jon-trigueiro-2155893850/"
 
-# Comments on posts. Remove the shortname and no comments render anywhere.
-disqus:
-  shortname: "blog-jon-dev-br"
+# Comments on posts, stored as GitHub Discussions in `repo` through giscus.
+# The ids come from giscus.app. Remove `repo` and no comments render anywhere.
+giscus:
+  repo: "joepreludian/blog.jon.dev.br"
+  repo_id: "R_kgDOTqh_Hw"
+  category: "Announcements"
+  category_id: "DIC_kwDOTqh_H84DG-Sj"
 
 # Default language for anything not covered by `defaults` below.
 lang: en

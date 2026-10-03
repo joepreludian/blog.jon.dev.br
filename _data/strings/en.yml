@@ -40,9 +40,9 @@ post:
 comments:
   title: "comments"
   load: "load comments"
-  note: "loaded from disqus, which sets its own cookies."
+  note: "loaded from giscus. commenting needs a github account."
   noscript: "comments need javascript."
-  disqus_language: "en"
+  giscus_language: "en"
 
 writing:
   title: "~/writing"

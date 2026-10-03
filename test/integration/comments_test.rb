@@ -3,22 +3,28 @@
 require "test_helper"
 require "nokogiri"
 
-# Disqus keys a thread on the identifier and URL a page hands it, so each
-# language gets its own thread only if those differ between a post's pair.
+# giscus finds a post's GitHub Discussion by the term a page hands it, so each
+# language gets its own thread only if the terms differ between a post's pair.
 class CommentsTest < Minitest::Test
   def setup
     @site = TestHelper.build_real_site
     @root = @site.config["destination"]
   end
 
-  def test_every_post_has_a_comments_section_for_the_configured_site
-    shortname = @site.config.dig("disqus", "shortname")
+  def test_every_post_has_a_comments_section
+    @site.posts.docs.each do |post|
+      refute_nil comments_in(post.url), "#{post.url} has no comments section"
+    end
+  end
+
+  def test_every_section_points_at_the_configured_repo_and_category
+    expected = @site.config["giscus"].values_at("repo", "repo_id", "category", "category_id")
 
     @site.posts.docs.each do |post|
       section = comments_in(post.url)
+      actual = %w[data-repo data-repo-id data-category data-category-id].map { |name| section[name] }
 
-      refute_nil section, "#{post.url} has no comments section"
-      assert_equal shortname, section["data-shortname"], post.url
+      assert_equal expected, actual, post.url
     end
   end
 
@@ -26,29 +32,21 @@ class CommentsTest < Minitest::Test
     @site.posts.docs.each do |post|
       expected = "#{post.data["ref"]}-#{post.data["lang"]}"
 
-      assert_equal expected, comments_in(post.url)["data-identifier"], post.url
-    end
-  end
-
-  def test_each_thread_carries_the_posts_absolute_url
-    @site.posts.docs.each do |post|
-      assert_equal "#{@site.config["url"]}#{post.url}", comments_in(post.url)["data-url"], post.url
+      assert_equal expected, comments_in(post.url)["data-term"], post.url
     end
   end
 
   def test_the_two_languages_of_a_post_get_different_threads
     @site.posts.docs.group_by { |post| post.data["ref"] }.each do |ref, pair|
-      identifiers = pair.map { |post| comments_in(post.url)["data-identifier"] }
+      terms = pair.map { |post| comments_in(post.url)["data-term"] }
 
-      assert_equal identifiers.uniq, identifiers, "#{ref} shares a thread between languages"
+      assert_equal terms.uniq, terms, "#{ref} shares a thread between languages"
     end
   end
 
-  def test_each_language_loads_disqus_in_its_own_language
+  def test_each_language_loads_giscus_in_its_own_language
     @site.posts.docs.each do |post|
-      expected = post.data["lang"] == "pt" ? "pt_BR" : "en"
-
-      assert_equal expected, comments_in(post.url)["data-language"], post.url
+      assert_equal post.data["lang"], comments_in(post.url)["data-language"], post.url
     end
   end
 
@@ -64,12 +62,12 @@ class CommentsTest < Minitest::Test
     assert_empty render_comments("comments" => false)
   end
 
-  def test_nothing_renders_without_a_shortname
-    disqus = @site.config.delete("disqus")
+  def test_nothing_renders_without_a_repo
+    giscus = @site.config.delete("giscus")
 
     assert_empty render_comments
   ensure
-    @site.config["disqus"] = disqus
+    @site.config["giscus"] = giscus
   end
 
   private

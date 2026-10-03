@@ -1,7 +1,6 @@
-// Disqus comments, loaded on request. Nothing is fetched from Disqus until the
-// reader presses the load button. Disqus picks its light or dark palette from
-// the page's colours when it draws, so a `themechange` (from theme.js) redraws
-// the thread to match.
+// giscus comments, loaded on request. Nothing is fetched from giscus until the
+// reader presses the load button. The thread draws in giscus's own light or
+// dark theme, and a `themechange` (from theme.js) tells the frame to switch.
 (function () {
   "use strict";
 
@@ -12,13 +11,16 @@
 
   var button = section.querySelector("[data-comments-load]");
   var gate = section.querySelector("[data-comments-gate]");
+  var origin = "https://giscus.app";
   var loaded = false;
 
-  function config() {
-    this.page.url = section.getAttribute("data-url");
-    this.page.identifier = section.getAttribute("data-identifier");
-    this.page.title = section.getAttribute("data-title");
-    this.language = section.getAttribute("data-language");
+  // Same rule as theme.js: the reader's choice on <html>, else the device.
+  function showing() {
+    var theme = document.documentElement.getAttribute("data-theme");
+    if (theme === "light" || theme === "dark") {
+      return theme;
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
   function load() {
@@ -28,12 +30,29 @@
     loaded = true;
     gate.hidden = true;
 
-    window.disqus_config = config;
+    var attrs = {
+      "data-repo": section.getAttribute("data-repo"),
+      "data-repo-id": section.getAttribute("data-repo-id"),
+      "data-category": section.getAttribute("data-category"),
+      "data-category-id": section.getAttribute("data-category-id"),
+      "data-mapping": "specific",
+      "data-term": section.getAttribute("data-term"),
+      "data-strict": "1",
+      "data-reactions-enabled": "0",
+      "data-emit-metadata": "0",
+      "data-input-position": "bottom",
+      "data-theme": showing(),
+      "data-lang": section.getAttribute("data-language"),
+      crossorigin: "anonymous"
+    };
+
     var script = document.createElement("script");
-    script.src = "https://" + section.getAttribute("data-shortname") + ".disqus.com/embed.js";
-    script.setAttribute("data-timestamp", String(Date.now()));
+    script.src = origin + "/client.js";
     script.async = true;
-    document.head.appendChild(script);
+    Object.keys(attrs).forEach(function (name) {
+      script.setAttribute(name, attrs[name]);
+    });
+    section.appendChild(script);
   }
 
   button.addEventListener("click", load);
@@ -43,9 +62,10 @@
     load();
   }
 
-  document.addEventListener("themechange", function () {
-    if (loaded && window.DISQUS) {
-      window.DISQUS.reset({ reload: true, config: config });
+  document.addEventListener("themechange", function (event) {
+    var frame = section.querySelector("iframe.giscus-frame");
+    if (frame && frame.contentWindow) {
+      frame.contentWindow.postMessage({ giscus: { setConfig: { theme: event.detail.theme } } }, origin);
     }
   });
 })();
