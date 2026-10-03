@@ -70,7 +70,9 @@ GithubProjectLoader().from_raw_url(link="...")
 
 Me dava a flexibilidade de validar o projeto do github antemão e criar uma camada de abstração que, dependente da Tecnologia utilizada, eu conseguiria parametrizar para as classes de execução daquela tecnologia especifica, adapatando a chamada para o destino.
 
-Quando eu estava entre projetos, eu resolvi fazer uma imersão nos agentes de IA, e resolvi criar um projeto interno da firma, onde eu conseguiria por em prática meus conhecimentos (e infelizmente contribuir um pouco mais para o consumo de energia nos Estados Unidos)
+Resultado dessa aplicação, meu refactor simplificou o processo tornando-o mais fácil de ler. Adicionei 1000 linhas e removi outras 3000.
+
+Quando eu estava numa semana entre projetos, eu resolvi fazer uma imersão nos agentes de IA, e resolvi criar um projeto interno da empresa, onde eu conseguiria por em prática meus conhecimentos (e infelizmente contribuir um pouco mais para a conta de energia mais cara nos Estados Unidos)
 
 ## Virando a chave
 

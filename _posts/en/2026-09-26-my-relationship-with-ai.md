@@ -73,7 +73,9 @@ GithubProjectLoader().from_raw_url(link="...")
 
 gave me the flexibility to validate the GitHub project beforehand and create an abstraction layer that, depending on the technology in use, I could parametrise for that specific technology's execution classes, adapting the call to its destination.
 
-When I was between projects, I decided to immerse myself in AI agents, and decided to create an internal project at the firm, where I could put what I knew into practice (and, unfortunately, contribute a little more to energy consumption in the United States).
+As a result, my refactor simplified the process and made it easier to read. I added 1,000 lines and removed another 3,000.
+
+When I had a week between projects, I decided to immerse myself in AI agents, and decided to create an internal project at the company, where I could put what I knew into practice (and, unfortunately, contribute a little more to more expensive energy bills in the United States).
 
 ## Flipping the switch
 
