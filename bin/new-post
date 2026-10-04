@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+"""Scaffold a new post pair: one file in _posts/en, one in _posts/pt.
+
+Runs on the host, standard library only. Takes today's date, asks for the
+title in each language, and writes the front matter both files need. EN and
+PT are peers, so each gets its own title and slug; they share date and `ref`.
+
+If the post will carry images it also creates assets/imgs/<ref>/, one folder
+for both languages, and leaves a commented `figure` example in each file.
+"""
+
+import re
+import sys
+import unicodedata
+from datetime import datetime
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+POSTS = ROOT / "_posts"
+IMAGES = ROOT / "assets" / "imgs"
+
+# Wrapped in a Liquid comment, so it renders nothing until the author
+# copies the tag out of it.
+FIGURE_HINT = {
+    "en": (
+        "{{% comment %}}\n"
+        "Images for this post go in assets/imgs/{ref}/ (shared with the PT file).\n"
+        "Reference one with the figure tag, then delete this comment:\n"
+        "\n"
+        '{{% figure src="/assets/imgs/{ref}/photo.jpg" alt="What the photo shows."'
+        ' caption="fig 01 — caption" meta="camera · lens" %}}{{% endfigure %}}\n'
+        "{{% endcomment %}}\n"
+    ),
+    "pt": (
+        "{{% comment %}}\n"
+        "As imagens deste post ficam em assets/imgs/{ref}/ (a mesma pasta do"
+        " arquivo EN).\n"
+        "Use a tag figure para referenciar uma delas e apague este comentário:\n"
+        "\n"
+        '{{% figure src="/assets/imgs/{ref}/foto.jpg" alt="O que a foto mostra."'
+        ' caption="fig 01 — legenda" meta="câmera · lente" %}}{{% endfigure %}}\n'
+        "{{% endcomment %}}\n"
+    ),
+}
+
+
+def slugify(title):
+    ascii_title = (
+        unicodedata.normalize("NFKD", title).encode("ascii", "ignore").decode()
+    )
+    return re.sub(r"[^a-z0-9]+", "-", ascii_title.lower()).strip("-")
+
+
+def ask(label, default=None):
+    suffix = f" [{default}]" if default else ""
+    while True:
+        answer = input(f"{label}{suffix}: ").strip() or default
+        if answer:
+            return answer
+
+
+def confirm(label):
+    return input(f"{label} [y/N]: ").strip().lower() in ("y", "yes", "s", "sim")
+
+
+def front_matter(title, ref, date):
+    escaped = title.replace("\\", "\\\\").replace('"', '\\"')
+    return (
+        "---\n"
+        f'title: "{escaped}"\n'
+        'dek: ""\n'
+        f"ref: {ref}\n"
+        f"date: {date}\n"
+        "tags: [ ]\n"
+        "---\n"
+        "\n"
+    )
+
+
+def main():
+    date = datetime.now().astimezone().strftime("%Y-%m-%d")
+
+    title_en = ask("Title (EN)")
+    title_pt = ask("Title (PT)", default=title_en)
+    with_images = confirm("Will this post have images?")
+
+    slug_en = slugify(title_en)
+    slug_pt = slugify(title_pt)
+    if not slug_en or not slug_pt:
+        sys.exit("error: a title needs at least one letter or digit to make a slug")
+
+    # The ref pairs the two files and names the giscus thread, so it must be
+    # unique and must never change once the post has comments.
+    ref = slug_en
+    taken = [
+        path
+        for path in POSTS.glob("*/*.md")
+        if re.search(rf"^ref:\s*{re.escape(ref)}\s*$", path.read_text(), re.M)
+    ]
+    if taken:
+        sys.exit(f"error: ref '{ref}' is already used by {taken[0].relative_to(ROOT)}")
+
+    targets = [
+        (POSTS / "en" / f"{date}-{slug_en}.md", title_en, "en"),
+        (POSTS / "pt" / f"{date}-{slug_pt}.md", title_pt, "pt"),
+    ]
+    for path, _, _ in targets:
+        if path.exists():
+            sys.exit(f"error: {path.relative_to(ROOT)} already exists")
+
+    for path, title, lang in targets:
+        body = FIGURE_HINT[lang].format(ref=ref) if with_images else ""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(front_matter(title, ref, date) + body)
+        print(f"created {path.relative_to(ROOT)}")
+
+    if with_images:
+        folder = IMAGES / ref
+        folder.mkdir(parents=True, exist_ok=True)
+        print(f"created {folder.relative_to(ROOT)}/")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        sys.exit("\naborted")
