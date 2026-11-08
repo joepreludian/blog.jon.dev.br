@@ -46,6 +46,18 @@ services:
           path: ./Gemfile.lock
         - action: rebuild
           path: ./Dockerfile
+  frankmd:
+    image: akitaonrails/frankmd:latest
+    container_name: frankmd
+    restart: unless-stopped
+    ports:
+      - "7591:80"
+    volumes:
+      - ./_posts:/rails/notes
+    environment:
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    env_file:
+      - .env.frank
 
   task:
     <<: *site
