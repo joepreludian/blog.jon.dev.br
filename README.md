@@ -19,12 +19,8 @@ openssl rand -hex 64   # paste as SECRET_KEY_BASE
 id -u; id -g           # UID and GID, so edited files keep your ownership
 ```
 
-Every `docker compose` command prints a warning that `SECRET_KEY_BASE` is
-not set. That is the `environment:` line on the service: Compose expands
-`${SECRET_KEY_BASE}` from your shell or a top-level `.env`, never from
-`.env.frank`. The warning is harmless for `bin/serve`, `bin/test` and
-`bin/build`, which never start frankmd, and the service itself still gets
-the value from `.env.frank`. Export the variable in your shell to silence it.
+`.env.frank` is the only place the service reads these values from; nothing
+in `docker-compose.yml` repeats them.
 
 Start it with `docker compose up -d frankmd`. It is not part of `bin/serve`.
 

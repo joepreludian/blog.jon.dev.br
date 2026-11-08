@@ -54,8 +54,6 @@ services:
       - "7591:80"
     volumes:
       - ./_posts:/rails/notes
-    environment:
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
     env_file:
       - .env.frank
 
