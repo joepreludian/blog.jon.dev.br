@@ -8,3 +8,9 @@ vendor/
 **/.DS_Store
 docs/specs/
 .superpowers/
+
+# frankmd (the markdown editor service in docker-compose.yml)
+.env.frank
+_posts/.fed
+_posts/.frankmd-config.lock
+_posts/.frankmd-filesystem.lock
