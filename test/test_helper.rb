@@ -45,11 +45,16 @@ module TestHelper
   end
 
   # Renders a Liquid template against a built site. `page` seeds the
-  # `page` drop, which tags and filters read for `lang` and `ref`.
-  def self.render_liquid(template, site:, page: {})
+  # `page` drop, which tags and filters read for `lang` and `ref`;
+  # `environment` seeds `jekyll.environment`, which defaults to the one
+  # the test process runs in.
+  def self.render_liquid(template, site:, page: {}, environment: Jekyll.env)
     info = { registers: { site: site, page: page } }
-    Liquid::Template
-      .parse(template)
-      .render!({ "page" => page, "site" => site.site_payload["site"] }, info)
+    assigns = {
+      "page" => page,
+      "site" => site.site_payload["site"],
+      "jekyll" => { "environment" => environment }
+    }
+    Liquid::Template.parse(template).render!(assigns, info)
   end
 end
