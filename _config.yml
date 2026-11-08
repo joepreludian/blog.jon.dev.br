@@ -14,9 +14,10 @@ giscus:
   category: "Announcements"
   category_id: "DIC_kwDOTqh_H84DG-Sj"
 
-# Google Analytics (GA4) measurement id. Rendered by _includes/analytics.html
-# in production builds only; remove it and no analytics loads anywhere.
-google_analytics: "G-7Y32TWNXNX"
+# Google tag container id, as Google hands it out for this site. Rendered by
+# _includes/analytics.html in production builds only; remove it and no
+# analytics loads anywhere.
+google_tag: "GTM-KN859W4W"
 
 # Default language for anything not covered by `defaults` below.
 lang: en

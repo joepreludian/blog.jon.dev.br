@@ -374,9 +374,10 @@ deleting it would change nothing.
   they are emoji. Removing `giscus.repo` turns comments off site-wide;
   `comments: false` turns them off for one post. The repo must stay public,
   with Discussions on and the giscus app installed.
-- **Google Analytics renders only in production builds.**
-  `_includes/analytics.html` prints the GA4 tag when `google_analytics` is
-  set in `_config.yml` *and* `jekyll.environment` is `production`. The ci
+- **The Google tag renders only in production builds.**
+  `_includes/analytics.html` prints the snippet Google hands out for this
+  site (`gtm.js` with the container id) when `google_tag` is set in
+  `_config.yml` *and* `jekyll.environment` is `production`. The ci
   image sets `JEKYLL_ENV=production`; `bin/serve` and `bin/test` run with
   `development`, so a dev server never sends hits and a `bin/test` build
   carries no tag — `AnalyticsTest` checks whichever side applies. Removing

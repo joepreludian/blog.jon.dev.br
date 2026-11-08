@@ -1,16 +1,16 @@
 {%- comment -%}
-  Google Analytics (GA4). The measurement id is `google_analytics` in
-  _config.yml; remove it and nothing renders anywhere.
+  Google tag, as Google hands it out for this site: gtm.js with the
+  container id `google_tag` from _config.yml; remove the key and nothing
+  renders anywhere.
   Production only: `bin/serve` runs with JEKYLL_ENV=development, the ci
   image with production, so a dev server never sends hits. AnalyticsTest
   holds both gates.
 {%- endcomment -%}
-{%- if site.google_analytics and jekyll.environment == "production" -%}
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+{%- if site.google_tag and jekyll.environment == "production" -%}
+<script async src="https://www.googletagmanager.com/gtm.js?id={{ site.google_tag }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag("js", new Date());
-  gtag("config", "{{ site.google_analytics }}");
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 </script>
 {%- endif -%}
